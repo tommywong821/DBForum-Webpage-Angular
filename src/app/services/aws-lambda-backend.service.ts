@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {Training} from "../model/Training";
 
 @Injectable({
   providedIn: 'root'
@@ -13,5 +14,9 @@ export class AwsLambdaBackendService {
 
   healthCheck() {
     return this.http.get<any>(this.apiUrl + "/health");
+  }
+
+  getTrainingList() {
+    return this.http.get<Training[]>(this.apiUrl + "/training");
   }
 }
