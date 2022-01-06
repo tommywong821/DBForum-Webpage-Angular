@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AwsLambdaBackendService} from "../../services/aws-lambda-backend.service";
 
 @Component({
   selector: 'app-main-page',
@@ -7,7 +6,6 @@ import {AwsLambdaBackendService} from "../../services/aws-lambda-backend.service
   styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent implements OnInit {
-
   trainingList: Array<any> = [{
     "_id": "61d1583aaa03cc7c2869ece4",
     "date": "2022-01-01T16:00:00.000Z",
@@ -30,7 +28,7 @@ export class MainPageComponent implements OnInit {
     "type": "etst2"
   }, {"_id": "61d557ec9898d51e0ab07a2b", "date": "1234", "place": "aaa", "type": "etst3"}];
 
-  constructor(private restful: AwsLambdaBackendService) {
+  constructor() {
     console.log(`[${this.constructor.name}] constructor`);
   }
 
@@ -41,18 +39,5 @@ export class MainPageComponent implements OnInit {
     //     this.trainingList = result;
     //   }
     // )
-  }
-
-  absentBtnOnclick(event: any, training: any, absentReason: any) {
-    console.log(`absentBtnOnclick clicked: `, event);
-    console.log(`absentBtnOnclick training: `, training);
-    console.log(`absentBtnOnclick absentReason: `, absentReason);
-    this.removeResponseTraining(training._id);
-  }
-
-  removeResponseTraining(trainingId: string) {
-    this.trainingList = this.trainingList.filter(function (obj) {
-      return obj._id !== trainingId;
-    })
   }
 }

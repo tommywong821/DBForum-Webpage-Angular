@@ -14,12 +14,16 @@ import {MatButtonModule} from "@angular/material/button";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
+import {
+  IncomingTrainingListComponent
+} from "./layout/main-page/incoming-training-list/incoming-training-list.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
-    DashboardComponent
+    DashboardComponent,
+    IncomingTrainingListComponent
   ],
   imports: [
     BrowserModule,

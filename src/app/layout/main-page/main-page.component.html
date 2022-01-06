@@ -1,21 +1,2 @@
 <p>main-page works!</p>
-<span *ngIf="trainingList">
-  <div [style.margin-top]="'12px'" fxLayout="row" fxLayoutGap="12px">
-      <span *ngFor="let training of trainingList">
-          <mat-card>
-            <mat-card-title>{{training.type}}</mat-card-title>
-            <mat-card-content>
-              <li>{{training.date}}</li>
-              <li>{{training.place}}</li>
-              <!--              <form role="form" (submit)="absentBtnOnclick($event, training, reason.value)">-->
-              <input #reason placeholder="Absent reason" type="string" value="{{training.reason}}"/>
-              <mat-card-actions>
-                <button color="primary" mat-button>Attend</button>
-                <button (click)="absentBtnOnclick($event, training, reason.value)" color="accent"
-                        mat-button>Absent</button>
-              </mat-card-actions>
-            </mat-card-content>
-          </mat-card>
-      </span>
-  </div>
-</span>
+<app-incoming-training-list *ngIf="trainingList" [trainingList]="trainingList"></app-incoming-training-list>
