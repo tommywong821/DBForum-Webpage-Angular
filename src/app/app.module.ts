@@ -6,10 +6,14 @@ import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ApiInterceptor} from "./api-interceptor";
 import {AwsLambdaBackendService} from "./services/aws-lambda-backend.service";
+import {MainPageComponent} from './layout/main-page/main-page.component';
+import {DashboardComponent} from './layout/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MainPageComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
