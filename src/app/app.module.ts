@@ -3,8 +3,9 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ApiInterceptor} from "./api-interceptor";
+import {AwsLambdaBackendService} from "./services/aws-lambda-backend.service";
 
 @NgModule({
   declarations: [
@@ -12,12 +13,15 @@ import {ApiInterceptor} from "./api-interceptor";
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
+    AwsLambdaBackendService,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: ApiInterceptor
+      useClass: ApiInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]
