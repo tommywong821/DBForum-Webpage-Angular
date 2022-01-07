@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
-import {Training} from "../../../model/Training";
+import {Training} from "../../../model/Training"
 
 @Component({
   selector: 'app-incoming-training-list',
@@ -28,6 +28,20 @@ export class IncomingTrainingListComponent implements OnInit {
   removeResponseTraining(trainingId: string) {
     this.trainingList = this.trainingList.filter(function (obj) {
       return obj._id !== trainingId;
+    })
+  }
+
+  addNewTraining() {
+    console.log("clicked addNewTraining btn");
+    let newTraining = new Training({
+      "_id": '',
+      "date": "2022-01-01T16:00:00.000Z",
+      "place": "new",
+      "type": "new",
+      "reason": "new"
+    });
+    this.restful.createTraining(newTraining).subscribe((response) => {
+      this.trainingList.push(newTraining);
     })
   }
 }

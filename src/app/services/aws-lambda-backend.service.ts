@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Training} from "../model/Training";
+import {ITraining} from "../model/interface/ITraining";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,15 @@ export class AwsLambdaBackendService {
   }
 
   getTrainingList() {
-    return this.http.get<Training[]>(this.apiUrl + "/training");
+    return this.http.get<ITraining[]>(this.apiUrl + "/training");
+  }
+
+  createTraining(training: ITraining) {
+    const body: any = {
+      type: training.type,
+      date: training.date,
+      place: training.place
+    }
+    return this.http.post(this.apiUrl + "/training", body);
   }
 }

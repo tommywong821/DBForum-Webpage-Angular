@@ -8,7 +8,7 @@ export class Training implements ITraining {
   reason: string;
 
   constructor(trainingObj: ITraining) {
-    this._id = trainingObj._id;
+    this._id = (trainingObj._id) ? '' : trainingObj._id;
     this.date = trainingObj.date;
     this.place = trainingObj.place;
     this.type = trainingObj.type
