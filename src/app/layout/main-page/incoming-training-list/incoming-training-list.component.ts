@@ -32,7 +32,8 @@ export class IncomingTrainingListComponent implements OnInit {
   }
 
   addNewTraining() {
-    console.log("clicked addNewTraining btn");
+/* todo move to add training dialog
+   console.log("clicked addNewTraining btn");
     let newTraining = new Training({
       "_id": '',
       "date": "2022-01-01T16:00:00.000Z",
@@ -42,6 +43,6 @@ export class IncomingTrainingListComponent implements OnInit {
     });
     this.restful.createTraining(newTraining).subscribe((response) => {
       this.trainingList.push(newTraining);
-    })
+    })*/
   }
 }
