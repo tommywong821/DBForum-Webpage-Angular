@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {Training} from "../../../model/Training"
 import {MatDialog} from "@angular/material/dialog";
+import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
 
 @Component({
   selector: 'app-training-list',
@@ -34,7 +35,8 @@ export class TrainingListComponent implements OnInit {
   }
 
   addNewTraining() {
-    // const dialogRef = this.trainingFormDialog.open()
+    const dialogRef = this.trainingFormDialog.open(TrainingFormDialogComponent);
+
 /* todo move to add training dialog
    console.log("clicked addNewTraining btn");
     let newTraining = new Training({

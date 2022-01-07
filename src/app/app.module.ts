@@ -13,11 +13,13 @@ import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatInputModule} from "@angular/material/input";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TrainingListComponent} from "./layout/main-page/training-list/training-list.component";
 import {TrainingSummaryComponent} from './layout/main-page/training-summary/training-summary.component';
 import {TrainingFormDialogComponent} from './layout/main-page/training-form-dialog/training-form-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {NgxMatDatetimePickerModule, NgxMatNativeDateModule} from "@angular-material-components/datetime-picker";
 
 @NgModule({
   declarations: [
@@ -38,7 +40,11 @@ import {MatDialogModule} from "@angular/material/dialog";
     FlexLayoutModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDatepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    FormsModule
   ],
   providers: [
     AwsLambdaBackendService,

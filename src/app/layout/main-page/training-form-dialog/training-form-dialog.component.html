@@ -1,1 +1,25 @@
-<p>training-form-dialog works!</p>
+<h2 mat-dialog-title>New Training Information</h2>
+<mat-dialog-content>
+  <form [formGroup]="orderForm">
+    <div formArrayName="trainings"
+         *ngFor="let item of trainingFormGroup.controls; let i = index;">
+      <div [formGroupName]="i">
+        <input formControlName="place" placeholder="Training Place">
+        <input formControlName="type" placeholder="Training type">
+        <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date & time" formControlName="date">
+        <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker [enableMeridian]="true"></ngx-mat-datetime-picker>
+        <button type="button" (click)="removeTraining(i)">
+          <i class="fa fa-minus" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    <button type="button" (click)="appendTraining()">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="insertNewTrainingToDB()">Create</button>
+</mat-dialog-actions>

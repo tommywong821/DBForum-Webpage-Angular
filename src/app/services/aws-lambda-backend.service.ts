@@ -28,4 +28,11 @@ export class AwsLambdaBackendService {
     }
     return this.http.post(this.apiUrl + "/training", body);
   }
+
+  createTrainingList(trainingList: ITraining[]) {
+    const body: any = {
+      trainings: trainingList
+    }
+    return this.http.post(this.apiUrl + "/training", body);
+  }
 }
