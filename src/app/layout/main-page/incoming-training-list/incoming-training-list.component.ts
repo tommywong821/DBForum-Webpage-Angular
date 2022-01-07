@@ -5,7 +5,7 @@ import {Training} from "../../../model/Training";
 @Component({
   selector: 'app-incoming-training-list',
   templateUrl: './incoming-training-list.component.html',
-  styleUrls: ['./incoming-training-list.component.css']
+  styleUrls: ['./incoming-training-list.component.scss']
 })
 export class IncomingTrainingListComponent implements OnInit {
   @Input() trainingList: Array<Training> = [];
