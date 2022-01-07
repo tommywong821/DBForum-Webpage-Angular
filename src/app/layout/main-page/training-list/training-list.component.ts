@@ -1,16 +1,18 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {Training} from "../../../model/Training"
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-incoming-training-list',
-  templateUrl: './incoming-training-list.component.html',
-  styleUrls: ['./incoming-training-list.component.scss']
+  selector: 'app-training-list',
+  templateUrl: './training-list.component.html',
+  styleUrls: ['./training-list.component.scss']
 })
-export class IncomingTrainingListComponent implements OnInit {
+export class TrainingListComponent implements OnInit {
   @Input() trainingList: Array<Training> = [];
 
-  constructor(private restful: AwsLambdaBackendService) {
+  constructor(private restful: AwsLambdaBackendService,
+              public trainingFormDialog: MatDialog) {
     console.log(`[${this.constructor.name}] constructor`);
   }
 
@@ -32,6 +34,7 @@ export class IncomingTrainingListComponent implements OnInit {
   }
 
   addNewTraining() {
+    // const dialogRef = this.trainingFormDialog.open()
 /* todo move to add training dialog
    console.log("clicked addNewTraining btn");
     let newTraining = new Training({

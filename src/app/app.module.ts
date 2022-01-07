@@ -14,16 +14,19 @@ import {MatButtonModule} from "@angular/material/button";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
-import {
-  IncomingTrainingListComponent
-} from "./layout/main-page/incoming-training-list/incoming-training-list.component";
+import {TrainingListComponent} from "./layout/main-page/training-list/training-list.component";
+import {TrainingSummaryComponent} from './layout/main-page/training-summary/training-summary.component';
+import {TrainingFormDialogComponent} from './layout/main-page/training-form-dialog/training-form-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
     DashboardComponent,
-    IncomingTrainingListComponent
+    TrainingListComponent,
+    TrainingSummaryComponent,
+    TrainingFormDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,8 @@ import {
     MatButtonModule,
     FlexLayoutModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [
     AwsLambdaBackendService,
