@@ -6,7 +6,7 @@ import {ITraining} from "../model/interface/ITraining";
   providedIn: 'root'
 })
 export class AwsLambdaBackendService {
-  private apiUrl: string = "https://jx0d4zabl6.execute-api.us-west-2.amazonaws.com/dev";
+  private apiUrl: string = "https://pyret1uvgk.execute-api.ap-southeast-1.amazonaws.com/dev";
 
   constructor(private http: HttpClient) {
     console.log(`[${this.constructor.name}] constructor`);

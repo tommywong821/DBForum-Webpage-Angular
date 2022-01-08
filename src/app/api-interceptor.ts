@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
-  xApiKey: string = "o4L8ztjoyT4MhCF40tgN58mnMMZmnFA42xA2Mu9a";
+  xApiKey: string = "tros2K5xguC2IhRlNALROlJsroBJKr951gIYxSa0";
 
   constructor() {
   }
