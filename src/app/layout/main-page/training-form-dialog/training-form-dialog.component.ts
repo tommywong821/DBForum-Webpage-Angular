@@ -71,7 +71,7 @@ export class TrainingFormDialogComponent implements OnInit {
         console.log(`[${this.constructor.name}] getUpdatedTrainingList error `, err)
         this.alertDialog.open(AlertDialogComponent, {
           data: {
-            alertMsg: err
+            alertMsg: err.message
           },
         });
       },

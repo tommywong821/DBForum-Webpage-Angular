@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 
 export interface DialogData {
-  alertMessage: string;
+  alertMsg: string;
 }
 
 @Component({
@@ -12,10 +12,12 @@ export interface DialogData {
 })
 export class AlertDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public alertMsg: DialogData) {
+  constructor(@Inject(MAT_DIALOG_DATA) public incomingAlertMessage: DialogData) {
+    console.log(`[${this.constructor.name}] constructor `, incomingAlertMessage.alertMsg);
   }
 
   ngOnInit(): void {
+    console.log(`[${this.constructor.name}] ngOnInit`);
   }
 
 }
