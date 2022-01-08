@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
+import {AlertDialogComponent} from "../../../shared/alert-dialog/alert-dialog.component";
 
 @Component({
   selector: 'app-training-form-dialog',
@@ -12,9 +13,12 @@ export class TrainingFormDialogComponent implements OnInit {
   orderForm: FormGroup;
   trainings: FormArray;
 
+  @Output() updatedTrainingList = new EventEmitter<any>();
+
   constructor(private dialogRef: MatDialogRef<TrainingFormDialogComponent>,
               private formBuilder: FormBuilder,
-              private restful: AwsLambdaBackendService){
+              private restful: AwsLambdaBackendService,
+              public alertDialog: MatDialog) {
     console.log(`[${this.constructor.name}] constructor`);
     dialogRef.disableClose = true;
     this.trainings = this.formBuilder.array([this.createTraining()]);
@@ -49,11 +53,29 @@ export class TrainingFormDialogComponent implements OnInit {
     this.trainings.removeAt(index);
   }
 
-  insertNewTrainingToDB(): void{
+  insertNewTrainingToDB(): void {
     console.log('create btn clicked');
     console.log(`formGroup`, this.orderForm.value.trainings);
     this.restful.createTrainingList(this.orderForm.value.trainings).subscribe((result) => {
-      console.log(`create successfully`);
+      console.log(`create successfully: `, result);
+      this.updatedTrainingList.emit(result);
+      this.dialogRef.close();
     })
+  }
+
+  //fetch the latest list from db
+  getUpdatedTrainingList() {
+    this.restful.getTrainingList().subscribe({
+      next: (result) => this.updatedTrainingList.emit(result),
+      error: (err) => {
+        console.log(`[${this.constructor.name}] getUpdatedTrainingList error `, err)
+        this.alertDialog.open(AlertDialogComponent, {
+          data: {
+            alertMsg: err
+          },
+        });
+      },
+      complete: () => console.log(`[${this.constructor.name}] getUpdatedTrainingList completed`)
+    });
   }
 }

@@ -3,6 +3,7 @@ import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.serv
 import {Training} from "../../../model/Training"
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
+import {ITraining} from 'src/app/model/interface/ITraining';
 
 @Component({
   selector: 'app-training-list',
@@ -36,18 +37,16 @@ export class TrainingListComponent implements OnInit {
 
   addNewTraining() {
     const dialogRef = this.trainingFormDialog.open(TrainingFormDialogComponent);
+    const subscribeDialog = dialogRef.componentInstance.updatedTrainingList
+      .subscribe((updatedTrainingList) => {
+        console.log(`[${this.constructor.name}] updates list from dialog `, updatedTrainingList);
+        updatedTrainingList.forEach((newTraining: ITraining) => {
+          this.trainingList.push(newTraining);
+        })
+      });
 
-/* todo move to add training dialog
-   console.log("clicked addNewTraining btn");
-    let newTraining = new Training({
-      "_id": '',
-      "date": "2022-01-01T16:00:00.000Z",
-      "place": "new",
-      "type": "new",
-      "reason": "new"
+    dialogRef.afterClosed().subscribe(result => {
+      subscribeDialog.unsubscribe();
     });
-    this.restful.createTraining(newTraining).subscribe((response) => {
-      this.trainingList.push(newTraining);
-    })*/
   }
 }

@@ -17,7 +17,7 @@ export class AwsLambdaBackendService {
   }
 
   getTrainingList() {
-    return this.http.get<ITraining[]>(this.apiUrl + "/training");
+    return this.http.get<Array<ITraining>>(this.apiUrl + "/training");
   }
 
   createTraining(training: ITraining) {
@@ -29,7 +29,7 @@ export class AwsLambdaBackendService {
     return this.http.post(this.apiUrl + "/training", body);
   }
 
-  createTrainingList(trainingList: ITraining[]) {
+  createTrainingList(trainingList: Array<ITraining>) {
     const body: any = {
       trainings: trainingList
     }

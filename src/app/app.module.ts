@@ -20,6 +20,7 @@ import {TrainingFormDialogComponent} from './layout/main-page/training-form-dial
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgxMatDatetimePickerModule, NgxMatNativeDateModule} from "@angular-material-components/datetime-picker";
+import {AlertDialogComponent} from "./shared/alert-dialog/alert-dialog.component";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {NgxMatDatetimePickerModule, NgxMatNativeDateModule} from "@angular-mater
     DashboardComponent,
     TrainingListComponent,
     TrainingSummaryComponent,
-    TrainingFormDialogComponent
+    TrainingFormDialogComponent,
+    AlertDialogComponent
   ],
   imports: [
     BrowserModule,
