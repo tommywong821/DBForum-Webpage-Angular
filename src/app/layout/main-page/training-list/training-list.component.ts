@@ -4,6 +4,7 @@ import {Training} from "../../../model/Training"
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
 import {ITraining} from 'src/app/model/interface/ITraining';
+import {AlertDialogComponent} from "../../../shared/alert-dialog/alert-dialog.component";
 
 @Component({
   selector: 'app-training-list',
@@ -14,7 +15,8 @@ export class TrainingListComponent implements OnInit {
   @Input() trainingList: Array<Training> = [];
 
   constructor(private restful: AwsLambdaBackendService,
-              public trainingFormDialog: MatDialog) {
+              public trainingFormDialog: MatDialog,
+              public alertDialog: MatDialog) {
     console.log(`[${this.constructor.name}] constructor`);
   }
 
@@ -22,20 +24,38 @@ export class TrainingListComponent implements OnInit {
     console.log(`[${this.constructor.name}] ngOnInit`);
   }
 
-  absentBtnOnclick(event: any, training: any, absentReason: any) {
+  absentBtnOnclick(event: any, training: ITraining, absentReason: any) {
     console.log(`absentBtnOnclick clicked: `, event);
     console.log(`absentBtnOnclick training: `, training);
     console.log(`absentBtnOnclick absentReason: `, absentReason);
-    this.removeResponseTraining(training._id);
+    this.removeWebViewTraining(training._id);
   }
 
-  removeResponseTraining(trainingId: string) {
+  removeWebViewTraining(trainingId: string) {
     this.trainingList = this.trainingList.filter(function (obj) {
       return obj._id !== trainingId;
     })
   }
 
-  addNewTraining() {
+  removeTrainingFromDB(training: ITraining) {
+    this.restful.removeTraining(training._id).subscribe({
+      next: result => {
+        console.log(`removeTrainingFromDB result: `, result)
+        this.removeWebViewTraining(training._id);
+      },
+      error: (err) => {
+        console.log(`[${this.constructor.name}] removeTrainingFromDB error `, err)
+        this.alertDialog.open(AlertDialogComponent, {
+          data: {
+            alertMsg: err.message
+          },
+        });
+      },
+      complete: () => console.log(`[${this.constructor.name}] removeTrainingFromDB completed`)
+    })
+  }
+
+  addNewTrainingToDB() {
     const dialogRef = this.trainingFormDialog.open(TrainingFormDialogComponent);
     const subscribeDialog = dialogRef.componentInstance.updatedTrainingList
       .subscribe((updatedTrainingList) => {

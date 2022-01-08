@@ -1,14 +1,23 @@
 <mat-card-header>
-  <span>Incoming Training</span>
-  <button (click)="addNewTraining()" class="btn">
-    <i class="fa fa-plus"></i>
-  </button>
+  <mat-card-title class="card-container-left">Incoming Training</mat-card-title>
+  <mat-card-title class="card-container-right">
+    <button (click)="addNewTrainingToDB()" class="btn">
+      <i class="fa fa-plus"></i>
+    </button>
+  </mat-card-title>
 </mat-card-header>
 <mat-card-content class="scrollable-content">
   <div [style.margin-top]="'12px'" fxLayout="row" fxLayoutGap="12px">
   <span *ngFor="let training of trainingList">
     <mat-card>
-      <mat-card-title>{{training.type}}</mat-card-title>
+      <mat-card-header>
+         <mat-card-title class="card-container-left">{{training.type}}</mat-card-title>
+         <mat-card-title class="card-container-right">
+           <button (click)="removeTrainingFromDB(training)" class="btn">
+             <i class="fa fa-times"></i>
+           </button>
+        </mat-card-title>
+      </mat-card-header>
       <mat-card-content>
         <li>{{training.date}}</li>
         <li>{{training.place}}</li>

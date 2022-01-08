@@ -35,4 +35,11 @@ export class AwsLambdaBackendService {
     }
     return this.http.post(this.apiUrl + "/training", body);
   }
+
+  removeTraining(trainingId: string) {
+    const requestBody: any = {
+      trainingId: trainingId
+    }
+    return this.http.delete(this.apiUrl + "/training", {body: requestBody});
+  }
 }
