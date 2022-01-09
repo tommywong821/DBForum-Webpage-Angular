@@ -24,9 +24,6 @@ export class TrainingListComponent implements OnInit {
   }
 
   absentBtnOnclick(event: any, training: ITraining, absentReason: any) {
-    console.log(`absentBtnOnclick clicked: `, event);
-    console.log(`absentBtnOnclick training: `, training);
-    console.log(`absentBtnOnclick absentReason: `, absentReason);
     this.removeWebViewTraining(training._id);
   }
 

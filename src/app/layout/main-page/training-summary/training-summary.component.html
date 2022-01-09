@@ -1,9 +1,14 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title class="card-container-left">incoming-training-summary</mat-card-title>
+    <mat-card-title class="card-container-right">
+      <button (click)="getTrainingSummary()" class="btn">
+        <i class="fa fa-refresh"></i>
+      </button>
+    </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <table [dataSource]="displayDataList" class="mat-elevation-z8" mat-table>
+    <table *ngIf="displayDataList" [dataSource]="displayDataList" class="mat-elevation-z8" mat-table>
 
       <ng-container matColumnDef="Date">
         <th *matHeaderCellDef mat-header-cell> Date</th>
@@ -24,7 +29,7 @@
       </ng-container>
 
       <tr *matHeaderRowDef="displayColumns" mat-header-row></tr>
-      <tr *matRowDef="let row; columns: displayColumns;" mat-row></tr>
+      <tr (click)="getTrainingDetail(row)" *matRowDef="let row; columns: displayColumns;" mat-row></tr>
     </table>
   </mat-card-content>
 </mat-card>

@@ -53,7 +53,6 @@ export class TrainingFormDialogComponent implements OnInit {
   }
 
   insertNewTrainingToDB(): void {
-    console.log('create btn clicked');
     console.log(`formGroup`, this.orderForm.value.trainings);
     this.restful.createTrainingList(this.orderForm.value.trainings).subscribe({
       next: result => {

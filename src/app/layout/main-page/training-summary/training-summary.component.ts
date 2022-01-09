@@ -55,6 +55,22 @@ export class TrainingSummaryComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
+    this.getTrainingSummary();
+  }
+
+  public displayPeopleNo(numberOfPeople: any): number {
+    return (numberOfPeople && numberOfPeople > 0) ? numberOfPeople : 0;
+  }
+
+  private checkPaddleSize(existingTrainingSummary: TrainingSummary, paddle_side: any, numberOfPaddler: any) {
+    if ("l" === paddle_side?.toLowerCase()) {
+      existingTrainingSummary.left_side_paddle = numberOfPaddler;
+    } else {
+      existingTrainingSummary.right_side_paddle = numberOfPaddler;
+    }
+  }
+
+  getTrainingSummary() {
     this.restful.getTrainingSummary().subscribe({
         next: result => {
           result.forEach((rawData: { _id: TrainingSummary; count: any; }) => {
@@ -75,15 +91,8 @@ export class TrainingSummaryComponent implements OnInit {
     );
   }
 
-  public displayPeopleNo(numberOfPeople: any): number {
-    return (numberOfPeople && numberOfPeople > 0) ? numberOfPeople : 0;
-  }
+  getTrainingDetail(row: any) {
+    console.log(`getTrainingDetail: `, row);
 
-  private checkPaddleSize(existingTrainingSummary: TrainingSummary, paddle_side: any, numberOfPaddler: any) {
-    if ("l" === paddle_side?.toLowerCase()) {
-      existingTrainingSummary.left_side_paddle = numberOfPaddler;
-    } else {
-      existingTrainingSummary.right_side_paddle = numberOfPaddler;
-    }
   }
 }
