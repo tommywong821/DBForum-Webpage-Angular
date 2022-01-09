@@ -3,5 +3,4 @@ export interface ITraining {
   date: any;
   place: string;
   type: string;
-  reason: string;
 }

@@ -42,4 +42,8 @@ export class AwsLambdaBackendService {
     }
     return this.http.delete(this.apiUrl + "/training", {body: requestBody});
   }
+
+  getTrainingSummary() {
+    return this.http.get<any>(this.apiUrl + "/training/summary");
+  }
 }

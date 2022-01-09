@@ -60,7 +60,7 @@ export class TrainingListComponent implements OnInit {
     const subscribeDialog = dialogRef.componentInstance.updatedTrainingList
       .subscribe((updatedTrainingList) => {
         console.log(`[${this.constructor.name}] updates list from dialog `, updatedTrainingList);
-        updatedTrainingList.forEach((newTraining: ITraining) => {
+        updatedTrainingList.forEach((newTraining: Training) => {
           this.trainingList.push(newTraining);
         })
       });

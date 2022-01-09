@@ -1,1 +1,30 @@
-<p>incoming-training-summary works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="card-container-left">incoming-training-summary</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table [dataSource]="displayDataList" class="mat-elevation-z8" mat-table>
+
+      <ng-container matColumnDef="Date">
+        <th *matHeaderCellDef mat-header-cell> Date</th>
+        <td *matCellDef="let element" mat-cell> {{element.date}} </td>
+      </ng-container>
+      <ng-container matColumnDef="Training Place">
+        <th *matHeaderCellDef mat-header-cell> Training Place</th>
+        <td *matCellDef="let element" mat-cell> {{element.place}} </td>
+      </ng-container>
+      <ng-container matColumnDef="Training Type">
+        <th *matHeaderCellDef mat-header-cell> Training Type</th>
+        <td *matCellDef="let element" mat-cell> {{element.type}} </td>
+      </ng-container>
+      <ng-container matColumnDef="L/R">
+        <th *matHeaderCellDef mat-header-cell> People</th>
+        <td *matCellDef="let element" mat-cell> {{displayPeopleNo(element.left_side_paddle)}}
+          /{{displayPeopleNo(element.right_side_paddle)}} </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayColumns;" mat-row></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

@@ -21,6 +21,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgxMatDatetimePickerModule, NgxMatNativeDateModule} from "@angular-material-components/datetime-picker";
 import {AlertDialogComponent} from "./shared/alert-dialog/alert-dialog.component";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {AlertDialogComponent} from "./shared/alert-dialog/alert-dialog.component
     MatDatepickerModule,
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
-    FormsModule
+    FormsModule,
+    MatTableModule
   ],
   providers: [
     AwsLambdaBackendService,
