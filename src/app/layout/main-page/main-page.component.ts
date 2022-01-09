@@ -37,9 +37,7 @@ export class MainPageComponent implements OnInit {
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.restful.getTrainingList().subscribe({
-        next: (result) => this.trainingList = result,
-        error: (err) => console.log(`[${this.constructor.name}] getTrainingList error `, err),
-        complete: () => console.log(`[${this.constructor.name}] getTrainingList completed`)
+        next: (result) => this.trainingList = result
       }
     );
   }

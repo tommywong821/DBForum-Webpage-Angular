@@ -4,7 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {ApiInterceptor} from "./api-interceptor";
+import {ApiInterceptor} from "./interceptor/api-interceptor";
 import {AwsLambdaBackendService} from "./services/aws-lambda-backend.service";
 import {MainPageComponent} from './layout/main-page/main-page.component';
 import {DashboardComponent} from './layout/dashboard/dashboard.component';
@@ -20,8 +20,8 @@ import {TrainingFormDialogComponent} from './layout/main-page/training-form-dial
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgxMatDatetimePickerModule, NgxMatNativeDateModule} from "@angular-material-components/datetime-picker";
-import {AlertDialogComponent} from "./shared/alert-dialog/alert-dialog.component";
 import {MatTableModule} from "@angular/material/table";
+import {ApiErrorInterceptor} from "./interceptor/ApiErrorInterceptor";
 
 @NgModule({
   declarations: [
@@ -30,8 +30,7 @@ import {MatTableModule} from "@angular/material/table";
     DashboardComponent,
     TrainingListComponent,
     TrainingSummaryComponent,
-    TrainingFormDialogComponent,
-    AlertDialogComponent
+    TrainingFormDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +54,11 @@ import {MatTableModule} from "@angular/material/table";
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiErrorInterceptor,
       multi: true
     }
   ],

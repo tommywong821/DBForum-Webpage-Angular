@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {TrainingSummary} from "../../../model/TrainingSummary";
-import {AlertDialogComponent} from "../../../shared/alert-dialog/alert-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 
 const ELEMENT_DATA: any[] = [
@@ -71,16 +70,7 @@ export class TrainingSummaryComponent implements OnInit {
           });
           this.displayDataList = Array.from(this.groupedTrainingSummary.values());
           console.log(`after ngOnInit: `, this.displayDataList);
-        },
-        error: (err) => {
-          console.log(`[${this.constructor.name}] getUpdatedTrainingList error `, err)
-          this.alertDialog.open(AlertDialogComponent, {
-            data: {
-              alertMsg: err.message
-            },
-          });
-        },
-        complete: () => console.log(`[${this.constructor.name}] getUpdatedTrainingList completed`)
+        }
       }
     );
   }

@@ -2,7 +2,6 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
-import {AlertDialogComponent} from "../../../shared/alert-dialog/alert-dialog.component";
 
 @Component({
   selector: 'app-training-form-dialog',
@@ -56,26 +55,19 @@ export class TrainingFormDialogComponent implements OnInit {
   insertNewTrainingToDB(): void {
     console.log('create btn clicked');
     console.log(`formGroup`, this.orderForm.value.trainings);
-    this.restful.createTrainingList(this.orderForm.value.trainings).subscribe((result) => {
-      console.log(`create successfully: `, result);
-      this.updatedTrainingList.emit(result);
-      this.dialogRef.close();
-    })
+    this.restful.createTrainingList(this.orderForm.value.trainings).subscribe({
+      next: result => {
+        console.log(`create successfully: `, result);
+        this.updatedTrainingList.emit(result);
+        this.dialogRef.close();
+      }
+    });
   }
 
   //fetch the latest list from db
   getUpdatedTrainingList() {
     this.restful.getTrainingList().subscribe({
-      next: (result) => this.updatedTrainingList.emit(result),
-      error: (err) => {
-        console.log(`[${this.constructor.name}] getUpdatedTrainingList error `, err)
-        this.alertDialog.open(AlertDialogComponent, {
-          data: {
-            alertMsg: err.message
-          },
-        });
-      },
-      complete: () => console.log(`[${this.constructor.name}] getUpdatedTrainingList completed`)
+      next: (result) => this.updatedTrainingList.emit(result)
     });
   }
 }
