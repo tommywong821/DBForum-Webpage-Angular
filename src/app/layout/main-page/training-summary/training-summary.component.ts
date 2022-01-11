@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {TrainingSummary} from "../../../model/TrainingSummary";
 import {MatDialog} from "@angular/material/dialog";
+import {TrainingDetailDialogComponent} from "../training-detail-dialog/training-detail-dialog.component";
 
 const ELEMENT_DATA: any[] = [
   {
@@ -49,7 +50,7 @@ export class TrainingSummaryComponent implements OnInit {
   displayColumns: string[] = ['Date', 'Training Place', 'Training Place', 'L/R'];
 
   constructor(private restful: AwsLambdaBackendService,
-              public alertDialog: MatDialog) {
+              public trainingDialog: MatDialog) {
     console.log(`[${this.constructor.name}] constructor`);
   }
 
@@ -93,6 +94,6 @@ export class TrainingSummaryComponent implements OnInit {
 
   getTrainingDetail(row: any) {
     console.log(`getTrainingDetail: `, row);
-
+    this.trainingDialog.open(TrainingDetailDialogComponent);
   }
 }

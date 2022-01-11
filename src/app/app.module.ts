@@ -24,6 +24,9 @@ import {MatTableModule} from "@angular/material/table";
 import {ApiErrorInterceptor} from "./interceptor/ApiErrorInterceptor";
 import {AuthModule} from "@auth0/auth0-angular";
 import {environment} from "../environments/environment";
+import {
+  TrainingDetailDialogComponent
+} from './layout/main-page/training-detail-dialog/training-detail-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ import {environment} from "../environments/environment";
     DashboardComponent,
     TrainingListComponent,
     TrainingSummaryComponent,
-    TrainingFormDialogComponent
+    TrainingFormDialogComponent,
+    TrainingDetailDialogComponent
   ],
   imports: [
     BrowserModule,
