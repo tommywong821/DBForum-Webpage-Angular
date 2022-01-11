@@ -1,5 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {AwsLambdaBackendService} from "../../services/aws-lambda-backend.service";
+import {AuthService} from "@auth0/auth0-angular";
+import {DOCUMENT} from "@angular/common";
 
 @Component({
   selector: 'app-main-page',
@@ -30,7 +32,9 @@ export class MainPageComponent implements OnInit {
       "type": "etst2"
     }, {"_id": "61d557ec9898d51e0ab07a2b", "date": "1234", "place": "aaa", "type": "etst3"}];
 
-  constructor(private restful: AwsLambdaBackendService) {
+  constructor(private restful: AwsLambdaBackendService,
+              public auth: AuthService,
+              @Inject((DOCUMENT)) public document: Document) {
     console.log(`[${this.constructor.name}] constructor`);
   }
 
@@ -40,5 +44,9 @@ export class MainPageComponent implements OnInit {
         next: (result) => this.trainingList = result
       }
     );
+  }
+
+  displayUser(user: any) {
+    return JSON.stringify(user);
   }
 }

@@ -1,4 +1,25 @@
 <p>main-page works!</p>
+<div>
+  <ng-template #loggedOut>
+    <button (click)="auth.loginWithPopup()">Log in</button>
+  </ng-template>
+  <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+    <button (click)="auth.logout({returnTo: document.location.origin})">
+      Log Out
+    </button>
+  </ng-container>
+  <div>
+    <p>user profile</p>
+    <ul *ngIf="auth.user$ | async as user">
+      <li>{{displayUser(user)}}</li>
+      <li>{{ user.name }}</li>
+      <div *ngIf="user['http://demozero.net/roles'].includes('Admin')">
+        Admin
+      </div>
+    </ul>
+  </div>
+</div>
+
 <app-training-list *ngIf="trainingList"
                    [trainingList]="trainingList"
                    class="scrollable-content">

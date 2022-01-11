@@ -22,6 +22,8 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgxMatDatetimePickerModule, NgxMatNativeDateModule} from "@angular-material-components/datetime-picker";
 import {MatTableModule} from "@angular/material/table";
 import {ApiErrorInterceptor} from "./interceptor/ApiErrorInterceptor";
+import {AuthModule} from "@auth0/auth0-angular";
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -47,7 +49,11 @@ import {ApiErrorInterceptor} from "./interceptor/ApiErrorInterceptor";
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
     FormsModule,
-    MatTableModule
+    MatTableModule,
+    AuthModule.forRoot({
+      domain: environment.auth0Domain,
+      clientId: environment.auth0ClientId
+    })
   ],
   providers: [
     AwsLambdaBackendService,
