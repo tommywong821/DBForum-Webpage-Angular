@@ -1,10 +1,11 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
-  xApiKey: string = "tros2K5xguC2IhRlNALROlJsroBJKr951gIYxSa0";
+  xApiKey: string = environment.xApiKey;
 
   constructor() {
   }

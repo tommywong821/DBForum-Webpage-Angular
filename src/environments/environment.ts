@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'https://pyret1uvgk.execute-api.ap-southeast-1.amazonaws.com/dev',
+  xApiKey: 'tros2K5xguC2IhRlNALROlJsroBJKr951gIYxSa0'
 };
 
 /*

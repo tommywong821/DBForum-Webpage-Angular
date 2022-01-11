@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ITraining} from "../model/interface/ITraining";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AwsLambdaBackendService {
-  private apiUrl: string = "https://pyret1uvgk.execute-api.ap-southeast-1.amazonaws.com/dev";
+  private apiUrl: string = environment.apiUrl;
 
   constructor(private http: HttpClient) {
     console.log(`[${this.constructor.name}] constructor`);
