@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ITraining} from "../model/interface/ITraining";
 import {environment} from "../../environments/environment";
+import {Training} from "../model/Training";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AwsLambdaBackendService {
   }
 
   getTrainingList() {
-    return this.http.get<Array<ITraining>>(this.apiUrl + "/training");
+    return this.http.get<Array<Training>>(this.apiUrl + "/training");
   }
 
   createTraining(training: ITraining) {

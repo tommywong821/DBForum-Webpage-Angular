@@ -7,29 +7,40 @@
       </button>
     </mat-card-title>
   </mat-card-header>
-  <mat-card-content>
-    <table *ngIf="displayDataList" [dataSource]="displayDataList" class="mat-elevation-z8" mat-table>
 
-      <ng-container matColumnDef="Date">
-        <th *matHeaderCellDef mat-header-cell> Date</th>
-        <td *matCellDef="let element" mat-cell> {{element.date}} </td>
-      </ng-container>
-      <ng-container matColumnDef="Training Place">
-        <th *matHeaderCellDef mat-header-cell> Training Place</th>
-        <td *matCellDef="let element" mat-cell> {{element.place}} </td>
-      </ng-container>
-      <ng-container matColumnDef="Training Type">
-        <th *matHeaderCellDef mat-header-cell> Training Type</th>
-        <td *matCellDef="let element" mat-cell> {{element.type}} </td>
-      </ng-container>
-      <ng-container matColumnDef="L/R">
-        <th *matHeaderCellDef mat-header-cell> People</th>
-        <td *matCellDef="let element" mat-cell> {{displayPeopleNo(element.left_side_paddle)}}
-          /{{displayPeopleNo(element.right_side_paddle)}} </td>
-      </ng-container>
+  <ng-container *ngIf="isLoading; else content">
+    <mat-progress-spinner
+      [color]="'primary'"
+      [mode]="'indeterminate'"
+      class="example-margin">
+    </mat-progress-spinner>
+  </ng-container>
 
-      <tr *matHeaderRowDef="displayColumns" mat-header-row></tr>
-      <tr (click)="getTrainingDetail(row)" *matRowDef="let row; columns: displayColumns;" mat-row></tr>
-    </table>
-  </mat-card-content>
+  <ng-template #content>
+    <mat-card-content>
+      <table *ngIf="displayDataList" [dataSource]="displayDataList" class="mat-elevation-z8" mat-table>
+
+        <ng-container matColumnDef="Date">
+          <th *matHeaderCellDef mat-header-cell> Date</th>
+          <td *matCellDef="let element" mat-cell> {{element.date}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Training Place">
+          <th *matHeaderCellDef mat-header-cell> Training Place</th>
+          <td *matCellDef="let element" mat-cell> {{element.place}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Training Type">
+          <th *matHeaderCellDef mat-header-cell> Training Type</th>
+          <td *matCellDef="let element" mat-cell> {{element.type}} </td>
+        </ng-container>
+        <ng-container matColumnDef="L/R">
+          <th *matHeaderCellDef mat-header-cell> People</th>
+          <td *matCellDef="let element" mat-cell> {{displayPeopleNo(element.left_side_paddle)}}
+            /{{displayPeopleNo(element.right_side_paddle)}} </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="displayColumns" mat-header-row></tr>
+        <tr (click)="getTrainingDetail(row)" *matRowDef="let row; columns: displayColumns;" mat-row></tr>
+      </table>
+    </mat-card-content>
+  </ng-template>
 </mat-card>

@@ -48,6 +48,7 @@ export class TrainingSummaryComponent implements OnInit {
   groupedTrainingSummary = new Map<string, TrainingSummary>();
   displayDataList: any = [];
   displayColumns: string[] = ['Date', 'Training Place', 'Training Place', 'L/R'];
+  isLoading: boolean = true;
 
   constructor(private restful: AwsLambdaBackendService,
               public trainingDialog: MatDialog) {
@@ -72,6 +73,7 @@ export class TrainingSummaryComponent implements OnInit {
   }
 
   getTrainingSummary() {
+    this.isLoading = true;
     this.restful.getTrainingSummary().subscribe({
         next: result => {
           result.forEach((rawData: { _id: TrainingSummary; count: any; }) => {
@@ -87,7 +89,8 @@ export class TrainingSummaryComponent implements OnInit {
           });
           this.displayDataList = Array.from(this.groupedTrainingSummary.values());
           console.log(`after ngOnInit: `, this.displayDataList);
-        }
+        },
+        complete: () => this.isLoading = false
       }
     );
   }

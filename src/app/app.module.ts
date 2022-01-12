@@ -27,6 +27,7 @@ import {environment} from "../environments/environment";
 import {
   TrainingDetailDialogComponent
 } from './layout/main-page/training-detail-dialog/training-detail-dialog.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {
     AuthModule.forRoot({
       domain: environment.auth0Domain,
       clientId: environment.auth0ClientId
-    })
+    }),
+    MatProgressSpinnerModule
   ],
   providers: [
     AwsLambdaBackendService,

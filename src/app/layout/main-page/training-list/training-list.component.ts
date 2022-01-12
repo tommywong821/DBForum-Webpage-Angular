@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {Training} from "../../../model/Training"
 import {MatDialog} from "@angular/material/dialog";
@@ -11,16 +11,26 @@ import {ITraining} from 'src/app/model/interface/ITraining';
   styleUrls: ['./training-list.component.scss']
 })
 export class TrainingListComponent implements OnInit {
-  @Input() trainingList: Array<Training> = [];
+  trainingList: Array<Training> = [];
+  isLoading: boolean = true;
 
   constructor(private restful: AwsLambdaBackendService,
-              public trainingFormDialog: MatDialog,
-              public alertDialog: MatDialog) {
+              public trainingFormDialog: MatDialog) {
     console.log(`[${this.constructor.name}] constructor`);
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
+    this.getTrainingList();
+  }
+
+  getTrainingList() {
+    this.isLoading = true;
+    this.restful.getTrainingList().subscribe({
+        next: (result) => this.trainingList = result,
+        complete: () => this.isLoading = false
+      }
+    );
   }
 
   absentBtnOnclick(event: any, training: ITraining, absentReason: any) {
@@ -47,9 +57,7 @@ export class TrainingListComponent implements OnInit {
     const subscribeDialog = dialogRef.componentInstance.updatedTrainingList
       .subscribe((updatedTrainingList) => {
         console.log(`[${this.constructor.name}] updates list from dialog `, updatedTrainingList);
-        updatedTrainingList.forEach((newTraining: Training) => {
-          this.trainingList.push(newTraining);
-        })
+        this.trainingList = this.trainingList.concat(updatedTrainingList);
       });
 
     dialogRef.afterClosed().subscribe(result => {

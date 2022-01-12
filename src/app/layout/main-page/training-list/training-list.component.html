@@ -1,40 +1,58 @@
-<mat-card-header>
-  <mat-card-title class="card-container-left">Incoming Training</mat-card-title>
-  <mat-card-title class="card-container-right">
-    <button (click)="addNewTrainingToDB()" class="btn">
-      <i class="fa fa-plus"></i>
-    </button>
-  </mat-card-title>
-</mat-card-header>
-<mat-card-content class="scrollable-content">
-  <div [style.margin-bottom]="'12px'" [style.margin-top]="'12px'" fxLayout="row" fxLayoutGap="12px">
-    <span *ngFor="let training of trainingList">
-      <mat-card>
-        <mat-card-header>
-           <mat-card-title class="card-container-left">{{training.type}}</mat-card-title>
-           <mat-card-title class="card-container-right">
-             <button (click)="removeTrainingFromDB(training)" class="btn">
-               <i class="fa fa-times"></i>
-             </button>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <li>{{training.date}}</li>
-          <li>{{training.place}}</li>
-          <input #reason
-                 placeholder="Absent reason"
-                 type="string"
-                 />
-          <mat-card-actions>
-            <button color="primary" mat-button>Attend</button>
-            <button (click)="absentBtnOnclick($event, training, reason.value)"
-                    color="accent"
-                    mat-button>
-              Absent
-            </button>
-          </mat-card-actions>
-        </mat-card-content>
-      </mat-card>
-    </span>
-  </div>
-</mat-card-content>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="card-container-left">
+      Incoming Training
+      <button (click)="addNewTrainingToDB()" class="btn">
+        <i class="fa fa-plus"></i>
+      </button>
+    </mat-card-title>
+    <mat-card-title class="card-container-right">
+      <button (click)="getTrainingList()" class="btn">
+        <i class="fa fa-refresh"></i>
+      </button>
+    </mat-card-title>
+  </mat-card-header>
+
+  <ng-container *ngIf="isLoading; else content">
+    <mat-progress-spinner
+      [color]="'primary'"
+      [mode]="'indeterminate'"
+      class="example-margin">
+    </mat-progress-spinner>
+  </ng-container>
+
+  <ng-template #content>
+    <mat-card-content class="scrollable-content">
+      <div [style.margin-bottom]="'12px'" [style.margin-top]="'12px'" fxLayout="row" fxLayoutGap="12px">
+        <span *ngFor="let training of trainingList">
+          <mat-card>
+            <mat-card-header>
+               <mat-card-title class="card-container-left">{{training.type}}</mat-card-title>
+               <mat-card-title class="card-container-right">
+                 <button (click)="removeTrainingFromDB(training)" class="btn">
+                   <i class="fa fa-times"></i>
+                 </button>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <li>{{training.date}}</li>
+              <li>{{training.place}}</li>
+              <input #reason
+                     placeholder="Absent reason"
+                     type="string"
+              />
+            <mat-card-actions>
+              <button color="primary" mat-button>Attend</button>
+              <button (click)="absentBtnOnclick($event, training, reason.value)"
+                      color="accent"
+                      mat-button>
+                Absent
+              </button>
+            </mat-card-actions>
+          </mat-card-content>
+        </mat-card>
+      </span>
+      </div>
+    </mat-card-content>
+  </ng-template>
+</mat-card>

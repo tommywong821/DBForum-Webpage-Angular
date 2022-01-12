@@ -40,10 +40,6 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.restful.getTrainingList().subscribe({
-        next: (result) => this.trainingList = result
-      }
-    );
   }
 
   displayUser(user: any) {
