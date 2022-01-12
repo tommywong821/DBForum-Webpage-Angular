@@ -21,7 +21,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {NgxMatDatetimePickerModule, NgxMatNativeDateModule} from "@angular-material-components/datetime-picker";
 import {MatTableModule} from "@angular/material/table";
-import {ApiErrorInterceptor} from "./interceptor/ApiErrorInterceptor";
+import {ApiErrorInterceptor} from "./interceptor/api-error-interceptor";
 import {AuthModule} from "@auth0/auth0-angular";
 import {environment} from "../environments/environment";
 import {
