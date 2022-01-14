@@ -39,10 +39,7 @@ export class AwsLambdaBackendService {
   }
 
   removeTraining(trainingId: string) {
-    const requestBody: any = {
-      trainingId: trainingId
-    }
-    return this.http.delete(this.apiUrl + "/training", {body: requestBody});
+    return this.http.delete(this.apiUrl + "/training/" + trainingId);
   }
 
   getTrainingSummary() {
