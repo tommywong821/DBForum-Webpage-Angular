@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialogRef} from "@angular/material/dialog";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 
@@ -16,8 +16,7 @@ export class TrainingFormDialogComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<TrainingFormDialogComponent>,
               private formBuilder: FormBuilder,
-              private restful: AwsLambdaBackendService,
-              public alertDialog: MatDialog) {
+              private restful: AwsLambdaBackendService) {
     console.log(`[${this.constructor.name}] constructor`);
     dialogRef.disableClose = true;
     this.trainings = this.formBuilder.array([this.createTraining()]);
@@ -38,7 +37,8 @@ export class TrainingFormDialogComponent implements OnInit {
     return this.formBuilder.group({
       place: '',
       type: '',
-      date: ''
+      date: '',
+      created_at: new Date().toISOString()
     });
   }
 

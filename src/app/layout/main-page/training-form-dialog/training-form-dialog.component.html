@@ -4,11 +4,23 @@
     <div formArrayName="trainings"
          *ngFor="let item of trainingFormGroup.controls; let i = index;">
       <div [formGroupName]="i">
-        <input formControlName="place" placeholder="Training Place">
-        <input formControlName="type" placeholder="Training type">
-        <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date & time" formControlName="date">
-        <mat-datepicker-toggle matSuffix [for]="$any(picker)"></mat-datepicker-toggle>
-        <ngx-mat-datetime-picker #picker [enableMeridian]="true"></ngx-mat-datetime-picker>
+        <mat-form-field appearance="fill">
+          <mat-label>Training Place</mat-label>
+          <input formControlName="place" matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Training type</mat-label>
+          <input formControlName="type" matInput>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Choose a Date & Time</mat-label>
+          <input [ngxMatDatetimePicker]="picker" formControlName="date" matInput>
+          <mat-datepicker-toggle [for]="$any(picker)" matSuffix></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
+        </mat-form-field>
+
         <button type="button" (click)="removeTraining(i)">
           <i class="fa fa-minus" aria-hidden="true"></i>
         </button>
