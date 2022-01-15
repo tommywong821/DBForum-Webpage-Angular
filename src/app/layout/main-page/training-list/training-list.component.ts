@@ -10,12 +10,14 @@ import {TrainingFormDialogComponent} from "../training-form-dialog/training-form
   styleUrls: ['./training-list.component.scss']
 })
 export class TrainingListComponent implements OnInit {
-  trainingList: Array<Training> = [];
-  isLoading: boolean = true;
+  trainingList: Array<Training>;
+  isLoading: boolean;
 
   constructor(private restful: AwsLambdaBackendService,
               public trainingFormDialog: MatDialog) {
     console.log(`[${this.constructor.name}] constructor`);
+    this.trainingList = [];
+    this.isLoading = true;
   }
 
   ngOnInit(): void {

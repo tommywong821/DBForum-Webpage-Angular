@@ -4,7 +4,7 @@
       <mat-card-header>
          <mat-card-title class="card-container-left">{{training.type}}</mat-card-title>
          <mat-card-title class="card-container-right">
-           <button (click)="removeTrainingFromDB(training)" *ngIf="isEditAble" class="btn">
+           <button (click)="removeTrainingFromDB(training)" *ngIf="isEditAble && isAdmin" class="btn">
              <i class="fa fa-times"></i>
            </button>
         </mat-card-title>

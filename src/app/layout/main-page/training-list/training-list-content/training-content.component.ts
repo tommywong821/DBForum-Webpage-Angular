@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ITraining} from "../../../../model/interface/ITraining";
 import {AwsLambdaBackendService} from "../../../../services/aws-lambda-backend.service";
+import {AuthService} from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-training-content',
@@ -9,16 +10,32 @@ import {AwsLambdaBackendService} from "../../../../services/aws-lambda-backend.s
 })
 export class TrainingContentComponent implements OnInit {
 
-  @Input() trainingList: Array<ITraining> = [];
-  @Input() isEditAble: boolean = false;
+  @Input() trainingList: Array<ITraining>;
+  @Input() isEditAble: boolean;
   @Input() parentComponent: any;
 
-  constructor(private restful: AwsLambdaBackendService) {
+  isAdmin: boolean;
+
+  constructor(private restful: AwsLambdaBackendService,
+              public auth: AuthService) {
     console.log(`[${this.constructor.name}] constructor`);
+    this.trainingList = [];
+    this.isEditAble = false;
+    this.isAdmin = false;
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
+    this.auth.user$.subscribe({
+      next: (user) => {
+        console.log(`result: `, user);
+        if (user) {
+          if (user['http://demozero.net/roles'].includes('Admin')) {
+            this.isAdmin = true;
+          }
+        }
+      }
+    });
   }
 
   removeTrainingFromDB(training: ITraining) {
@@ -31,6 +48,8 @@ export class TrainingContentComponent implements OnInit {
   }
 
   replyBtnOnclick(status: string, training: ITraining, absentReason: any) {
+    console.log(`isEditable: `, this.isEditAble);
+    console.log(`isAdmin: `, this.isAdmin);
     console.log(`event: `, status);
     console.log(`training: `, training);
     console.log(`absentReason: `, absentReason);
