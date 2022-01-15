@@ -46,12 +46,9 @@ export class TrainingSummaryComponent implements OnInit {
     this.trainingDialog.open(TrainingDetailDialogComponent, {
       data: {
         rawData: row
-      }
+      },
+      height: '100%',
+      width: '100%'
     });
-
-  }
-
-  test(type: any) {
-    return (type == 'Land');
   }
 }

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {ITraining} from "../model/interface/ITraining";
 import {environment} from "../../environments/environment";
 import {Training} from "../model/Training";
@@ -44,5 +44,10 @@ export class AwsLambdaBackendService {
 
   getTrainingSummary() {
     return this.http.get<any>(this.apiUrl + "/training/summary");
+  }
+
+  getTrainingDetail(trainingId: string) {
+    let params = new HttpParams().set('trainingId', trainingId);
+    return this.http.get<any>(this.apiUrl + "/training/detail", {params: params});
   }
 }

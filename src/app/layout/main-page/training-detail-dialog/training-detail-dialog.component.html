@@ -1,1 +1,44 @@
-<p>training-detail-dialog works!</p>
+<mat-dialog-actions align="end">
+  <button mat-dialog-close>
+    <i aria-hidden="true" class="fa fa-times"></i>
+  </button>
+</mat-dialog-actions>
+<div class="row detail-content">
+  <div class="col-4">
+    <table [dataSource]="attendLeftStudent" class="mat-elevation-z12" mat-table>
+      <ng-container matColumnDef="left">
+        <th *matHeaderCellDef mat-header-cell> Left</th>
+        <td *matCellDef="let element" mat-cell>
+          <span [ngClass]="('late replay' === element.status)? 'red-out': 'normal'">
+            {{element.username}} ({{element.paddle_side}})
+          </span>
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+    </table>
+  </div>
+  <div class="col-4">
+    <table [dataSource]="attendRightStudent" class="mat-elevation-z12" mat-table>
+      <ng-container matColumnDef="right">
+        <th *matHeaderCellDef mat-header-cell> Right</th>
+        <td *matCellDef="let element" mat-cell>{{element.username}} ({{element.paddle_side}})</td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns2" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns2;" mat-row></tr>
+    </table>
+  </div>
+  <div class="col-4">
+    <table [dataSource]="nonReplayStudnet" class="mat-elevation-z12" mat-table>
+      <ng-container matColumnDef="nonReplay">
+        <th *matHeaderCellDef mat-header-cell> Not Replay / Absent</th>
+        <td *matCellDef="let element" mat-cell>{{element.username}} ({{element.reason}})</td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns3" mat-header-row></tr>
+      <tr *matRowDef="let row; columns: displayedColumns3;" mat-row></tr>
+    </table>
+  </div>
+</div>
