@@ -4,7 +4,7 @@
   </button>
 </mat-dialog-actions>
 
-<app-training-list-content [trainingList]="[dialogInputData.rawData]"></app-training-list-content>
+<app-training-content [trainingList]="[dialogInputData.rawData]"></app-training-content>
 
 <ng-container *ngIf="isLoading; else content">
   <app-loading></app-loading>

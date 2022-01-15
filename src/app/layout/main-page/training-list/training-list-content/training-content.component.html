@@ -17,8 +17,12 @@
                type="string"
         />
         <mat-card-actions>
-          <button color="primary" mat-button>Attend</button>
-          <button (click)="absentBtnOnclick($event, training, reason.value)"
+          <button (click)="replyBtnOnclick('attend', training, reason.value)"
+                  color="primary"
+                  mat-button>
+            Attend
+          </button>
+          <button (click)="replyBtnOnclick('absent', training, reason.value)"
                   color="accent"
                   mat-button>
             Absent
