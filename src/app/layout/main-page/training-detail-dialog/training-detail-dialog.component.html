@@ -6,42 +6,63 @@
 
 <app-training-list-content [trainingList]="[dialogInputData.rawData]"></app-training-list-content>
 
-<div class="row detail-content">
-  <div class="col-4">
-    <table [dataSource]="attendLeftStudent" class="mat-elevation-z12" mat-table>
-      <ng-container matColumnDef="left">
-        <th *matHeaderCellDef mat-header-cell> Left</th>
-        <td *matCellDef="let element" mat-cell>
-          <span [ngClass]="('late replay' === element.status)? 'red-out': 'normal'">
-            {{element.username}} ({{element.paddle_side}})
+<ng-container *ngIf="isLoading; else content">
+  <app-loading></app-loading>
+</ng-container>
+
+<ng-template #content>
+  <div class="row detail-content">
+    <div class="col-4">
+      <table [dataSource]="attendLeftStudent" class="mat-elevation-z12" mat-table>
+        <ng-container matColumnDef="left">
+          <th *matHeaderCellDef mat-header-cell>
+            Left ({{attendLeftStudent?.length}})
+          </th>
+          <td *matCellDef="let element" mat-cell>
+          <span [ngClass]="(env.lateReply === element.status)? 'red-out': 'normal'">
+            {{element.username}}
+            <span *ngIf="element.reason">({{element.reason}})</span>
           </span>
-        </td>
-      </ng-container>
+          </td>
+        </ng-container>
 
-      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
-      <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
-    </table>
-  </div>
-  <div class="col-4">
-    <table [dataSource]="attendRightStudent" class="mat-elevation-z12" mat-table>
-      <ng-container matColumnDef="right">
-        <th *matHeaderCellDef mat-header-cell> Right</th>
-        <td *matCellDef="let element" mat-cell>{{element.username}} ({{element.paddle_side}})</td>
-      </ng-container>
+        <tr *matHeaderRowDef="leftStudentCol" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: leftStudentCol;" mat-row></tr>
+      </table>
+    </div>
+    <div class="col-4">
+      <table [dataSource]="attendRightStudent" class="mat-elevation-z12" mat-table>
+        <ng-container matColumnDef="right">
+          <th *matHeaderCellDef mat-header-cell>
+            Right ({{attendRightStudent?.length}})
+          </th>
+          <td *matCellDef="let element" mat-cell>
+          <span [ngClass]="(env.lateReply === element.status)? 'red-out': 'normal'">
+            {{element.username}}
+            <span *ngIf="element.reason">({{element.reason}})</span>
+          </span>
+          </td>
+        </ng-container>
 
-      <tr *matHeaderRowDef="displayedColumns2" mat-header-row></tr>
-      <tr *matRowDef="let row; columns: displayedColumns2;" mat-row></tr>
-    </table>
-  </div>
-  <div class="col-4">
-    <table [dataSource]="nonReplayStudnet" class="mat-elevation-z12" mat-table>
-      <ng-container matColumnDef="nonReplay">
-        <th *matHeaderCellDef mat-header-cell> Not Replay / Absent</th>
-        <td *matCellDef="let element" mat-cell>{{element.username}} ({{element.reason}})</td>
-      </ng-container>
+        <tr *matHeaderRowDef="rightStudentCol" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: rightStudentCol;" mat-row></tr>
+      </table>
+    </div>
+    <div class="col-4">
+      <table [dataSource]="nonReplyStudent" class="mat-elevation-z12" mat-table>
+        <ng-container matColumnDef="nonReply">
+          <th *matHeaderCellDef mat-header-cell>
+            Not Reply / Absent ({{nonReplyStudent?.length}})
+          </th>
+          <td *matCellDef="let element" mat-cell>
+            {{element.username}}
+            <span *ngIf="element.reason">({{element.reason}})</span>
+          </td>
+        </ng-container>
 
-      <tr *matHeaderRowDef="displayedColumns3" mat-header-row></tr>
-      <tr *matRowDef="let row; columns: displayedColumns3;" mat-row></tr>
-    </table>
+        <tr *matHeaderRowDef="nonReplyStudentCol" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: nonReplyStudentCol;" mat-row></tr>
+      </table>
+    </div>
   </div>
-</div>
+</ng-template>

@@ -11,7 +11,7 @@ import {TrainingDetailDialogComponent} from "../training-detail-dialog/training-
 export class TrainingSummaryComponent implements OnInit {
 
   displayDataList: any = [];
-  displayColumns: string[] = ['Date', 'Training Type', 'Training Place', 'L/R'];
+  displayColumns: string[] = ['id', 'Date', 'Training Type', 'Training Place', 'L/R'];
   isLoading: boolean = true;
 
   constructor(private restful: AwsLambdaBackendService,

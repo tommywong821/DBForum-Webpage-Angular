@@ -9,16 +9,18 @@
   </mat-card-header>
 
   <ng-container *ngIf="isLoading; else content">
-    <mat-progress-spinner
-      [color]="'primary'"
-      [mode]="'indeterminate'"
-      class="example-margin">
-    </mat-progress-spinner>
+    <app-loading></app-loading>
   </ng-container>
 
   <ng-template #content>
     <mat-card-content>
       <table *ngIf="displayDataList" [dataSource]="displayDataList" class="mat-elevation-z8" mat-table>
+
+        <!--        todo debug -->
+        <ng-container matColumnDef="id">
+          <th *matHeaderCellDef mat-header-cell> id</th>
+          <td *matCellDef="let element" mat-cell> {{element._id}} </td>
+        </ng-container>
 
         <ng-container matColumnDef="Date">
           <th *matHeaderCellDef mat-header-cell> Date</th>
