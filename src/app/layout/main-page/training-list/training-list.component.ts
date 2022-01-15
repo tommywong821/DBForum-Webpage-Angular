@@ -3,7 +3,6 @@ import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.serv
 import {Training} from "../../../model/Training"
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
-import {ITraining} from 'src/app/model/interface/ITraining';
 
 @Component({
   selector: 'app-training-list',
@@ -31,25 +30,6 @@ export class TrainingListComponent implements OnInit {
         complete: () => this.isLoading = false
       }
     );
-  }
-
-  absentBtnOnclick(event: any, training: ITraining, absentReason: any) {
-    this.removeWebViewTraining(training._id);
-  }
-
-  removeWebViewTraining(trainingId: string) {
-    this.trainingList = this.trainingList.filter(function (obj) {
-      return obj._id !== trainingId;
-    })
-  }
-
-  removeTrainingFromDB(training: ITraining) {
-    this.restful.removeTraining(training._id).subscribe({
-      next: result => {
-        console.log(`removeTrainingFromDB result: `, result)
-        this.removeWebViewTraining(training._id);
-      }
-    })
   }
 
   addNewTrainingToDB() {

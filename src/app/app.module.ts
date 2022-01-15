@@ -28,6 +28,9 @@ import {
   TrainingDetailDialogComponent
 } from './layout/main-page/training-detail-dialog/training-detail-dialog.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {
+  TrainingListContentComponent
+} from "./layout/main-page/training-list/training-list-content/training-list-content.component";
 
 @NgModule({
   declarations: [
@@ -37,7 +40,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     TrainingListComponent,
     TrainingSummaryComponent,
     TrainingFormDialogComponent,
-    TrainingDetailDialogComponent
+    TrainingDetailDialogComponent,
+    TrainingListContentComponent
   ],
   imports: [
     BrowserModule,

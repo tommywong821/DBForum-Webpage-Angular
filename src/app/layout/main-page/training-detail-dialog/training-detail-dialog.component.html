@@ -3,6 +3,9 @@
     <i aria-hidden="true" class="fa fa-times"></i>
   </button>
 </mat-dialog-actions>
+
+<app-training-list-content [trainingList]="[dialogInputData.rawData]"></app-training-list-content>
+
 <div class="row detail-content">
   <div class="col-4">
     <table [dataSource]="attendLeftStudent" class="mat-elevation-z12" mat-table>
