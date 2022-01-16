@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
+import {DateUtil} from "../../../services/date-util.service";
 
 @Component({
   selector: 'app-training-form-dialog',
@@ -16,7 +17,8 @@ export class TrainingFormDialogComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<TrainingFormDialogComponent>,
               private formBuilder: FormBuilder,
-              private restful: AwsLambdaBackendService) {
+              private restful: AwsLambdaBackendService,
+              public dateUtil: DateUtil) {
     console.log(`[${this.constructor.name}] constructor`);
     dialogRef.disableClose = true;
     this.trainings = this.formBuilder.array([this.createTraining()]);
@@ -38,7 +40,7 @@ export class TrainingFormDialogComponent implements OnInit {
       place: '',
       type: '',
       date: '',
-      created_at: new Date().toISOString()
+      created_at: this.dateUtil.formatToHKTime(new Date().toISOString())
     });
   }
 
@@ -53,6 +55,9 @@ export class TrainingFormDialogComponent implements OnInit {
   }
 
   insertNewTrainingToDB(): void {
+    this.orderForm.value.trainings.forEach((training: any) => {
+      training.date = this.dateUtil.formatToHKTime(training.date)
+    });
     console.log(`formGroup`, this.orderForm.value.trainings);
     this.restful.createTrainingList(this.orderForm.value.trainings).subscribe({
       next: result => {

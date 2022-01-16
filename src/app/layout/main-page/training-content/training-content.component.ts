@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ITraining} from "../../../../model/interface/ITraining";
-import {AwsLambdaBackendService} from "../../../../services/aws-lambda-backend.service";
+import {ITraining} from "../../../model/interface/ITraining";
+import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {AuthService} from "@auth0/auth0-angular";
 
 @Component({

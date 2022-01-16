@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {AuthService} from "@auth0/auth0-angular";
 import {DOCUMENT} from "@angular/common";
+import {DateUtil} from "../../services/date-util.service";
 
 @Component({
   selector: 'app-main-page',
@@ -9,8 +10,11 @@ import {DOCUMENT} from "@angular/common";
 })
 export class MainPageComponent implements OnInit {
 
+  date: any = new Date().toISOString();
+
   constructor(public auth: AuthService,
-              @Inject((DOCUMENT)) public document: Document) {
+              @Inject((DOCUMENT)) public document: Document,
+              public dateUtil: DateUtil) {
     console.log(`[${this.constructor.name}] constructor`);
   }
 
