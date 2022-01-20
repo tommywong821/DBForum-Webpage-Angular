@@ -31,6 +31,11 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {TrainingContentComponent} from "./layout/main-page/training-content/training-content.component";
 import {LoadingComponent} from "./layout/shared/loading/loading.component";
 import {DateUtil} from "./services/date-util.service";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule} from "@angular/material/icon";
+import {HeaderComponent} from './layout/header/header.component';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
@@ -42,7 +47,8 @@ import {DateUtil} from "./services/date-util.service";
     TrainingFormDialogComponent,
     TrainingDetailDialogComponent,
     TrainingContentComponent,
-    LoadingComponent
+    LoadingComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +70,11 @@ import {DateUtil} from "./services/date-util.service";
       domain: environment.auth0Domain,
       clientId: environment.auth0ClientId
     }),
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [
     AwsLambdaBackendService,

@@ -1,0 +1,25 @@
+<div>
+  <mat-toolbar>
+    <a mat-button routerLink="/mainpage">
+      <span>MainPage</span>
+    </a>
+    <a mat-button routerLink="/dashboard">
+      <span>Dashboard</span>
+    </a>
+    <span class="spacer"></span>
+
+    <ng-template #loggedOut>
+      <button (click)="auth.loginWithPopup()" mat-button>Log in</button>
+    </ng-template>
+    <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+      <button mat-button>
+        <mat-icon>account_box</mat-icon>
+        Profile
+      </button>
+      <button (click)="auth.logout({returnTo: document.location.origin})" mat-button>
+        Log Out
+      </button>
+    </ng-container>
+  </mat-toolbar>
+</div>
+

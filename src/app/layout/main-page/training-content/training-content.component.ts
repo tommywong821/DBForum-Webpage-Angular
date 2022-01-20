@@ -28,7 +28,7 @@ export class TrainingContentComponent implements OnInit {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.auth.user$.subscribe({
       next: (user) => {
-        console.log(`result: `, user);
+        console.log(`login user: `, user);
         if (user) {
           if (user['http://demozero.net/roles'].includes('Admin')) {
             this.isAdmin = true;

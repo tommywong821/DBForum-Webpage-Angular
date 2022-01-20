@@ -1,13 +1,4 @@
-<p>main-page works!</p>
 <div>
-  <ng-template #loggedOut>
-    <button (click)="auth.loginWithPopup()">Log in</button>
-  </ng-template>
-  <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-    <button (click)="auth.logout({returnTo: document.location.origin})">
-      Log Out
-    </button>
-  </ng-container>
   <div>
     <p>user profile</p>
     <ul *ngIf="auth.user$ | async as user">
@@ -17,13 +8,6 @@
         Admin
       </div>
     </ul>
-  </div>
-</div>
-
-<div>
-  Test Date
-  <div>
-    {{dateUtil.formatToHKTime(date)}}
   </div>
 </div>
 
