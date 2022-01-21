@@ -33,13 +33,13 @@ export class TrainingDetailDialogComponent implements OnInit {
     console.log('clicked data: ', this.dialogInputData);
     this.restful.getTrainingDetail(this.dialogInputData.rawData._id).subscribe({
         next: (result) => {
-          console.log(`result: `, result);
+          console.log(`getTrainingDetail result: `, result);
           this.attendLeftStudent = result.reply.leftStudent;
           this.attendRightStudent = result.reply.rightStudent;
           this.nonReplyStudent = result.nonReply;
         },
         complete: () => {
-          console.log('complete');
+          console.log('getTrainingDetail complete');
           this.isLoading = false;
         }
       }

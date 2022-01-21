@@ -12,7 +12,7 @@
       <button (click)="auth.loginWithPopup()" mat-button>Log in</button>
     </ng-template>
     <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-      <button mat-button>
+      <button (click)="openProfileDialog()" mat-button>
         <mat-icon>account_box</mat-icon>
         Profile
       </button>

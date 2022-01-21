@@ -7,6 +7,9 @@
       <div *ngIf="user['http://demozero.net/roles'].includes('Admin')">
         Admin
       </div>
+      <div *ngIf="user['http://demozero.net/username']">
+        {{user['http://demozero.net/username']}}
+      </div>
     </ul>
   </div>
 </div>

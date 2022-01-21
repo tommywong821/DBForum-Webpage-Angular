@@ -1,0 +1,51 @@
+<p>Student Profile</p>
+
+<ng-container *ngIf="isLoading; else content">
+  <app-loading></app-loading>
+</ng-container>
+<ng-template #content>
+  <mat-dialog-content>
+    <form [formGroup]="profileForm">
+      <div>
+        <label for="username">Name </label>
+        <input formControlName="username" id="username" type="text">
+      </div>
+      <div>
+        <label for="dateOfBirth">Date of Birth </label>
+        <input formControlName="dateOfBirth" id="dateOfBirth" type="text">
+      </div>
+      <div>
+        <label for="gender">Gender </label>
+        <mat-radio-group formControlName="gender" id="gender">
+          <mat-radio-button value="female">Female</mat-radio-button>
+          <mat-radio-button value="male">male</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div>
+        <label for="weight">Weight </label>
+        <input formControlName="weight" id="weight" type="text">
+        KG
+      </div>
+      <div>
+        <label for="lastUpdateTime">Last update time </label>
+        <input formControlName="lastUpdateTime" id="lastUpdateTime" type="text">
+      </div>
+      <div>
+        <label for="email">email </label>
+        <input formControlName="email" id="email" type="text">
+      </div>
+      <div>
+        <label for="paddleSize">Paddle Size </label>
+        <mat-radio-group formControlName="paddleSize" id="paddleSize">
+          <mat-radio-button value="left">Left</mat-radio-button>
+          <mat-radio-button value="right">Right</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </form>
+  </mat-dialog-content>
+</ng-template>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button>Create</button>
+</mat-dialog-actions>

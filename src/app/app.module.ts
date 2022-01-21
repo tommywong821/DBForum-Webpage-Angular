@@ -36,6 +36,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {HeaderComponent} from './layout/header/header.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
+import {ProfileDialogComponent} from './layout/header/profile-dialog/profile-dialog.component';
+import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import {MatListModule} from "@angular/material/list";
     TrainingDetailDialogComponent,
     TrainingContentComponent,
     LoadingComponent,
-    HeaderComponent
+    HeaderComponent,
+    ProfileDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +77,8 @@ import {MatListModule} from "@angular/material/list";
     MatToolbarModule,
     MatIconModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatRadioModule
   ],
   providers: [
     AwsLambdaBackendService,
