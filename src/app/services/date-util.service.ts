@@ -9,10 +9,10 @@ export class DateUtil {
 
   //input non Hong Kong Time
   formatToHKTime(date: any) {
-    const format = 'yyyy-MM-ddTHH:mm';
+    const format = 'yyyy-MM-dd HH:mm';
     const locale = 'en-US';
     const timeZone = 'Asia/Hong_Kong';
-    return formatDate(this.convertTimeZone(date, timeZone), format, locale) + 'Z';
+    return formatDate(this.convertTimeZone(date, timeZone), format, locale);
   }
 
   displayFormat(date: any) {

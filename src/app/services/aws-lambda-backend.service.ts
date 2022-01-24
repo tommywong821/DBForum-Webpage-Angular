@@ -4,6 +4,7 @@ import {ITraining} from "../model/interface/ITraining";
 import {environment} from "../../environments/environment";
 import {Training} from "../model/Training";
 import {IStudent} from "../model/interface/IStudent";
+import {Attendance} from "../model/Attendance";
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +56,12 @@ export class AwsLambdaBackendService {
   getStudentDetail(username: string) {
     let params = new HttpParams().set('username', username);
     return this.http.get<IStudent>(this.apiUrl + "/student", {params: params});
+  }
+
+  createAttendance(attendance: Attendance) {
+    const body: any = {
+      attendance: attendance
+    }
+    return this.http.post(this.apiUrl + "/attendance", body);
   }
 }
