@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ITraining} from "../../../model/interface/ITraining";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {AuthService} from "@auth0/auth0-angular";
+import {DateUtil} from "../../../services/date-util.service";
 
 @Component({
   selector: 'app-training-content',
@@ -17,7 +18,8 @@ export class TrainingContentComponent implements OnInit {
   isAdmin: boolean;
 
   constructor(private restful: AwsLambdaBackendService,
-              public auth: AuthService) {
+              public auth: AuthService,
+              public dateUtil: DateUtil) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingList = [];
     this.isEditAble = false;

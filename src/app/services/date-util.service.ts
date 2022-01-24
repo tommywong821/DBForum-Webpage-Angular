@@ -14,6 +14,12 @@ export class DateUtil {
     const timeZone = 'Asia/Hong_Kong';
     return formatDate(this.convertTimeZone(date, timeZone), format, locale) + 'Z';
   }
+
+  displayFormat(date: any) {
+    const format = 'yyyy-MM-dd' + '\n' + 'HH:mm';
+    const locale = 'en-US';
+    return formatDate(date, format, locale);
+  }
 }
 
 export const DATEPICKER_FORMAT = {

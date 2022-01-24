@@ -1,14 +1,14 @@
-.btn {
-  right: 0;
+.right-btn {
+  float: right;
+  padding-right: 0;
+}
+
+.left-btn {
+  padding-left: 0;
 }
 
 .scrollable-content {
   overflow-x: auto;
-}
-
-.card-container-right {
-  display: inline;
-  float: right;
 }
 
 .card-container-left {

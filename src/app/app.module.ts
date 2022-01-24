@@ -41,6 +41,12 @@ import {MatRadioModule} from "@angular/material/radio";
 import {NavigationComponent} from './layout/navigation/navigation.component';
 import {LayoutModule} from '@angular/cdk/layout';
 import {SidenavComponent} from './layout/navigation/sidenav/sidenav.component';
+import {TestComponent} from './test/test.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
+import {TestMainComponent} from './test-main/test-main.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -56,7 +62,9 @@ import {SidenavComponent} from './layout/navigation/sidenav/sidenav.component';
     HeaderComponent,
     ProfileDialogComponent,
     NavigationComponent,
-    SidenavComponent
+    SidenavComponent,
+    TestComponent,
+    TestMainComponent
   ],
   imports: [
     BrowserModule,
@@ -84,7 +92,11 @@ import {SidenavComponent} from './layout/navigation/sidenav/sidenav.component';
     MatSidenavModule,
     MatListModule,
     MatRadioModule,
-    LayoutModule
+    LayoutModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatGridListModule,
+    MatMenuModule
   ],
   providers: [
     AwsLambdaBackendService,

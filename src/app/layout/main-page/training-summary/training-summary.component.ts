@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingDetailDialogComponent} from "../training-detail-dialog/training-detail-dialog.component";
+import {DateUtil} from "../../../services/date-util.service";
 
 @Component({
   selector: 'app-training-summary',
@@ -11,11 +12,12 @@ import {TrainingDetailDialogComponent} from "../training-detail-dialog/training-
 export class TrainingSummaryComponent implements OnInit {
 
   displayDataList: any = [];
-  displayColumns: string[] = ['id', 'Date', 'Training Type', 'Training Place', 'L/R'];
+  displayColumns: string[] = ['Date', 'Training Type', 'Training Place', 'L/R'];
   isLoading: boolean = true;
 
   constructor(private restful: AwsLambdaBackendService,
-              public trainingDialog: MatDialog) {
+              public trainingDialog: MatDialog,
+              public dateUtil: DateUtil) {
     console.log(`[${this.constructor.name}] constructor`);
   }
 
