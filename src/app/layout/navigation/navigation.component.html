@@ -1,0 +1,17 @@
+<mat-sidenav-container class="sidenav-container">
+  <!--  nav side bar-->
+  <mat-sidenav #sidenav [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="(isHandset$ | async) === false"
+               class="sidenav"
+               fixedInViewport>
+    <app-sidenav></app-sidenav>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-header [isHandset$]="isHandset$"></app-header>
+    <!-- Add Content Here -->
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

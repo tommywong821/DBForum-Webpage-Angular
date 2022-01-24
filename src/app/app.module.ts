@@ -38,6 +38,9 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
 import {ProfileDialogComponent} from './layout/header/profile-dialog/profile-dialog.component';
 import {MatRadioModule} from "@angular/material/radio";
+import {NavigationComponent} from './layout/navigation/navigation.component';
+import {LayoutModule} from '@angular/cdk/layout';
+import {SidenavComponent} from './layout/navigation/sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,9 @@ import {MatRadioModule} from "@angular/material/radio";
     TrainingContentComponent,
     LoadingComponent,
     HeaderComponent,
-    ProfileDialogComponent
+    ProfileDialogComponent,
+    NavigationComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +83,8 @@ import {MatRadioModule} from "@angular/material/radio";
     MatIconModule,
     MatSidenavModule,
     MatListModule,
-    MatRadioModule
+    MatRadioModule,
+    LayoutModule
   ],
   providers: [
     AwsLambdaBackendService,

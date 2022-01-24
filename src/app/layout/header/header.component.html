@@ -1,23 +1,42 @@
 <div>
-  <mat-toolbar>
-    <a mat-button routerLink="/mainpage">
-      <span>MainPage</span>
-    </a>
-    <a mat-button routerLink="/dashboard">
-      <span>Dashboard</span>
-    </a>
+  <mat-toolbar color="primary">
+    <button
+      (click)="toggleSideNav()"
+      *ngIf="isHandset$ | async"
+      aria-label="Toggle sidenav"
+      mat-icon-button
+      type="button">
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    <span>testing</span>
     <span class="spacer"></span>
 
     <ng-template #loggedOut>
-      <button (click)="auth.loginWithPopup()" mat-button>Log in</button>
+      <button
+        (click)="auth.loginWithPopup()"
+        aria-label="Logout btn"
+        mat-button
+        type="button">
+        <mat-icon aria-hidden="false">login</mat-icon>
+        <span> Log in</span>
+      </button>
     </ng-template>
     <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-      <button (click)="openProfileDialog()" mat-button>
-        <mat-icon>account_box</mat-icon>
-        Profile
+      <button
+        (click)="openProfileDialog()"
+        aria-label="profile btn"
+        mat-button
+        type="button">
+        <mat-icon aria-hidden="false">person</mat-icon>
+        <span> Profile</span>
       </button>
-      <button (click)="auth.logout({returnTo: document.location.origin})" mat-button>
-        Log Out
+      <button
+        (click)="auth.logout({returnTo: document.location.origin})"
+        aria-label="logout btn"
+        mat-button
+        type="button">
+        <mat-icon aria-hidden="false">logout</mat-icon>
+        <span> Log Out</span>
       </button>
     </ng-container>
   </mat-toolbar>
