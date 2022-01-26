@@ -7,6 +7,7 @@ import {DOCUMENT} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
 import {SidenavService} from "../../services/sidenav.service";
 import {MatSidenav} from "@angular/material/sidenav";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-navigation',
@@ -43,9 +44,14 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.auth.user$.subscribe((user) => {
-      if (user) {
-        this.loginUsername = user['http://demozero.net/username'];
+    this.auth.user$.subscribe({
+      next: (user) => {
+        if (user) {
+          this.loginUsername = user['http://demozero.net/username'];
+        }
+      },
+      complete: () => {
+        localStorage.setItem(environment.usernameKey, this.loginUsername);
       }
     });
   }

@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import * as moment from 'moment-timezone';
+
 
 @Component({
   selector: 'app-test-main',
@@ -29,6 +31,9 @@ export class TestMainComponent {
     })
   );
 
+  test: any;
+
   constructor(private breakpointObserver: BreakpointObserver) {
+    this.test = moment().tz('Asia/Hong_Kong').format('YYYY-MM-DD HH:mm');
   }
 }

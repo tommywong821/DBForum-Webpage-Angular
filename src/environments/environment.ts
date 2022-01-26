@@ -8,8 +8,7 @@ export const environment = {
   xApiKey: 'tros2K5xguC2IhRlNALROlJsroBJKr951gIYxSa0',
   auth0Domain: 'dev-feuvbc3k.us.auth0.com',
   auth0ClientId: 'loBVYiglzMWAZE7MHBl24WOi4MHBl7Ac',
-  attend: "attend",
-  lateReply: "late replay"
+  usernameKey: "username"
 };
 
 /*

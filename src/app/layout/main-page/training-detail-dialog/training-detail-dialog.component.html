@@ -19,7 +19,7 @@
             Left ({{attendLeftStudent?.length}})
           </th>
           <td *matCellDef="let element" mat-cell>
-          <span [ngClass]="(env.lateReply === element.status)? 'red-out': 'normal'">
+          <span [ngClass]="('late reply' === element.status)? 'red-out': 'normal'">
             {{element.username}}
             <span *ngIf="element.reason">({{element.reason}})</span>
           </span>
@@ -37,7 +37,7 @@
             Right ({{attendRightStudent?.length}})
           </th>
           <td *matCellDef="let element" mat-cell>
-          <span [ngClass]="(env.lateReply === element.status)? 'red-out': 'normal'">
+          <span [ngClass]="('late reply' === element.status)? 'red-out': 'normal'">
             {{element.username}}
             <span *ngIf="element.reason">({{element.reason}})</span>
           </span>

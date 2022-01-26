@@ -5,15 +5,28 @@ import {environment} from "../../environments/environment";
 import {Training} from "../model/Training";
 import {IStudent} from "../model/interface/IStudent";
 import {Attendance} from "../model/Attendance";
+import {AuthService} from "@auth0/auth0-angular";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AwsLambdaBackendService {
   private apiUrl: string = environment.apiUrl;
+  private loginUsername: string = '';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private auth: AuthService) {
     console.log(`[${this.constructor.name}] constructor`);
+    this.auth.user$.subscribe({
+      next: (user) => {
+        if (user) {
+          this.loginUsername = user['http://demozero.net/username'];
+        }
+      },
+      complete: () => {
+        localStorage.setItem(environment.usernameKey, this.loginUsername);
+      }
+    });
   }
 
   healthCheck() {
@@ -21,7 +34,9 @@ export class AwsLambdaBackendService {
   }
 
   getTrainingList() {
-    return this.http.get<Array<Training>>(this.apiUrl + "/training");
+    // let params = new HttpParams().set('username', localStorage.getItem(environment.usernameKey)!.toString());
+    let params = new HttpParams().set('username', this.loginUsername);
+    return this.http.get<Array<Training>>(this.apiUrl + "/training", {params: params});
   }
 
   createTraining(training: ITraining) {
