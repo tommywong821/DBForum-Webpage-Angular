@@ -1,8 +1,23 @@
-.card-container-right {
-  display: inline;
-  float: right;
+.training-card {
+  width: 200px;
 }
 
 .card-container-left {
   display: inline;
+  margin: 0 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card-container-right {
+  padding: 0;
+  display: inline;
+  //transparent btn
+  float: right;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
 }

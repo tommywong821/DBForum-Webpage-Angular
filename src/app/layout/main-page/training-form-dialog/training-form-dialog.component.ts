@@ -70,8 +70,9 @@ export class TrainingFormDialogComponent implements OnInit {
 
   //fetch the latest list from db
   getUpdatedTrainingList() {
-    this.restful.getTrainingList().subscribe({
-      next: (result) => this.updatedTrainingList.emit(result)
-    });
+    this.updatedTrainingList.emit(this.restful.getTrainingList());
+    // this.restful.getTrainingList().subscribe({
+    //   next: (result) => this.updatedTrainingList.emit(result)
+    // });
   }
 }

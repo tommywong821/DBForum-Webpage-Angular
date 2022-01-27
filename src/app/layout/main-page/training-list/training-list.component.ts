@@ -27,11 +27,13 @@ export class TrainingListComponent implements OnInit {
 
   getTrainingList() {
     this.isLoading = true;
-    this.restful.getTrainingList().subscribe({
-        next: (result) => this.trainingList = result,
-        complete: () => this.isLoading = false
-      }
-    );
+    this.trainingList = this.restful.getTrainingList();
+    // this.restful.getTrainingList().subscribe({
+    //     next: (result) => this.trainingList = result,
+    //     complete: () => this.isLoading = false
+    //   }
+    // );
+    this.isLoading = false;
   }
 
   addNewTrainingToDB() {

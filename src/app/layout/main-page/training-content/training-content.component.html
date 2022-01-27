@@ -1,30 +1,27 @@
 <div [style.margin-bottom]="'12px'" [style.margin-top]="'12px'" fxLayout="row" fxLayoutGap="12px">
   <span *ngFor="let training of trainingList">
-    <mat-card>
-      <mat-card-header>
-         <mat-card-title class="card-container-left">{{training.type}}</mat-card-title>
-         <mat-card-title class="card-container-right">
-           <button (click)="removeTrainingFromDB(training)" *ngIf="isEditAble && isAdmin" class="btn">
-             <i class="fa fa-times"></i>
-           </button>
-        </mat-card-title>
-      </mat-card-header>
+    <mat-card class="training-card">
+      <div class="cus-card-header">
+         <div class="card-container-left">{{training.type}} Training</div>
+         <button (click)="removeTrainingFromDB(training)" *ngIf="isEditAble && isAdmin" class="card-container-right">
+           <i aria-hidden="true" class="fa fa-times fa-sm"></i>
+         </button>
+      </div>
       <mat-card-content>
-        <li>{{training.date}}</li>
-        <li>{{training.place}}</li>
+        <p style="margin-bottom: 0">
+          Date&Time: <br>{{training.date}}<br>
+          Place: {{training.place}}<br>
+        </p>
+
         <input #reason
                placeholder="Absent reason"
                type="string"
         />
         <mat-card-actions>
-          <button (click)="replyBtnOnclick('attend', training, reason.value)"
-                  color="primary"
-                  mat-button>
+          <button (click)="replyBtnOnclick('attend', training, reason.value)" color="primary" mat-button>
             Attend
           </button>
-          <button (click)="replyBtnOnclick('absent', training, reason.value)"
-                  color="accent"
-                  mat-button>
+          <button (click)="replyBtnOnclick('absent', training, reason.value)" color="accent" mat-button>
             Absent
           </button>
         </mat-card-actions>

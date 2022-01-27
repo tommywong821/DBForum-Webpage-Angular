@@ -32,15 +32,16 @@ export class TrainingSummaryComponent implements OnInit {
 
   getTrainingSummary() {
     this.isLoading = true;
-    this.restful.getTrainingSummary().subscribe({
-        next: result => {
-          this.displayDataList = result
-        },
-        complete: () => {
-          this.isLoading = false
-        }
-      }
-    );
+    this.displayDataList = this.restful.getTrainingSummary();
+    // this.restful.getTrainingSummary().subscribe({
+    //     next: result => {
+    //       this.displayDataList = result
+    //     },
+    //     complete: () => {
+    //       this.isLoading = false
+    //     }
+    //   }
+    // );
   }
 
   getTrainingDetail(row: any) {
