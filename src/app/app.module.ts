@@ -47,6 +47,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {TestMainComponent} from './test-main/test-main.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
+import {LoginPageComponent} from './layout/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import {MatMenuModule} from '@angular/material/menu';
     NavigationComponent,
     SidenavComponent,
     TestComponent,
-    TestMainComponent
+    TestMainComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,

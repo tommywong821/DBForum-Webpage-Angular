@@ -34,7 +34,6 @@ export class AwsLambdaBackendService {
   }
 
   getTrainingList() {
-    // let params = new HttpParams().set('username', localStorage.getItem(environment.usernameKey)!.toString());
     let params = new HttpParams().set('username', this.loginUsername);
     return this.http.get<Array<Training>>(this.apiUrl + "/training", {params: params});
   }
