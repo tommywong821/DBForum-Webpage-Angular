@@ -48,6 +48,7 @@ import {TestMainComponent} from './test-main/test-main.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
 import {LoginPageComponent} from './layout/login-page/login-page.component';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import {LoginPageComponent} from './layout/login-page/login-page.component';
     MatPaginatorModule,
     MatSortModule,
     MatGridListModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSelectModule
   ],
   providers: [
     AwsLambdaBackendService,
