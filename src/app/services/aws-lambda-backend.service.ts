@@ -5,6 +5,7 @@ import {environment} from "../../environments/environment";
 import {IStudent} from "../model/interface/IStudent";
 import {Attendance} from "../model/Attendance";
 import {AuthService} from "@auth0/auth0-angular";
+import {IReminder} from "../model/interface/IReminder";
 
 @Injectable({
   providedIn: 'root'
@@ -154,5 +155,9 @@ export class AwsLambdaBackendService {
       attendance: attendance
     }
     return this.http.post(this.apiUrl + "/attendance", body);
+  }
+
+  getReminderMessage() {
+    return this.http.get<IReminder>(this.apiUrl + '/reminder');
   }
 }

@@ -49,6 +49,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
 import {LoginPageComponent} from './layout/login-page/login-page.component';
 import {MatSelectModule} from "@angular/material/select";
+import {GeneralReminderComponent} from './layout/main-page/general-reminder/general-reminder.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import {MatSelectModule} from "@angular/material/select";
     SidenavComponent,
     TestComponent,
     TestMainComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    GeneralReminderComponent
   ],
   imports: [
     BrowserModule,

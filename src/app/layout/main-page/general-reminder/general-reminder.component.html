@@ -1,0 +1,27 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Reminder:
+      <button mat-button>
+        <mat-icon (click)="enableEdit()" class="title-icon">edit</mat-icon>
+      </button>
+    </mat-card-title>
+    <button (click)="submitReminder()" class="right-btn" mat-button>
+      <mat-icon>done</mat-icon>
+    </button>
+  </mat-card-header>
+
+  <mat-card-content>
+    <ng-container *ngIf="isLoading; else content">
+      <app-loading></app-loading>
+    </ng-container>
+    <ng-template #content>
+      <form [formGroup]="reminderForm" class="reminder-form">
+        <mat-form-field appearance="fill" class="full-width">
+          <textarea class="text-block" formControlName="reminder" id="reminder" matInput readonly="{{isReadOnly}}"
+                    type="text"></textarea>
+        </mat-form-field>
+      </form>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

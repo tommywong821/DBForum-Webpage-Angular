@@ -42,6 +42,7 @@ export class TrainingSummaryComponent implements OnInit {
     //     }
     //   }
     // );
+    this.isLoading = false;
   }
 
   getTrainingDetail(row: any) {
