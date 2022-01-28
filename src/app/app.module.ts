@@ -47,7 +47,6 @@ import {MatSortModule} from '@angular/material/sort';
 import {TestMainComponent} from './test-main/test-main.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
-import {LoginPageComponent} from './layout/login-page/login-page.component';
 import {MatSelectModule} from "@angular/material/select";
 import {GeneralReminderComponent} from './layout/main-page/general-reminder/general-reminder.component';
 
@@ -68,7 +67,6 @@ import {GeneralReminderComponent} from './layout/main-page/general-reminder/gene
     SidenavComponent,
     TestComponent,
     TestMainComponent,
-    LoginPageComponent,
     GeneralReminderComponent
   ],
   imports: [
