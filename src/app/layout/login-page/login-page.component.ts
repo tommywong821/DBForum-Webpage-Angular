@@ -12,5 +12,6 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.auth.loginWithRedirect({appState: {target: '/mainpage'}})
   }
 }

@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {map} from 'rxjs/operators';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import * as moment from 'moment-timezone';
+import {AuthService} from "@auth0/auth0-angular";
 
 
 @Component({
@@ -33,7 +34,12 @@ export class TestMainComponent {
 
   test: any;
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(private breakpointObserver: BreakpointObserver,
+              public auth: AuthService) {
     this.test = moment().tz('Asia/Hong_Kong').format('YYYY-MM-DD HH:mm');
+  }
+
+  displayUser(user: any) {
+    return JSON.stringify(user);
   }
 }

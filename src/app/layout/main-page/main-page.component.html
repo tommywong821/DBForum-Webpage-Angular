@@ -1,18 +1,4 @@
 <div>
-  <p>user profile</p>
-  <ul *ngIf="auth.user$ | async as user">
-    <li>{{displayUser(user)}}</li>
-    <li>{{ user.name }}</li>
-    <div *ngIf="user['http://demozero.net/roles'].includes('Admin')">
-      Admin
-    </div>
-    <div *ngIf="user['http://demozero.net/username']">
-      {{user['http://demozero.net/username']}}
-    </div>
-  </ul>
-</div>
-
-<div>
   <mat-grid-list cols="1" rowHeight="300px">
     <mat-grid-tile>
       <app-training-list class="dashboard-card"></app-training-list>

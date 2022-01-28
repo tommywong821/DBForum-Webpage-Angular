@@ -19,8 +19,4 @@ export class MainPageComponent implements OnInit {
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
   }
-
-  displayUser(user: any) {
-    return JSON.stringify(user);
-  }
 }
