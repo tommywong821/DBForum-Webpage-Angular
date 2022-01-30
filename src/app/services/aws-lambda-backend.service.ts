@@ -4,29 +4,19 @@ import {ITraining} from "../model/interface/ITraining";
 import {environment} from "../../environments/environment";
 import {IStudent} from "../model/interface/IStudent";
 import {Attendance} from "../model/Attendance";
-import {AuthService} from "@auth0/auth0-angular";
 import {IReminder} from "../model/interface/IReminder";
+import {Auth0Service} from "./auth0.service";
+import {Training} from "../model/Training";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AwsLambdaBackendService {
   private apiUrl: string = environment.apiUrl;
-  private loginUsername: string = '';
 
   constructor(private http: HttpClient,
-              private auth: AuthService) {
+              private auth0: Auth0Service) {
     console.log(`[${this.constructor.name}] constructor`);
-    this.auth.user$.subscribe({
-      next: (user) => {
-        if (user) {
-          this.loginUsername = user['http://demozero.net/username'];
-        }
-      },
-      complete: () => {
-        localStorage.setItem(environment.usernameKey, this.loginUsername);
-      }
-    });
   }
 
   healthCheck() {
@@ -34,9 +24,9 @@ export class AwsLambdaBackendService {
   }
 
   getTrainingList() {
-    let params = new HttpParams().set('username', this.loginUsername);
-    // return this.http.get<Array<Training>>(this.apiUrl + "/training", {params: params});
-    return [{
+    let params = new HttpParams().set('username', this.auth0.loginUsername);
+    return this.http.get<Array<Training>>(this.apiUrl + "/training", {params: params});
+    /*return [{
       "_id": "61ef9b635906f4da86ff89da",
       "date": "2022-02-26 11:03",
       "place": "UST",
@@ -85,7 +75,7 @@ export class AwsLambdaBackendService {
       "type": "land",
       "created_at": "2022-02-24 08:41",
       "updated_at": ""
-    }];
+    }];*/
   }
 
   createTraining(training: ITraining) {
@@ -109,35 +99,35 @@ export class AwsLambdaBackendService {
   }
 
   getTrainingSummary() {
-    // return this.http.get<any>(this.apiUrl + "/training/summary");
-    return [{
-      "_id": "61ef9b635906f4da86ff89d8",
-      "date": "2022-02-27 04:40",
-      "place": "TKO",
-      "type": "land",
-      "paddle_side": "left",
-      "status": "late reply",
-      "left_side_paddle": 2,
-      "right_side_paddle": 0
-    }, {
-      "_id": "61ef9b635906f4da86ff89d9",
-      "date": "2022-02-25 18:07",
-      "place": "UST",
-      "type": "water",
-      "paddle_side": "right",
-      "status": "absent",
-      "left_side_paddle": 1,
-      "right_side_paddle": 1
-    }, {
-      "_id": "61ef9b635906f4da86ff89d7",
-      "date": "2022-02-26 03:38",
-      "place": "TKO",
-      "type": "land",
-      "paddle_side": "left",
-      "status": "absent",
-      "left_side_paddle": 1,
-      "right_side_paddle": 1
-    }];
+    return this.http.get<any>(this.apiUrl + "/training/summary");
+    // return [{
+    //   "_id": "61ef9b635906f4da86ff89d8",
+    //   "date": "2022-02-27 04:40",
+    //   "place": "TKO",
+    //   "type": "land",
+    //   "paddle_side": "left",
+    //   "status": "late reply",
+    //   "left_side_paddle": 2,
+    //   "right_side_paddle": 0
+    // }, {
+    //   "_id": "61ef9b635906f4da86ff89d9",
+    //   "date": "2022-02-25 18:07",
+    //   "place": "UST",
+    //   "type": "water",
+    //   "paddle_side": "right",
+    //   "status": "absent",
+    //   "left_side_paddle": 1,
+    //   "right_side_paddle": 1
+    // }, {
+    //   "_id": "61ef9b635906f4da86ff89d7",
+    //   "date": "2022-02-26 03:38",
+    //   "place": "TKO",
+    //   "type": "land",
+    //   "paddle_side": "left",
+    //   "status": "absent",
+    //   "left_side_paddle": 1,
+    //   "right_side_paddle": 1
+    // }];
   }
 
   getTrainingDetail(trainingId: string) {

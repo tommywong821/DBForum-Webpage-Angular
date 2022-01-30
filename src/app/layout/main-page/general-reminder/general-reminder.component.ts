@@ -41,7 +41,6 @@ export class GeneralReminderComponent implements OnInit {
   initReminderMessage() {
     this.restful.getReminderMessage().subscribe({
       next: (result: IReminder) => {
-        console.log(`getReminderMessage: `, result);
         this.reminderForm.setValue({
           reminder: result.message
         });
@@ -56,8 +55,9 @@ export class GeneralReminderComponent implements OnInit {
   submitReminder() {
     this.isLoading = true;
     console.log(`reminder: `, this.reminderForm.value.reminder);
+    console.log(`this.reminderId: `, this.reminderId);
     let newReminder: IReminder = {
-      _id: (this.reminderId) ? ObjectID().toHexString() : this.reminderId,
+      _id: (this.reminderId) ? this.reminderId : ObjectID().toHexString(),
       message: this.reminderForm.value.reminder,
       updated_at: this.dateUtil.formatToHKTime(new Date()),
       last_edit_user: ''

@@ -26,7 +26,7 @@
 
           <ng-container matColumnDef="Date">
             <th *matHeaderCellDef mat-header-cell>Date</th>
-            <td *matCellDef="let element" mat-cell> {{dateUtil.displayFormat(element.date)}} </td>
+            <td *matCellDef="let element" mat-cell> {{displayDateFormat(element.date)}} </td>
           </ng-container>
           <ng-container matColumnDef="Training Place">
             <th *matHeaderCellDef mat-header-cell>Training<br>Place</th>

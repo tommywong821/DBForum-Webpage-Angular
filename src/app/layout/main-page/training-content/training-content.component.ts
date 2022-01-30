@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ITraining} from "../../../model/interface/ITraining";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
-import {AuthService} from "@auth0/auth0-angular";
 import {DateUtil} from "../../../services/date-util.service";
 import {Attendance} from "../../../model/Attendance";
+import {Auth0Service} from "../../../services/auth0.service";
 
 @Component({
   selector: 'app-training-content',
@@ -20,8 +20,8 @@ export class TrainingContentComponent implements OnInit {
   username: string;
 
   constructor(private restful: AwsLambdaBackendService,
-              private auth: AuthService,
-              public dateUtil: DateUtil) {
+              private auth0: Auth0Service,
+              private dateUtil: DateUtil) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingList = [];
     this.isEditAble = false;
@@ -31,17 +31,8 @@ export class TrainingContentComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.auth.user$.subscribe({
-      next: (user) => {
-        console.log(`login user: `, user);
-        if (user) {
-          if (user['http://demozero.net/roles'].includes('Admin')) {
-            this.isAdmin = true;
-          }
-          this.username = user['http://demozero.net/username'];
-        }
-      }
-    });
+    this.username = this.auth0.loginUsername;
+    this.isAdmin = this.auth0.loginRole.includes('Admin');
   }
 
   removeTrainingFromDB(training: ITraining) {
@@ -50,7 +41,7 @@ export class TrainingContentComponent implements OnInit {
         console.log(`removeTrainingFromDB result: `, result)
         this.removeWebViewTraining(training._id);
       }
-    })
+    });
   }
 
   replyBtnOnclick(status: string, training: ITraining, absentReason: any) {
@@ -107,12 +98,12 @@ export class TrainingContentComponent implements OnInit {
         //    refresh UI
         this.removeWebViewTraining(training._id);
       }
-    })
+    });
   }
 
   removeWebViewTraining(trainingId: string) {
     this.trainingList = this.trainingList.filter(function (obj) {
       return obj._id !== trainingId;
-    })
+    });
   }
 }

@@ -16,8 +16,8 @@ export class TrainingSummaryComponent implements OnInit {
   isLoading: boolean = true;
 
   constructor(private restful: AwsLambdaBackendService,
-              public trainingDialog: MatDialog,
-              public dateUtil: DateUtil) {
+              private trainingDialog: MatDialog,
+              private dateUtil: DateUtil) {
     console.log(`[${this.constructor.name}] constructor`);
   }
 
@@ -32,16 +32,16 @@ export class TrainingSummaryComponent implements OnInit {
 
   getTrainingSummary() {
     this.isLoading = true;
-    this.displayDataList = this.restful.getTrainingSummary();
-    // this.restful.getTrainingSummary().subscribe({
-    //     next: result => {
-    //       this.displayDataList = result
-    //     },
-    //     complete: () => {
-    //       this.isLoading = false
-    //     }
-    //   }
-    // );
+    // this.displayDataList = this.restful.getTrainingSummary();
+    this.restful.getTrainingSummary().subscribe({
+        next: result => {
+          this.displayDataList = result
+        },
+        complete: () => {
+          this.isLoading = false
+        }
+      }
+    );
     this.isLoading = false;
   }
 
@@ -54,5 +54,9 @@ export class TrainingSummaryComponent implements OnInit {
       height: '100%',
       width: '100%'
     });
+  }
+
+  displayDateFormat(date: any) {
+    return this.dateUtil.displayFormat(date);
   }
 }

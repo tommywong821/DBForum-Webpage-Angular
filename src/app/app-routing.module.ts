@@ -6,7 +6,7 @@ import {TestMainComponent} from "./test-main/test-main.component";
 import {AuthGuard} from "@auth0/auth0-angular";
 
 const routes: Routes = [
-  {path: 'mainpage', component: MainPageComponent, canActivate: [AuthGuard]},
+  {path: 'mainpage', component: MainPageComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   {path: 'test', component: TestMainComponent},
   {path: '**', redirectTo: 'mainpage', pathMatch: 'full'}

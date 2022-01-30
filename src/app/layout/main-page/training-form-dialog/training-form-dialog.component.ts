@@ -18,7 +18,7 @@ export class TrainingFormDialogComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<TrainingFormDialogComponent>,
               private formBuilder: FormBuilder,
               private restful: AwsLambdaBackendService,
-              public dateUtil: DateUtil) {
+              private dateUtil: DateUtil) {
     console.log(`[${this.constructor.name}] constructor`);
     dialogRef.disableClose = true;
     this.trainings = this.formBuilder.array([this.createTraining()]);
@@ -70,9 +70,9 @@ export class TrainingFormDialogComponent implements OnInit {
 
   //fetch the latest list from db
   getUpdatedTrainingList() {
-    this.updatedTrainingList.emit(this.restful.getTrainingList());
-    // this.restful.getTrainingList().subscribe({
-    //   next: (result) => this.updatedTrainingList.emit(result)
-    // });
+    // this.updatedTrainingList.emit(this.restful.getTrainingList());
+    this.restful.getTrainingList().subscribe({
+      next: (result) => this.updatedTrainingList.emit(result)
+    });
   }
 }
