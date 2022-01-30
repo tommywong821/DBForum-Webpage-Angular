@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {IReminder} from "../../../model/interface/IReminder";
+import {DateUtil} from "../../../services/date-util.service";
+import ObjectID from "bson-objectid";
 
 @Component({
   selector: 'app-general-reminder',
@@ -16,7 +18,8 @@ export class GeneralReminderComponent implements OnInit {
   reminderId: string;
 
   constructor(private formBuilder: FormBuilder,
-              private restful: AwsLambdaBackendService) {
+              private restful: AwsLambdaBackendService,
+              private dateUtil: DateUtil) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isReadOnly = true;
     this.reminderForm = this.formBuilder.group({
@@ -51,6 +54,20 @@ export class GeneralReminderComponent implements OnInit {
   }
 
   submitReminder() {
+    this.isLoading = true;
     console.log(`reminder: `, this.reminderForm.value.reminder);
+    let newReminder: IReminder = {
+      _id: (this.reminderId) ? ObjectID().toHexString() : this.reminderId,
+      message: this.reminderForm.value.reminder,
+      updated_at: this.dateUtil.formatToHKTime(new Date()),
+      last_edit_user: ''
+    }
+    console.log(`newReminder: `, newReminder);
+    this.restful.upReminderMessage(newReminder._id, newReminder).subscribe({
+      complete: () => {
+        this.isLoading = false;
+        this.isReadOnly = true;
+      }
+    });
   }
 }

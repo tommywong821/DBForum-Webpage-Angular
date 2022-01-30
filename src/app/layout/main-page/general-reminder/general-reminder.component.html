@@ -6,7 +6,7 @@
         <mat-icon (click)="enableEdit()" class="title-icon">edit</mat-icon>
       </button>
     </mat-card-title>
-    <button (click)="submitReminder()" class="right-btn" mat-button>
+    <button (click)="submitReminder()" *ngIf="!isReadOnly" class="right-btn" mat-button>
       <mat-icon>done</mat-icon>
     </button>
   </mat-card-header>

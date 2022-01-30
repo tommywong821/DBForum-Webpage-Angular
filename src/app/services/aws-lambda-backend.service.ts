@@ -160,4 +160,8 @@ export class AwsLambdaBackendService {
   getReminderMessage() {
     return this.http.get<IReminder>(this.apiUrl + '/reminder');
   }
+
+  upReminderMessage(reminderId: string, reminderMessage: IReminder) {
+    return this.http.put(this.apiUrl + "/reminder/" + reminderId, reminderMessage);
+  }
 }
