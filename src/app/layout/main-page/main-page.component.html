@@ -1,15 +1,13 @@
 <ng-container *ngIf="isLogined">
-  <div>
-    <mat-grid-list cols="1" rowHeight="300px">
-      <mat-grid-tile>
-        <app-general-reminder class="dashboard-card"></app-general-reminder>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <app-training-list class="dashboard-card"></app-training-list>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <app-training-summary class="dashboard-card"></app-training-summary>
-      </mat-grid-tile>
-    </mat-grid-list>
+  <div class="row">
+    <div class="col-12">
+      <app-training-list></app-training-list>
+    </div>
+    <div class="col-12">
+      <app-training-summary></app-training-summary>
+    </div>
+    <div class="col-12">
+      <app-general-reminder></app-general-reminder>
+    </div>
   </div>
 </ng-container>
