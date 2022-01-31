@@ -29,7 +29,6 @@ export class NavigationComponent implements OnInit {
       shareReplay()
     );
   isMenuClick: boolean;
-  loginUsername: string;
 
   constructor(private breakpointObserver: BreakpointObserver,
               public auth: AuthService,
@@ -38,7 +37,6 @@ export class NavigationComponent implements OnInit {
               private sidenavService: SidenavService) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isMenuClick = false;
-    this.loginUsername = '';
   }
 
   ngOnInit(): void {

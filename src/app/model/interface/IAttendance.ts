@@ -7,5 +7,5 @@ export interface IAttendance {
   training_id: ITraining | string;
   status: string;
   reason: string;
-  username: string;
+  itsc: string;
 }

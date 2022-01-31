@@ -14,14 +14,12 @@ export class HeaderComponent implements OnInit {
 
   @Input() isHandset$: Observable<boolean>;
 
-  loginUsername: string;
   showBtn: boolean;
 
   constructor(public auth0: Auth0Service,
               private profileDialog: MatDialog,
               private sidenavService: SidenavService) {
     console.log(`[${this.constructor.name}] constructor`);
-    this.loginUsername = '';
     this.showBtn = true;
     this.isHandset$ = new Observable<boolean>();
   }
@@ -33,7 +31,7 @@ export class HeaderComponent implements OnInit {
   openProfileDialog() {
     this.profileDialog.open(ProfileDialogComponent, {
       data: {
-        username: this.auth0.loginUsername
+        itsc: this.auth0.loginUserItsc
       },
       disableClose: true
     });

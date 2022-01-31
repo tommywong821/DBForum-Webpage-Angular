@@ -17,7 +17,7 @@ export class TrainingContentComponent implements OnInit {
   @Input() parentComponent: any;
 
   isAdmin: boolean;
-  username: string;
+  itsc: string;
 
   constructor(private restful: AwsLambdaBackendService,
               private auth0: Auth0Service,
@@ -26,12 +26,12 @@ export class TrainingContentComponent implements OnInit {
     this.trainingList = [];
     this.isEditAble = false;
     this.isAdmin = false;
-    this.username = '';
+    this.itsc = '';
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.username = this.auth0.loginUsername;
+    this.itsc = this.auth0.loginUserItsc;
     this.isAdmin = this.auth0.loginRole.includes('Admin');
   }
 
@@ -50,7 +50,7 @@ export class TrainingContentComponent implements OnInit {
     console.log(`event: `, status);
     console.log(`training: `, training);
     console.log(`absentReason: `, absentReason);
-    console.log(`username: `, this.username);
+    console.log(`itsc: `, this.itsc);
     // check student response time with training time:
     //    create new Attendance:
     //    set Attendance:
@@ -85,7 +85,7 @@ export class TrainingContentComponent implements OnInit {
       training_id: training._id,
       status: status,
       reason: absentReason,
-      username: this.username
+      itsc: this.itsc
     }
     delete attendance._id;
     console.log(`attendance to db: `, attendance);

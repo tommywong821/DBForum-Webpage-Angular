@@ -7,7 +7,7 @@ import {AuthService} from "@auth0/auth0-angular";
 export class Auth0Service {
   constructor(private auth: AuthService) {
     this._loginRole = '';
-    this._loginUsername = '';
+    this._loginUserItsc = '';
     this._isAuthenticated = false
   }
 
@@ -21,14 +21,14 @@ export class Auth0Service {
     this._loginRole = value;
   }
 
-  private _loginUsername: string;
+  private _loginUserItsc: string;
 
-  get loginUsername(): string {
-    return this._loginUsername;
+  get loginUserItsc(): string {
+    return this._loginUserItsc;
   }
 
-  set loginUsername(value: string) {
-    this._loginUsername = value;
+  set loginUserItsc(value: string) {
+    this._loginUserItsc = value;
   }
 
   private _isAuthenticated: boolean;
@@ -44,7 +44,7 @@ export class Auth0Service {
   logout() {
     this.auth.logout({returnTo: document.location.origin});
     this._loginRole = '';
-    this._loginUsername = '';
+    this._loginUserItsc = '';
     this._isAuthenticated = false
   }
 }

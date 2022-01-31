@@ -20,7 +20,7 @@
           </th>
           <td *matCellDef="let element" mat-cell>
           <span [ngClass]="('late reply' === element.status)? 'red-out': 'normal'">
-            {{element.username}}
+            {{element.nickname}}
             <span *ngIf="element.reason">({{element.reason}})</span>
           </span>
           </td>
@@ -38,7 +38,7 @@
           </th>
           <td *matCellDef="let element" mat-cell>
           <span [ngClass]="('late reply' === element.status)? 'red-out': 'normal'">
-            {{element.username}}
+            {{element.nickname}}
             <span *ngIf="element.reason">({{element.reason}})</span>
           </span>
           </td>
@@ -55,7 +55,7 @@
             Not Reply / Absent ({{nonReplyStudent?.length}})
           </th>
           <td *matCellDef="let element" mat-cell>
-            {{element.username}}
+            {{element.nickname}}
             <span *ngIf="element.reason">({{element.reason}})</span>
           </td>
         </ng-container>

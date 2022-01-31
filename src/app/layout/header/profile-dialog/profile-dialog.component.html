@@ -6,9 +6,16 @@
 <ng-template #content>
   <mat-dialog-content>
     <form [formGroup]="profileForm">
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Itsc</mat-label>
+          <input formControlName="itsc" id="itsc" matInput readonly type="text">
+        </mat-form-field>
+      </div>
+
       <mat-form-field appearance="fill">
-        <mat-label>Name</mat-label>
-        <input formControlName="username" id="username" matInput type="text">
+        <mat-label>Nickname</mat-label>
+        <input formControlName="nickname" id="nickname" matInput type="text">
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Date of Birth</mat-label>
@@ -16,6 +23,7 @@
         <mat-datepicker-toggle [for]="$any(picker)" matSuffix></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
+
       <div>
         <label for="gender">Gender: </label>
         <mat-radio-group formControlName="gender" id="gender">
@@ -23,8 +31,9 @@
           <mat-radio-button value="male">male</mat-radio-button>
         </mat-radio-group>
       </div>
+
       <mat-form-field appearance="fill">
-        <mat-label>Weight(KG)</mat-label>
+        <mat-label>Weight (KG)</mat-label>
         <input formControlName="weight" id="weight" matInput>
       </mat-form-field>
       <!--      <div>-->
@@ -44,9 +53,11 @@
       </div>
     </form>
   </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close="true">Cancel</button>
+    <button (click)="updateProfile()" mat-button>Create</button>
+  </mat-dialog-actions>
 </ng-template>
 
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button>Create</button>
-</mat-dialog-actions>
+

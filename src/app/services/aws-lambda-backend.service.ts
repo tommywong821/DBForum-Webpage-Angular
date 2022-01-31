@@ -23,7 +23,7 @@ export class AwsLambdaBackendService {
   }
 
   getTrainingList() {
-    let params = new HttpParams().set('username', this.auth0.loginUsername);
+    let params = new HttpParams().set('itsc', this.auth0.loginUserItsc);
     return this.http.get<Array<ITraining>>(this.apiUrl + "/training", {params: params});
     /*return [{
       "_id": "61ef9b635906f4da86ff89da",
@@ -134,8 +134,8 @@ export class AwsLambdaBackendService {
     return this.http.get<any>(this.apiUrl + "/training/detail", {params: params});
   }
 
-  getStudentDetail(username: string) {
-    let params = new HttpParams().set('username', username);
+  getStudentDetail(itsc: string) {
+    let params = new HttpParams().set('itsc', itsc);
     return this.http.get<IStudent>(this.apiUrl + "/student", {params: params});
   }
 
@@ -150,7 +150,11 @@ export class AwsLambdaBackendService {
     return this.http.get<IReminder>(this.apiUrl + '/reminder');
   }
 
-  upReminderMessage(reminderId: string, reminderMessage: IReminder) {
+  updateReminderMessage(reminderId: string, reminderMessage: IReminder) {
     return this.http.put(this.apiUrl + "/reminder/" + reminderId, reminderMessage);
+  }
+
+  updateStudentProfile(itsc: string, profile: IStudent) {
+    return this.http.put(this.apiUrl + "/student/" + itsc, profile);
   }
 }

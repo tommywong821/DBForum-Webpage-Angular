@@ -3,10 +3,10 @@
     <mat-card-title>
       Reminder:
       <button mat-button>
-        <mat-icon (click)="enableEdit()" class="title-icon">edit</mat-icon>
+        <mat-icon (click)="enableEdit()" *ngIf="isAdmin" class="title-icon">edit</mat-icon>
       </button>
     </mat-card-title>
-    <button (click)="submitReminder()" *ngIf="!isReadOnly" class="right-btn" mat-button>
+    <button (click)="submitReminder()" *ngIf="!isReadOnly && isAdmin" class="right-btn" mat-button>
       <mat-icon>done</mat-icon>
     </button>
   </mat-card-header>

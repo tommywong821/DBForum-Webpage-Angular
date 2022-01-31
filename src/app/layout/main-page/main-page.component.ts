@@ -37,7 +37,7 @@ export class MainPageComponent implements OnInit {
       next: (user) => {
         console.log(`storeLoginInfo: `, user);
         if (user) {
-          this.auth0.loginUsername = user['http://demozero.net/username'];
+          this.auth0.loginUserItsc = user['http://demozero.net/itsc'];
           this.auth0.loginRole = user['http://demozero.net/roles'];
           this.auth0.isAuthenticated = true;
         }

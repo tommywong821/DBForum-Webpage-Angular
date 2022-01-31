@@ -4,8 +4,9 @@ export interface IStudent {
   gender: string,
   paddle_side: string,
   weight: number,
-  username: string,
+  itsc: string,
   updated_at: string,
   created_at: string,
-  email: string
+  email: string,
+  nickname: string
 }

@@ -4,6 +4,7 @@ import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.serv
 import {IReminder} from "../../../model/interface/IReminder";
 import {DateUtil} from "../../../services/date-util.service";
 import ObjectID from "bson-objectid";
+import {Auth0Service} from "../../../services/auth0.service";
 
 @Component({
   selector: 'app-general-reminder',
@@ -16,10 +17,12 @@ export class GeneralReminderComponent implements OnInit {
   reminderForm: FormGroup;
   isLoading: boolean;
   reminderId: string;
+  isAdmin: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private restful: AwsLambdaBackendService,
-              private dateUtil: DateUtil) {
+              private dateUtil: DateUtil,
+              private auth0: Auth0Service) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isReadOnly = true;
     this.reminderForm = this.formBuilder.group({
@@ -27,11 +30,13 @@ export class GeneralReminderComponent implements OnInit {
     });
     this.isLoading = true;
     this.reminderId = '';
+    this.isAdmin = false;
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.initReminderMessage();
+    this.isAdmin = this.auth0.loginRole.includes('Admin');
   }
 
   enableEdit() {
@@ -63,7 +68,7 @@ export class GeneralReminderComponent implements OnInit {
       last_edit_user: ''
     }
     console.log(`newReminder: `, newReminder);
-    this.restful.upReminderMessage(newReminder._id, newReminder).subscribe({
+    this.restful.updateReminderMessage(newReminder._id, newReminder).subscribe({
       complete: () => {
         this.isLoading = false;
         this.isReadOnly = true;
