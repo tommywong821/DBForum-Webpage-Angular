@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Auth0Service} from "../../../services/auth0.service";
 
 @Component({
   selector: 'app-sidenav',
@@ -6,11 +7,15 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit {
-  constructor() {
+  isAdmin: boolean;
+
+  constructor(private auth0: Auth0Service) {
     console.log(`[${this.constructor.name}] constructor`);
+    this.isAdmin = false;
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
+    this.isAdmin = this.auth0.loginRole.includes('Admin');
   }
 }
