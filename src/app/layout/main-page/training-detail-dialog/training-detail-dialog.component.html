@@ -1,6 +1,6 @@
 <mat-dialog-actions align="end">
-  <button mat-dialog-close>
-    <i aria-hidden="true" class="fa fa-times"></i>
+  <button mat-dialog-close="true" mat-icon-button>
+    <mat-icon>close</mat-icon>
   </button>
 </mat-dialog-actions>
 
@@ -12,8 +12,8 @@
 
 <ng-template #content>
   <div class="row detail-content">
-    <div class="col-4">
-      <table [dataSource]="attendLeftStudent" class="mat-elevation-z12" mat-table>
+    <div class="col-6 side-table">
+      <table [dataSource]="attendLeftStudent" class="mat-elevation-z1" mat-table>
         <ng-container matColumnDef="left">
           <th *matHeaderCellDef mat-header-cell>
             Left ({{attendLeftStudent?.length}})
@@ -30,8 +30,8 @@
         <tr *matRowDef="let row; columns: leftStudentCol;" mat-row></tr>
       </table>
     </div>
-    <div class="col-4">
-      <table [dataSource]="attendRightStudent" class="mat-elevation-z12" mat-table>
+    <div class="col-6 side-table">
+      <table [dataSource]="attendRightStudent" class="mat-elevation-z1" mat-table>
         <ng-container matColumnDef="right">
           <th *matHeaderCellDef mat-header-cell>
             Right ({{attendRightStudent?.length}})
@@ -48,8 +48,8 @@
         <tr *matRowDef="let row; columns: rightStudentCol;" mat-row></tr>
       </table>
     </div>
-    <div class="col-4">
-      <table [dataSource]="nonReplyStudent" class="mat-elevation-z12" mat-table>
+    <div class="col-12 detail-content">
+      <table [dataSource]="nonReplyStudent" class="mat-elevation-z1" mat-table>
         <ng-container matColumnDef="nonReply">
           <th *matHeaderCellDef mat-header-cell>
             Not Reply / Absent ({{nonReplyStudent?.length}})

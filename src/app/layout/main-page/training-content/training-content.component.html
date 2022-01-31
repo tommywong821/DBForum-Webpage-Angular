@@ -1,6 +1,6 @@
 <div [style.margin-bottom]="'12px'" [style.margin-top]="'12px'" fxLayout="row" fxLayoutGap="12px">
   <span *ngFor="let training of trainingList">
-    <mat-card class="training-card">
+    <mat-card [ngClass]="(trainingList.length > 1)? 'training-card': 'single-training-card'">
       <div class="cus-card-header">
          <div class="card-container-left">{{training.type}} Training</div>
          <button (click)="removeTrainingFromDB(training)" *ngIf="isEditAble && isAdmin" class="card-container-right">
@@ -16,6 +16,7 @@
         <input #reason
                placeholder="Absent reason"
                type="string"
+               style="width: 100%"
         />
         <mat-card-actions>
           <button (click)="replyBtnOnclick('attend', training, reason.value)" color="primary" mat-button>

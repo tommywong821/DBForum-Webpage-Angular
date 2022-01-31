@@ -6,36 +6,37 @@
 <ng-template #content>
   <mat-dialog-content>
     <form [formGroup]="profileForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input formControlName="username" id="username" matInput type="text">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Date of Birth</mat-label>
+        <input [matDatepicker]="picker" formControlName="dateOfBirth" id="dateOfBirth" matInput>
+        <mat-datepicker-toggle [for]="$any(picker)" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
       <div>
-        <label for="username">Name </label>
-        <input formControlName="username" id="username" type="text">
-      </div>
-      <div>
-        <label for="dateOfBirth">Date of Birth </label>
-        <input formControlName="dateOfBirth" id="dateOfBirth" type="text">
-      </div>
-      <div>
-        <label for="gender">Gender </label>
+        <label for="gender">Gender: </label>
         <mat-radio-group formControlName="gender" id="gender">
           <mat-radio-button value="female">Female</mat-radio-button>
           <mat-radio-button value="male">male</mat-radio-button>
         </mat-radio-group>
       </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Weight(KG)</mat-label>
+        <input formControlName="weight" id="weight" matInput>
+      </mat-form-field>
+      <!--      <div>-->
+      <!--        <label for="lastUpdateTime">Last update time </label>-->
+      <!--        <input formControlName="lastUpdateTime" id="lastUpdateTime" type="text">-->
+      <!--      </div>-->
+      <!--      <div>-->
+      <!--        <label for="email">email </label>-->
+      <!--        <input formControlName="email" id="email" type="text">-->
+      <!--      </div>-->
       <div>
-        <label for="weight">Weight </label>
-        <input formControlName="weight" id="weight" type="text">
-        KG
-      </div>
-      <div>
-        <label for="lastUpdateTime">Last update time </label>
-        <input formControlName="lastUpdateTime" id="lastUpdateTime" type="text">
-      </div>
-      <div>
-        <label for="email">email </label>
-        <input formControlName="email" id="email" type="text">
-      </div>
-      <div>
-        <label for="paddleSize">Paddle Size </label>
+        <label for="paddleSize">Paddle Size: </label>
         <mat-radio-group formControlName="paddleSize" id="paddleSize">
           <mat-radio-button value="left">Left</mat-radio-button>
           <mat-radio-button value="right">Right</mat-radio-button>
