@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ITraining} from "../../../model/interface/ITraining";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {DateUtil} from "../../../services/date-util.service";
-import {Attendance} from "../../../model/Attendance";
 import {Auth0Service} from "../../../services/auth0.service";
+import {IAttendance} from "../../../model/interface/IAttendance";
 
 @Component({
   selector: 'app-training-content',
@@ -79,7 +79,7 @@ export class TrainingContentComponent implements OnInit {
       }
     }
 
-    let attendance: Attendance = {
+    let attendance: IAttendance = {
       _id: '',
       student_id: '',
       training_id: training._id,

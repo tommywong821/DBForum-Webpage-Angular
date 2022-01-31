@@ -3,10 +3,9 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {ITraining} from "../model/interface/ITraining";
 import {environment} from "../../environments/environment";
 import {IStudent} from "../model/interface/IStudent";
-import {Attendance} from "../model/Attendance";
 import {IReminder} from "../model/interface/IReminder";
 import {Auth0Service} from "./auth0.service";
-import {Training} from "../model/Training";
+import {IAttendance} from "../model/interface/IAttendance";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +24,7 @@ export class AwsLambdaBackendService {
 
   getTrainingList() {
     let params = new HttpParams().set('username', this.auth0.loginUsername);
-    return this.http.get<Array<Training>>(this.apiUrl + "/training", {params: params});
+    return this.http.get<Array<ITraining>>(this.apiUrl + "/training", {params: params});
     /*return [{
       "_id": "61ef9b635906f4da86ff89da",
       "date": "2022-02-26 11:03",
@@ -140,7 +139,7 @@ export class AwsLambdaBackendService {
     return this.http.get<IStudent>(this.apiUrl + "/student", {params: params});
   }
 
-  createAttendance(attendance: Attendance) {
+  createAttendance(attendance: IAttendance) {
     const body: any = {
       attendance: attendance
     }

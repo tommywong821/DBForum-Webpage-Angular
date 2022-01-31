@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
-import {Training} from "../../../model/Training"
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
+import {ITraining} from "../../../model/interface/ITraining";
 
 @Component({
   selector: 'app-training-list',
@@ -10,7 +10,7 @@ import {TrainingFormDialogComponent} from "../training-form-dialog/training-form
   styleUrls: ['./training-list.component.scss']
 })
 export class TrainingListComponent implements OnInit {
-  trainingList: Array<Training>;
+  trainingList: Array<ITraining>;
   isLoading: boolean;
 
   constructor(private restful: AwsLambdaBackendService,

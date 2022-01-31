@@ -1,8 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
-import {Student} from "../../../model/Student";
+
 import {environment} from "../../../../environments/environment";
+import {IStudent} from "../../../model/interface/IStudent";
 
 @Component({
   selector: 'app-training-detail-dialog',
@@ -13,9 +14,9 @@ export class TrainingDetailDialogComponent implements OnInit {
 
   env = environment;
 
-  attendLeftStudent: Student[] = [];
-  attendRightStudent: Student[] = [];
-  nonReplyStudent: Student[] = [];
+  attendLeftStudent: IStudent[] = [];
+  attendRightStudent: IStudent[] = [];
+  nonReplyStudent: IStudent[] = [];
 
   leftStudentCol: string[] = ['left'];
   rightStudentCol: string[] = ['right'];
