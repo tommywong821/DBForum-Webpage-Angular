@@ -49,6 +49,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSelectModule} from "@angular/material/select";
 import {GeneralReminderComponent} from './layout/main-page/general-reminder/general-reminder.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import {GeneralReminderComponent} from './layout/main-page/general-reminder/gene
     MatSortModule,
     MatGridListModule,
     MatMenuModule,
-    MatSelectModule
+    MatSelectModule,
+    NgbModule
   ],
   providers: [
     AwsLambdaBackendService,
