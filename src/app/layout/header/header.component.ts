@@ -38,7 +38,6 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleSideNav() {
-    console.log('toggle sidenav');
     this.sidenavService.toggle();
   }
 }

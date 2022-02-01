@@ -16,6 +16,13 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.isAdmin = this.auth0.loginRole.includes('Admin');
+    this.auth0.stateChanged.subscribe({
+      next: (isDataFetched: boolean) => {
+        if (isDataFetched) {
+          this.isAdmin = this.auth0.loginRole.includes('Admin');
+        }
+      }
+    });
   }
+
 }

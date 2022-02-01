@@ -1,15 +1,11 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {AuthService} from "@auth0/auth0-angular";
 
 @Injectable({
   providedIn: 'root'
 })
 export class Auth0Service {
-  constructor(private auth: AuthService) {
-    this._loginRole = '';
-    this._loginUserItsc = '';
-    this._isAuthenticated = false
-  }
+  stateChanged: EventEmitter<boolean>;
 
   private _loginRole: string;
 
@@ -39,6 +35,20 @@ export class Auth0Service {
 
   set isAuthenticated(value: boolean) {
     this._isAuthenticated = value;
+  }
+
+  constructor(private auth: AuthService) {
+    this._loginRole = '';
+    this._loginUserItsc = '';
+    this._isAuthenticated = false
+    this.stateChanged = new EventEmitter<boolean>();
+  }
+
+  initUserData(user: any) {
+    this.loginUserItsc = user['http://demozero.net/itsc'];
+    this.loginRole = user['http://demozero.net/roles'];
+    this.isAuthenticated = true;
+    this.stateChanged.emit(true);
   }
 
   logout() {

@@ -7,6 +7,7 @@ import {DOCUMENT} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
 import {SidenavService} from "../../services/sidenav.service";
 import {MatSidenav} from "@angular/material/sidenav";
+import {Auth0Service} from "../../services/auth0.service";
 
 @Component({
   selector: 'app-navigation',
@@ -34,13 +35,37 @@ export class NavigationComponent implements OnInit {
               public auth: AuthService,
               @Inject((DOCUMENT)) public document: Document,
               public profileDialog: MatDialog,
-              private sidenavService: SidenavService) {
+              private sidenavService: SidenavService,
+              private auth0: Auth0Service) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isMenuClick = false;
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
+    this.auth.isAuthenticated$.subscribe({
+      next: (isAuthenticated) => {
+        console.log(`login state: `, isAuthenticated)
+        if (isAuthenticated) {
+          this.storeLoginInfo();
+        } else {
+          this.auth.loginWithRedirect();
+        }
+      }
+    });
+  }
+
+  storeLoginInfo(): void {
+    this.auth.user$.subscribe({
+      next: (user) => {
+        console.log(`storeLoginInfo: `, user);
+        if (user) {
+          this.auth0.initUserData(user);
+        }
+      },
+      complete: () => {
+      }
+    });
   }
 
   ngAfterViewInit(): void {
