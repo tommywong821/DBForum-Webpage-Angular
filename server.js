@@ -1,11 +1,8 @@
 function requireHTTPS(req, res, next) {
-  console.log('requireHTTPS');
   // The 'x-forwarded-proto' check is for Heroku
-  if (!req.secure) {
-    console.log('redirect: ' + 'https://' + req.headers.host + req.url);
-    return res.redirect('https://' + req.headers.host + req.url);
+  if (!req.secure && req.get('x-forwarded-proto') !== 'https') {
+    return res.redirect('https://' + req.get('host') + req.url);
   }
-  console.log('next');
   next();
 }
 
