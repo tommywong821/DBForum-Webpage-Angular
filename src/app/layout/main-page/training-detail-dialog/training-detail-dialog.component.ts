@@ -22,16 +22,29 @@ export class TrainingDetailDialogComponent implements OnInit {
   rightStudentCol: string[] = ['right'];
   nonReplyStudentCol: string[] = ['nonReply'];
 
-  isLoading: boolean = true;
+  isLoading: boolean;
+  needUpdateUi: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public dialogInputData: any,
               private restful: AwsLambdaBackendService) {
     console.log(`[${this.constructor.name}] constructor`);
+    this.isLoading = true;
+    this.needUpdateUi = false;
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     console.log('clicked data: ', this.dialogInputData);
+    this.initTrainingDetail();
+  }
+
+  handleNeedRefresh(needRefresh: boolean) {
+    console.log(`handleNeedRefresh: `, needRefresh);
+    this.initTrainingDetail();
+  }
+
+  initTrainingDetail() {
+    this.isLoading = true;
     this.restful.getTrainingDetail(this.dialogInputData.rawData._id).subscribe({
         next: (result) => {
           console.log(`getTrainingDetail result: `, result);
@@ -46,5 +59,4 @@ export class TrainingDetailDialogComponent implements OnInit {
       }
     );
   }
-
 }

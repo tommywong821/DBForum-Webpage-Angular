@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ITraining} from "../../../model/interface/ITraining";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {DateUtil} from "../../../services/date-util.service";
@@ -15,6 +15,9 @@ export class TrainingContentComponent implements OnInit {
   @Input() trainingList: Array<ITraining>;
   @Input() isEditAble: boolean;
   @Input() parentComponent: any;
+  @Input() needUpdateUi: boolean;
+
+  @Output() needRefresh: EventEmitter<boolean>;
 
   isAdmin: boolean;
   itsc: string;
@@ -27,6 +30,8 @@ export class TrainingContentComponent implements OnInit {
     this.isEditAble = false;
     this.isAdmin = false;
     this.itsc = '';
+    this.needRefresh = new EventEmitter<boolean>();
+    this.needUpdateUi = true;
   }
 
   ngOnInit(): void {
@@ -96,7 +101,10 @@ export class TrainingContentComponent implements OnInit {
       },
       complete: () => {
         //    refresh UI
-        this.removeWebViewTraining(training._id);
+        if (this.needUpdateUi) {
+          this.removeWebViewTraining(training._id);
+        }
+        this.needRefresh.emit(true);
       }
     });
   }
