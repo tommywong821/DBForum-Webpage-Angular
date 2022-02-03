@@ -27,13 +27,7 @@ export class TrainingListComponent implements OnInit {
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.getTrainingList();
-    this.auth0.stateChanged.subscribe({
-      next: (isDataFetched: boolean) => {
-        if (isDataFetched) {
-          this.isAdmin = this.auth0.loginRole.includes('Admin');
-        }
-      }
-    });
+    this.isAdmin = this.auth0.loginRole.includes('Admin');
   }
 
   getTrainingList() {

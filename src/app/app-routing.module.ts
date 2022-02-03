@@ -6,7 +6,7 @@ const routes: Routes = [
   {path: 'mainpage', component: MainPageComponent},
   // {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   // {path: 'test', component: TestMainComponent},
-  {path: '**', redirectTo: 'dashboard', pathMatch: 'full'}
+  {path: '**', redirectTo: 'mainpage', pathMatch: 'full'}
 ];
 
 @NgModule({

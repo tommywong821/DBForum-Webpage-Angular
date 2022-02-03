@@ -4,7 +4,7 @@
   </button>
 </mat-dialog-actions>
 
-<app-training-content (needRefresh)="handleNeedRefresh($event)" [needUpdateUi]="needUpdateUi"
+<app-training-content [needUpdateUi]="needUpdateUi"
                       [trainingList]="[dialogInputData.rawData]"></app-training-content>
 
 <ng-container *ngIf="isLoading; else content">

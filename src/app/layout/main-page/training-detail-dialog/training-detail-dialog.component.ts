@@ -1,16 +1,18 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 
 import {environment} from "../../../../environments/environment";
 import {IStudent} from "../../../model/interface/IStudent";
+import {TrainingDataService} from "../../../services/training-data.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-training-detail-dialog',
   templateUrl: './training-detail-dialog.component.html',
   styleUrls: ['./training-detail-dialog.component.scss']
 })
-export class TrainingDetailDialogComponent implements OnInit {
+export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
 
   env = environment;
 
@@ -25,32 +27,40 @@ export class TrainingDetailDialogComponent implements OnInit {
   isLoading: boolean;
   needUpdateUi: boolean;
 
+  monitoringTrainingUpdate: Subscription;
+
   constructor(@Inject(MAT_DIALOG_DATA) public dialogInputData: any,
-              private restful: AwsLambdaBackendService) {
+              private restful: AwsLambdaBackendService,
+              private trainingDataService: TrainingDataService) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isLoading = true;
     this.needUpdateUi = false;
+    this.monitoringTrainingUpdate = new Subscription();
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     console.log('clicked data: ', this.dialogInputData);
     this.initTrainingDetail();
+    this.monitoringTrainingUpdate = this.trainingDataService.trainingNeedRefresh.subscribe((needRefresh) => {
+      if (needRefresh) {
+        this.initTrainingDetail();
+      }
+    });
   }
 
-  handleNeedRefresh(needRefresh: boolean) {
-    console.log(`handleNeedRefresh: `, needRefresh);
-    this.initTrainingDetail();
+  ngOnDestroy() {
+    this.monitoringTrainingUpdate.unsubscribe();
   }
 
   initTrainingDetail() {
     this.isLoading = true;
     this.restful.getTrainingDetail(this.dialogInputData.rawData._id).subscribe({
-        next: (result) => {
-          console.log(`getTrainingDetail result: `, result);
-          this.attendLeftStudent = result.reply.leftStudent;
-          this.attendRightStudent = result.reply.rightStudent;
-          this.nonReplyStudent = result.nonReply;
+      next: (result) => {
+        console.log(`getTrainingDetail result: `, result);
+        this.attendLeftStudent = result.reply.leftStudent;
+        this.attendRightStudent = result.reply.rightStudent;
+        this.nonReplyStudent = result.nonReply;
         },
         complete: () => {
           console.log('getTrainingDetail complete');

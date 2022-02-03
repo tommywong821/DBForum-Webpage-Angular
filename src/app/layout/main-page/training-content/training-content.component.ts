@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ITraining} from "../../../model/interface/ITraining";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {DateUtil} from "../../../services/date-util.service";
 import {Auth0Service} from "../../../services/auth0.service";
 import {IAttendance} from "../../../model/interface/IAttendance";
+import {TrainingDataService} from "../../../services/training-data.service";
 
 @Component({
   selector: 'app-training-content',
@@ -17,20 +18,18 @@ export class TrainingContentComponent implements OnInit {
   @Input() parentComponent: any;
   @Input() needUpdateUi: boolean;
 
-  @Output() needRefresh: EventEmitter<boolean>;
-
   isAdmin: boolean;
   itsc: string;
 
   constructor(private restful: AwsLambdaBackendService,
               private auth0: Auth0Service,
-              private dateUtil: DateUtil) {
+              private dateUtil: DateUtil,
+              private trainingDataService: TrainingDataService) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingList = [];
     this.isEditAble = false;
     this.isAdmin = false;
     this.itsc = '';
-    this.needRefresh = new EventEmitter<boolean>();
     this.needUpdateUi = true;
   }
 
@@ -104,7 +103,7 @@ export class TrainingContentComponent implements OnInit {
         if (this.needUpdateUi) {
           this.removeWebViewTraining(training._id);
         }
-        this.needRefresh.emit(true);
+        this.trainingDataService.needRefresh();
       }
     });
   }
