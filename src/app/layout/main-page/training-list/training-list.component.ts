@@ -3,6 +3,7 @@ import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.serv
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
 import {ITraining} from "../../../model/interface/ITraining";
+import {Auth0Service} from "../../../services/auth0.service";
 
 @Component({
   selector: 'app-training-list',
@@ -12,17 +13,27 @@ import {ITraining} from "../../../model/interface/ITraining";
 export class TrainingListComponent implements OnInit {
   trainingList: Array<ITraining>;
   isLoading: boolean;
+  isAdmin: boolean;
 
   constructor(private restful: AwsLambdaBackendService,
-              public trainingFormDialog: MatDialog) {
+              public trainingFormDialog: MatDialog,
+              private auth0: Auth0Service) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingList = [];
     this.isLoading = true;
+    this.isAdmin = false;
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.getTrainingList();
+    this.auth0.stateChanged.subscribe({
+      next: (isDataFetched: boolean) => {
+        if (isDataFetched) {
+          this.isAdmin = this.auth0.loginRole.includes('Admin');
+        }
+      }
+    });
   }
 
   getTrainingList() {
