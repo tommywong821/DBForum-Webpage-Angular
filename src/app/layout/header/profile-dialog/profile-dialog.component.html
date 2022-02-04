@@ -19,7 +19,7 @@
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Date of Birth</mat-label>
-        <input [matDatepicker]="picker" formControlName="dateOfBirth" id="dateOfBirth" matInput>
+        <input [matDatepicker]="picker" formControlName="date_of_birth" id="date_of_birth" matInput>
         <mat-datepicker-toggle [for]="$any(picker)" matSuffix></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -28,7 +28,7 @@
         <label for="gender">Gender: </label>
         <mat-radio-group formControlName="gender" id="gender">
           <mat-radio-button value="female">Female</mat-radio-button>
-          <mat-radio-button value="male">male</mat-radio-button>
+          <mat-radio-button value="male">Male</mat-radio-button>
         </mat-radio-group>
       </div>
 
@@ -45,8 +45,8 @@
       <!--        <input formControlName="email" id="email" type="text">-->
       <!--      </div>-->
       <div>
-        <label for="paddleSize">Paddle Size: </label>
-        <mat-radio-group formControlName="paddleSize" id="paddleSize">
+        <label for="paddle_side">Paddle Side: </label>
+        <mat-radio-group formControlName="paddle_side" id="paddle_side">
           <mat-radio-button value="left">Left</mat-radio-button>
           <mat-radio-button value="right">Right</mat-radio-button>
         </mat-radio-group>

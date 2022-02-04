@@ -23,11 +23,11 @@ export class ProfileDialogComponent implements OnInit {
     this.profileForm = this.formBuilder.group({
       itsc: '',
       nickname: '',
-      dateOfBirth: '',
+      date_of_birth: '',
       gender: '',
       weight: '',
-      lastUpdateTime: '',
-      paddleSize: '',
+      last_update_time: '',
+      paddle_side: '',
     });
     this.isLoading = true;
   }
@@ -55,11 +55,11 @@ export class ProfileDialogComponent implements OnInit {
     this.profileForm.setValue({
       itsc: studentInfo.itsc,
       nickname: studentInfo.nickname,
-      dateOfBirth: studentInfo.date_of_birth,
+      date_of_birth: studentInfo.date_of_birth,
       gender: studentInfo.gender,
       weight: studentInfo.weight,
-      lastUpdateTime: studentInfo.updated_at,
-      paddleSize: studentInfo.paddle_side,
+      last_update_time: studentInfo.last_update_time,
+      paddle_side: studentInfo.paddle_side,
     });
   }
 
@@ -67,17 +67,17 @@ export class ProfileDialogComponent implements OnInit {
     this.profileForm.setValue({
       itsc: this.inputDialogData.itsc,
       nickname: '',
-      dateOfBirth: '',
+      date_of_birth: '',
       gender: '',
       weight: '',
-      lastUpdateTime: '',
-      paddleSize: '',
+      last_update_time: '',
+      paddle_side: '',
     });
   }
 
   updateProfile() {
     this.isLoading = true;
-    this.profileForm.value.lastUpdateTime = this.dateUtil.formatToHKTime(new Date());
+    this.profileForm.value.last_update_time = this.dateUtil.formatToHKTime(new Date());
     console.log(`after: `, this.profileForm.value);
     this.restful.updateStudentProfile(this.inputDialogData.itsc, this.profileForm.value).subscribe({
       next: (result) => {
