@@ -16,10 +16,22 @@ export class TrainingListComponent implements OnInit {
   isAdmin: boolean;
 
   constructor(private restful: AwsLambdaBackendService,
-              public trainingFormDialog: MatDialog,
+              private trainingFormDialog: MatDialog,
               private auth0: Auth0Service) {
     console.log(`[${this.constructor.name}] constructor`);
-    this.trainingList = [];
+    this.trainingList = [{
+      "_id": "61fc00a6c9384440c093ed61",
+      "place": "Wanchai Competition",
+      "type": "Water",
+      "date": "2022/02/07 18:45",
+      updated_at: ''
+    }, {
+      "_id": "61fc018cc9384440c093ed62",
+      "place": "TKO",
+      "type": "Water",
+      "date": "2022/02/03 00:23",
+      updated_at: ''
+    }];
     this.isLoading = true;
     this.isAdmin = false;
   }
@@ -46,7 +58,15 @@ export class TrainingListComponent implements OnInit {
     const subscribeDialog = dialogRef.componentInstance.updatedTrainingList
       .subscribe((updatedTrainingList) => {
         console.log(`[${this.constructor.name}] updates list from dialog `, updatedTrainingList);
-        this.trainingList = this.trainingList.concat(updatedTrainingList);
+        if (updatedTrainingList.length > 1) {
+          //concat list of created training
+          this.trainingList = this.trainingList.concat(updatedTrainingList);
+        } else {
+          //update training info
+          this.trainingList = this.trainingList.map((training) => {
+            return (training._id === updatedTrainingList[0]._id) ? updatedTrainingList[0] : training
+          });
+        }
       });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -5,7 +5,7 @@ export interface IStudent {
   paddle_side: string,
   weight: number,
   itsc: string,
-  last_update_time: string,
+  updated_at: string,
   created_at: string,
   email: string,
   nickname: string

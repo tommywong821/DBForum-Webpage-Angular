@@ -3,6 +3,9 @@
     <mat-card [ngClass]="(trainingList.length > 1)? 'training-card': 'single-training-card'">
       <div class="cus-card-header">
          <div class="card-container-left">{{training.type}} Training</div>
+          <button (click)="editTraining(training)" *ngIf="isAdmin" mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
          <button (click)="removeTrainingFromDB(training)" *ngIf="isEditAble && isAdmin" class="card-container-right">
            <i aria-hidden="true" class="fa fa-times fa-sm"></i>
          </button>

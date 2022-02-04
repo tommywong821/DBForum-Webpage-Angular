@@ -3,4 +3,5 @@ export interface ITraining {
   date: any;
   place: string;
   type: string;
+  updated_at: any;
 }

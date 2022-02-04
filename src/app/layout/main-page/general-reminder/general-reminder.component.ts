@@ -35,7 +35,7 @@ export class GeneralReminderComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.initReminderMessage();
+    // this.initReminderMessage();
     this.isAdmin = this.auth0.loginRole.includes('Admin');
   }
 

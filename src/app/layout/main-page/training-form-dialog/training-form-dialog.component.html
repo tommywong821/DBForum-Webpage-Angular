@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>New Training Information</h2>
+<h2 mat-dialog-title>{{isEditTraining ? "Edit Training Information" : "New Training Information"}}</h2>
 <mat-dialog-content>
-  <form [formGroup]="orderForm">
+  <form [formGroup]="trainingForm">
     <div formArrayName="trainings"
          *ngFor="let item of trainingFormGroup.controls; let i = index;">
       <div [formGroupName]="i">
@@ -24,17 +24,17 @@
           <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
         </mat-form-field>
 
-        <button (click)="removeTraining(i)" mat-button>
+        <button (click)="removeTraining(i)" *ngIf="!isEditTraining" mat-button>
           <mat-icon>remove</mat-icon>
         </button>
       </div>
     </div>
-    <button (click)="appendTraining()" mat-button>
+    <button (click)="appendTraining()" *ngIf="!isEditTraining" mat-button>
       <mat-icon>add</mat-icon>
     </button>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button (click)="insertNewTrainingToDB()">Create</button>
+  <button (click)="insertNewTrainingToDB()" mat-button>{{isEditTraining ? "Update" : "Create"}}</button>
 </mat-dialog-actions>

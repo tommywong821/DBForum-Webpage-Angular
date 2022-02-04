@@ -5,6 +5,8 @@ import {DateUtil} from "../../../services/date-util.service";
 import {Auth0Service} from "../../../services/auth0.service";
 import {IAttendance} from "../../../model/interface/IAttendance";
 import {TrainingDataService} from "../../../services/training-data.service";
+import {MatDialog} from "@angular/material/dialog";
+import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
 
 @Component({
   selector: 'app-training-content',
@@ -24,7 +26,8 @@ export class TrainingContentComponent implements OnInit {
   constructor(private restful: AwsLambdaBackendService,
               private auth0: Auth0Service,
               private dateUtil: DateUtil,
-              private trainingDataService: TrainingDataService) {
+              private trainingDataService: TrainingDataService,
+              private trainingFormDialog: MatDialog) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingList = [];
     this.isEditAble = false;
@@ -111,6 +114,16 @@ export class TrainingContentComponent implements OnInit {
   removeWebViewTraining(trainingId: string) {
     this.trainingList = this.trainingList.filter(function (obj) {
       return obj._id !== trainingId;
+    });
+  }
+
+  editTraining(training: ITraining) {
+    console.log(`editTraining: `, training);
+    const dialogRef = this.trainingFormDialog.open(TrainingFormDialogComponent, {
+      data: {
+        training: training,
+        isEditTraining: true
+      }
     });
   }
 }

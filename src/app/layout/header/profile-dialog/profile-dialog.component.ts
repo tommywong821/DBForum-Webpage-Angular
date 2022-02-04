@@ -26,7 +26,7 @@ export class ProfileDialogComponent implements OnInit {
       date_of_birth: '',
       gender: '',
       weight: '',
-      last_update_time: '',
+      updated_at: '',
       paddle_side: '',
     });
     this.isLoading = true;
@@ -58,7 +58,7 @@ export class ProfileDialogComponent implements OnInit {
       date_of_birth: studentInfo.date_of_birth,
       gender: studentInfo.gender,
       weight: studentInfo.weight,
-      last_update_time: studentInfo.last_update_time,
+      updated_at: studentInfo.updated_at,
       paddle_side: studentInfo.paddle_side,
     });
   }
@@ -70,14 +70,14 @@ export class ProfileDialogComponent implements OnInit {
       date_of_birth: '',
       gender: '',
       weight: '',
-      last_update_time: '',
+      updated_at: '',
       paddle_side: '',
     });
   }
 
   updateProfile() {
     this.isLoading = true;
-    this.profileForm.value.last_update_time = this.dateUtil.formatToHKTime(new Date());
+    this.profileForm.value.updated_at = this.dateUtil.formatToHKTime(new Date());
     console.log(`after: `, this.profileForm.value);
     this.restful.updateStudentProfile(this.inputDialogData.itsc, this.profileForm.value).subscribe({
       next: (result) => {

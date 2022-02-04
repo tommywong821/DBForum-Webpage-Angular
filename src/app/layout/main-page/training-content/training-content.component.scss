@@ -1,5 +1,5 @@
 .training-card {
-  width: 200px;
+  width: 230px;
 }
 
 .single-training-card {
@@ -24,4 +24,9 @@
   cursor: pointer;
   overflow: hidden;
   outline: none;
+}
+
+.mat-icon {
+  font-size: 20px;
+  margin-bottom: 5px;
 }

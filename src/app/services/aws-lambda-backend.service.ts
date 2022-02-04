@@ -157,4 +157,8 @@ export class AwsLambdaBackendService {
   updateStudentProfile(itsc: string, profile: IStudent) {
     return this.http.put(this.apiUrl + "/student/" + itsc, profile);
   }
+
+  updateTrainingInfo(trainingId: string, training: ITraining) {
+    return this.http.put(this.apiUrl + "/training/" + trainingId, training);
+  }
 }
