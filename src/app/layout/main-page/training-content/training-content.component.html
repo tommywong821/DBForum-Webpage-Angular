@@ -1,7 +1,7 @@
 <div [style.margin-bottom]="'12px'" [style.margin-top]="'12px'" fxLayout="row" fxLayoutGap="12px">
   <span *ngFor="let training of trainingList">
     <mat-card [ngClass]="(trainingList.length > 1)? 'training-card': 'single-training-card'">
-      <div class="cus-card-header">
+      <div>
          <div class="card-container-left">{{training.type}} Training</div>
           <button (click)="editTraining(training)" *ngIf="isAdmin" mat-icon-button>
             <mat-icon>edit</mat-icon>

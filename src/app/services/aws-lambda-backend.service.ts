@@ -97,8 +97,9 @@ export class AwsLambdaBackendService {
     return this.http.delete(this.apiUrl + "/training/" + trainingId);
   }
 
-  getTrainingSummary() {
-    return this.http.get<any>(this.apiUrl + "/training/summary");
+  getTrainingSummary(showHistory: boolean) {
+    let params = new HttpParams().set('showHistory', showHistory);
+    return this.http.get<any>(this.apiUrl + "/training/summary", {params: params});
     // return [{
     //   "_id": "61ef9b635906f4da86ff89d8",
     //   "date": "2022-02-27 04:40",

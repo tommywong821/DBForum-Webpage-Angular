@@ -2,8 +2,11 @@
   <mat-card-header>
     <mat-card-title class="card-container-left">
       Training Summary
+      <button (click)="refreshTrainingSummary(true)" *ngIf="isAdmin" class="left-btn" mat-icon-button>
+        <mat-icon aria-label="refresh icon">history</mat-icon>
+      </button>
     </mat-card-title>
-    <button (click)="getTrainingSummary()"
+    <button (click)="refreshTrainingSummary(false)"
             class="right-btn" mat-button>
       <mat-icon aria-label="refresh icon">refresh</mat-icon>
     </button>
@@ -38,8 +41,9 @@
           </ng-container>
           <ng-container matColumnDef="L/R">
             <th *matHeaderCellDef mat-header-cell>L/R</th>
-            <td *matCellDef="let element" class="leftest-col" mat-cell> {{displayPeopleNo(element.left_side_paddle)}}
-              /{{displayPeopleNo(element.right_side_paddle)}} </td>
+            <td *matCellDef="let element" class="leftest-col" mat-cell>
+              {{displayPeopleNo(element.left_side_paddle)}}/{{displayPeopleNo(element.right_side_paddle)}}
+            </td>
           </ng-container>
 
           <tr *matHeaderRowDef="displayColumns" mat-header-row></tr>

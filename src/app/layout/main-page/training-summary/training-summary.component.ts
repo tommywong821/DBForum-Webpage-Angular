@@ -5,6 +5,7 @@ import {TrainingDetailDialogComponent} from "../training-detail-dialog/training-
 import {DateUtil} from "../../../services/date-util.service";
 import {TrainingDataService} from "../../../services/training-data.service";
 import {Subscription} from "rxjs";
+import {Auth0Service} from "../../../services/auth0.service";
 
 @Component({
   selector: 'app-training-summary',
@@ -35,23 +36,27 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy {
 }];*/
   displayColumns: string[] = ['Date', 'Training Type', 'Training Place', 'L/R'];
   isLoading: boolean = false;
+  isAdmin: boolean;
 
   monitoringTrainingUpdate: Subscription;
 
   constructor(private restful: AwsLambdaBackendService,
               private trainingDialog: MatDialog,
               private dateUtil: DateUtil,
-              private trainingDataService: TrainingDataService) {
+              private trainingDataService: TrainingDataService,
+              private auth0Service: Auth0Service) {
     console.log(`[${this.constructor.name}] constructor`);
     this.monitoringTrainingUpdate = new Subscription();
+    this.isLoading = false;
+    this.isAdmin = this.auth0Service.loginRole.includes('Admin');
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.getTrainingSummary();
+    this.refreshTrainingSummary(false);
     this.monitoringTrainingUpdate = this.trainingDataService.trainingNeedRefresh.subscribe((needRefresh) => {
       if (needRefresh) {
-        this.getTrainingSummary();
+        this.refreshTrainingSummary(false);
       }
     });
   }
@@ -64,9 +69,9 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy {
     return (numberOfPeople && numberOfPeople > 0) ? numberOfPeople : 0;
   }
 
-  getTrainingSummary() {
+  refreshTrainingSummary(showHistory: boolean) {
     this.isLoading = true;
-    this.restful.getTrainingSummary().subscribe({
+    this.restful.getTrainingSummary(showHistory).subscribe({
         next: result => {
           this.displayDataList = result
         },
