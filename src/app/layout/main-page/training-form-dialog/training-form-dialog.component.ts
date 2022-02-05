@@ -5,7 +5,7 @@ import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.serv
 import {DateUtil} from "../../../services/date-util.service";
 import {ITraining} from "../../../model/interface/ITraining";
 import {TrainingDataService} from "../../../services/training-data.service";
-import {first} from "rxjs";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-training-form-dialog',
@@ -23,7 +23,7 @@ export class TrainingFormDialogComponent implements OnInit {
               private formBuilder: FormBuilder,
               private restful: AwsLambdaBackendService,
               private dateUtil: DateUtil,
-              @Inject(MAT_DIALOG_DATA) private importData: { training: ITraining, isEditTraining: boolean },
+              @Inject(MAT_DIALOG_DATA) private importData: { training: ITraining, isEditTraining: boolean, isInputFromTrainingDetail: boolean },
               private trainingDataService: TrainingDataService) {
     console.log(`[${this.constructor.name}] constructor`);
     dialogRef.disableClose = true;
@@ -98,15 +98,20 @@ export class TrainingFormDialogComponent implements OnInit {
       this.restful.updateTrainingInfo(this.importData.training._id, this.trainingForm.value.trainings[0]).subscribe({
         next: (result) => {
           console.log(`update success: `, result);
-          //update training list
-          this.trainingDataService.trainingDataList.pipe(first()).subscribe((trainingList) => {
-            trainingList = trainingList.map((training) => {
-              this.trainingForm.value.trainings[0]._id = this.importData.training._id;
-              return (training._id === this.importData.training._id) ? this.trainingForm.value.trainings[0] : training;
+          if (this.importData.isInputFromTrainingDetail) {
+            //update training detail page
+            this.dialogRef.close({data: this.trainingForm.value.trainings[0]});
+          } else {
+            //update training list in main page
+            this.trainingDataService.trainingDataList.pipe(take(1)).subscribe((trainingList) => {
+              trainingList = trainingList.map((training) => {
+                this.trainingForm.value.trainings[0]._id = this.importData.training._id;
+                return (training._id === this.importData.training._id) ? this.trainingForm.value.trainings[0] : training;
+              });
+              this.trainingDataService.updateTrainingDataList(trainingList);
             });
-            this.trainingDataService.updateTrainingDataList(trainingList);
-          });
-          this.dialogRef.close();
+            this.dialogRef.close();
+          }
         },
         complete: () => {
         }

@@ -127,11 +127,19 @@ export class TrainingContentComponent implements OnInit {
 
   editTraining(training: ITraining) {
     console.log(`editTraining: `, training);
-    this.trainingFormDialog.open(TrainingFormDialogComponent, {
+    let dialogRef = this.trainingFormDialog.open(TrainingFormDialogComponent, {
       data: {
         training: training,
-        isEditTraining: true
+        isEditTraining: true,
+        isInputFromTrainingDetail: true
       }
     });
+
+    dialogRef.afterClosed().subscribe((updatedTraining) => {
+      console.log(`updatedTraining: `, updatedTraining);
+      this.trainingList = new Array<ITraining>(updatedTraining.data);
+      //todo think how to reduce api call
+      this.trainingDataService.trainingNeedRefresh.emit(true);
+    })
   }
 }
