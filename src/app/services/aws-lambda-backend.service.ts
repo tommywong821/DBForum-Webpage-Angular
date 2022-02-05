@@ -90,7 +90,7 @@ export class AwsLambdaBackendService {
     const body: any = {
       trainings: trainingList
     }
-    return this.http.post(this.apiUrl + "/training", body);
+    return this.http.post<Array<ITraining>>(this.apiUrl + "/training", body);
   }
 
   removeTraining(trainingId: string) {

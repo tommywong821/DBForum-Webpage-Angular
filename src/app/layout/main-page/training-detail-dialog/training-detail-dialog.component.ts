@@ -1,8 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
-
-import {environment} from "../../../../environments/environment";
 import {IStudent} from "../../../model/interface/IStudent";
 import {TrainingDataService} from "../../../services/training-data.service";
 import {Subscription} from "rxjs";
@@ -13,8 +11,6 @@ import {Subscription} from "rxjs";
   styleUrls: ['./training-detail-dialog.component.scss']
 })
 export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
-
-  env = environment;
 
   attendLeftStudent: IStudent[] = [];
   attendRightStudent: IStudent[] = [];
@@ -40,7 +36,7 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    console.log('clicked data: ', this.dialogInputData);
+    console.log('clicked data: ', this.dialogInputData.trainingData);
     this.initTrainingDetail();
     this.monitoringTrainingUpdate = this.trainingDataService.trainingNeedRefresh.subscribe((needRefresh) => {
       if (needRefresh) {
@@ -55,17 +51,17 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
 
   initTrainingDetail() {
     this.isLoading = true;
-    this.restful.getTrainingDetail(this.dialogInputData.rawData._id).subscribe({
+    this.restful.getTrainingDetail(this.dialogInputData.trainingData._id).subscribe({
       next: (result) => {
         console.log(`getTrainingDetail result: `, result);
         this.attendLeftStudent = result.reply.leftStudent;
         this.attendRightStudent = result.reply.rightStudent;
         this.nonReplyStudent = result.nonReply;
-        },
-        complete: () => {
-          console.log('getTrainingDetail complete');
-          this.isLoading = false;
-        }
+      },
+      complete: () => {
+        console.log('getTrainingDetail complete');
+        this.isLoading = false;
+      }
       }
     );
   }

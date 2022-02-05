@@ -1,9 +1,11 @@
-import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
 import {DateUtil} from "../../../services/date-util.service";
 import {ITraining} from "../../../model/interface/ITraining";
+import {TrainingDataService} from "../../../services/training-data.service";
+import {first} from "rxjs";
 
 @Component({
   selector: 'app-training-form-dialog',
@@ -15,13 +17,14 @@ export class TrainingFormDialogComponent implements OnInit {
   trainings: FormArray;
   isEditTraining: boolean;
 
-  @Output() updatedTrainingList = new EventEmitter<any>();
+  trainingList: Array<ITraining>;
 
   constructor(private dialogRef: MatDialogRef<TrainingFormDialogComponent>,
               private formBuilder: FormBuilder,
               private restful: AwsLambdaBackendService,
               private dateUtil: DateUtil,
-              @Inject(MAT_DIALOG_DATA) private importData: { training: ITraining, isEditTraining: boolean }) {
+              @Inject(MAT_DIALOG_DATA) private importData: { training: ITraining, isEditTraining: boolean },
+              private trainingDataService: TrainingDataService) {
     console.log(`[${this.constructor.name}] constructor`);
     dialogRef.disableClose = true;
     this.trainings = this.formBuilder.array([this.createEmptyTraining()]);
@@ -29,6 +32,10 @@ export class TrainingFormDialogComponent implements OnInit {
       trainings: this.trainings
     });
     this.isEditTraining = false;
+    this.trainingList = new Array<ITraining>();
+    this.trainingDataService.trainingDataList.subscribe((result) => {
+      this.trainingList = this.trainingList.concat(result);
+    });
   }
 
   get trainingFormGroup() {
@@ -43,6 +50,7 @@ export class TrainingFormDialogComponent implements OnInit {
 
   initDataFromImportData() {
     if (this.importData) {
+      console.log(`initDataFromImportData`);
       this.isEditTraining = this.importData.isEditTraining;
       this.initTrainingInfo(this.importData.training);
     }
@@ -84,35 +92,32 @@ export class TrainingFormDialogComponent implements OnInit {
     console.log(`formGroup`, this.trainingForm.value.trainings);
     if (this.isEditTraining) {
       //update existing training info
-      console.log(`update training: `, this.trainingForm.value.trainings);
-      console.log(`update training id: `, this.importData.training._id);
       this.restful.updateTrainingInfo(this.importData.training._id, this.trainingForm.value.trainings[0]).subscribe({
         next: (result) => {
-          console.log('update success');
-          this.updatedTrainingList.emit(this.trainingForm.value.trainings);
+          console.log(`update success: `, result);
+          //update training list
+          this.trainingDataService.trainingDataList.pipe(first()).subscribe((trainingList) => {
+            trainingList = trainingList.map((training) => {
+              this.trainingForm.value.trainings[0]._id = this.importData.training._id;
+              return (training._id === this.importData.training._id) ? this.trainingForm.value.trainings[0] : training;
+            });
+            this.trainingDataService.updateTrainingDataList(trainingList);
+          });
           this.dialogRef.close();
         },
         complete: () => {
-
         }
       })
     } else {
       //create new training to db
       this.restful.createTrainingList(this.trainingForm.value.trainings).subscribe({
-        next: result => {
+        next: (result) => {
           console.log(`create successfully: `, result);
-          this.updatedTrainingList.emit(result);
+          this.trainingList = this.trainingList.concat(result);
+          this.trainingDataService.updateTrainingDataList(this.trainingList);
           this.dialogRef.close();
         }
       });
     }
-  }
-
-  //fetch the latest list from db
-  getUpdatedTrainingList() {
-    // this.updatedTrainingList.emit(this.restful.getTrainingList());
-    this.restful.getTrainingList().subscribe({
-      next: (result) => this.updatedTrainingList.emit(result)
-    });
   }
 }

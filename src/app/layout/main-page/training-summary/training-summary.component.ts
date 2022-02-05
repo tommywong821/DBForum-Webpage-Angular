@@ -13,25 +13,26 @@ import {Subscription} from "rxjs";
 })
 export class TrainingSummaryComponent implements OnInit, OnDestroy {
 
-  displayDataList: any = [{
-    "_id": "61fc018cc9384440c093ed62",
-    "date": "2022/02/03 00:23",
-    "place": "TKO",
-    "type": "Water",
-    "paddle_side": "left",
-    "status": "absent",
-    "left_side_paddle": 0,
-    "right_side_paddle": 0
-  }, {
-    "_id": "61fc00a6c9384440c093ed61",
-    "date": "2022/02/07 18:45",
-    "place": "Wanchai Competition",
-    "type": "Water",
-    "paddle_side": "left",
-    "status": "absent",
-    "left_side_paddle": 0,
-    "right_side_paddle": 0
-  }];
+  displayDataList: any
+  /*= [{
+  "_id": "61fc018cc9384440c093ed62",
+  "date": "2022/02/03 00:23",
+  "place": "TKO",
+  "type": "Water",
+  "paddle_side": "left",
+  "status": "absent",
+  "left_side_paddle": 0,
+  "right_side_paddle": 0
+}, {
+  "_id": "61fc00a6c9384440c093ed61",
+  "date": "2022/02/07 18:45",
+  "place": "Wanchai Competition",
+  "type": "Water",
+  "paddle_side": "left",
+  "status": "absent",
+  "left_side_paddle": 0,
+  "right_side_paddle": 0
+}];*/
   displayColumns: string[] = ['Date', 'Training Type', 'Training Place', 'L/R'];
   isLoading: boolean = false;
 
@@ -47,7 +48,7 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    // this.getTrainingSummary();
+    this.getTrainingSummary();
     this.monitoringTrainingUpdate = this.trainingDataService.trainingNeedRefresh.subscribe((needRefresh) => {
       if (needRefresh) {
         this.getTrainingSummary();
@@ -65,7 +66,6 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy {
 
   getTrainingSummary() {
     this.isLoading = true;
-    // this.displayDataList = this.restful.getTrainingSummary();
     this.restful.getTrainingSummary().subscribe({
         next: result => {
           this.displayDataList = result
@@ -82,7 +82,7 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy {
     console.log(`getTrainingDetail: `, row);
     this.trainingDialog.open(TrainingDetailDialogComponent, {
       data: {
-        rawData: row
+        trainingData: row
       },
       height: '100%',
       width: '100%'

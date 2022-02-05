@@ -15,13 +15,15 @@ import {TrainingFormDialogComponent} from "../training-form-dialog/training-form
 })
 export class TrainingContentComponent implements OnInit {
 
-  @Input() trainingList: Array<ITraining>;
   @Input() isEditAble: boolean;
   @Input() parentComponent: any;
   @Input() needUpdateUi: boolean;
+  @Input() training: any;
 
   isAdmin: boolean;
   itsc: string;
+
+  trainingList: Array<ITraining>;
 
   constructor(private restful: AwsLambdaBackendService,
               private auth0: Auth0Service,
@@ -29,17 +31,28 @@ export class TrainingContentComponent implements OnInit {
               private trainingDataService: TrainingDataService,
               private trainingFormDialog: MatDialog) {
     console.log(`[${this.constructor.name}] constructor`);
-    this.trainingList = [];
+    this.trainingList = new Array<ITraining>();
     this.isEditAble = false;
     this.isAdmin = false;
     this.itsc = '';
     this.needUpdateUi = true;
+    this.trainingDataService.trainingDataList.subscribe((result) => {
+      console.log(`training list change: `, result);
+      if (this.isEditAble) {
+        console.log(`mainpage training content`);
+        //mainpage
+        this.trainingList = result;
+      }
+    });
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.itsc = this.auth0.loginUserItsc;
     this.isAdmin = this.auth0.loginRole.includes('Admin');
+    if (this.training) {
+      this.trainingList = new Array<ITraining>(this.training);
+    }
   }
 
   removeTrainingFromDB(training: ITraining) {
@@ -115,11 +128,12 @@ export class TrainingContentComponent implements OnInit {
     this.trainingList = this.trainingList.filter(function (obj) {
       return obj._id !== trainingId;
     });
+    this.trainingDataService.updateTrainingDataList(this.trainingList);
   }
 
   editTraining(training: ITraining) {
     console.log(`editTraining: `, training);
-    const dialogRef = this.trainingFormDialog.open(TrainingFormDialogComponent, {
+    this.trainingFormDialog.open(TrainingFormDialogComponent, {
       data: {
         training: training,
         isEditTraining: true
