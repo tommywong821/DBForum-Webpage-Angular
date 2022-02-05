@@ -75,7 +75,7 @@ export class TrainingContentComponent implements OnInit {
     //    create new Attendance:
     //    set Attendance:
     //      status:
-    //        if(student response time > (training time 前一日17:00)) --> (DB)status: late reply
+    //        if(student response time > (training time deadline)) --> (DB)status: late reply
     //        else (DB)status -> (input)status
     //      reason: absentReason
     //      student_id: fetch from db in backend
@@ -87,14 +87,8 @@ export class TrainingContentComponent implements OnInit {
     //check late or not
     if ('attend' === status.toLowerCase()) {
       let currentDateTime: any = this.dateUtil.formatToHKTime(new Date());
-      console.log(`date1: `, currentDateTime);
-      let deadlineDateTime: any = new Date(training.date);
-      //get late reply time range
-      deadlineDateTime = new Date(deadlineDateTime.getFullYear(), deadlineDateTime.getMonth(), deadlineDateTime.getDate() - 1, 17, 0, 0);
-      console.log(`date2: `, deadlineDateTime);
-      console.log(`compare them: `, new Date(currentDateTime) > new Date(deadlineDateTime));
       //late reply
-      if (new Date(currentDateTime) > new Date(deadlineDateTime)) {
+      if (new Date(currentDateTime) > new Date(training.deadline)) {
         status = 'late reply';
       }
     }
