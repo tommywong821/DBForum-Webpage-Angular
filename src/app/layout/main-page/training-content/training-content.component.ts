@@ -136,10 +136,12 @@ export class TrainingContentComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((updatedTraining) => {
-      console.log(`updatedTraining: `, updatedTraining);
-      this.trainingList = new Array<ITraining>(updatedTraining.data);
-      //todo think how to reduce api call
-      this.trainingDataService.trainingNeedRefresh.emit(true);
-    })
+      if (updatedTraining) {
+        console.log(`updatedTraining: `, updatedTraining);
+        this.trainingList = new Array<ITraining>(updatedTraining.data);
+        //todo think how to reduce api call
+        this.trainingDataService.trainingNeedRefresh.emit(true);
+      }
+    });
   }
 }

@@ -100,6 +100,7 @@ export class TrainingFormDialogComponent implements OnInit {
           console.log(`update success: `, result);
           if (this.importData.isInputFromTrainingDetail) {
             //update training detail page
+            this.trainingForm.value.trainings[0]._id = this.importData.training._id;
             this.dialogRef.close({data: this.trainingForm.value.trainings[0]});
           } else {
             //update training list in main page
