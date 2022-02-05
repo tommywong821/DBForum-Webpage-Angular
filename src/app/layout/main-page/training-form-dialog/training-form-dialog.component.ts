@@ -62,7 +62,8 @@ export class TrainingFormDialogComponent implements OnInit {
     arrayControl.push(this.formBuilder.group({
       place: training.place,
       type: training.type,
-      date: new Date(training.date)
+      date: new Date(training.date),
+      deadline: new Date(training.deadline)
     }));
   }
 
@@ -70,7 +71,8 @@ export class TrainingFormDialogComponent implements OnInit {
     return this.formBuilder.group({
       place: '',
       type: '',
-      date: ''
+      date: '',
+      deadline: ''
     });
   }
 
@@ -87,6 +89,7 @@ export class TrainingFormDialogComponent implements OnInit {
   insertNewTrainingToDB(): void {
     this.trainingForm.value.trainings.forEach((training: any) => {
       training.date = this.dateUtil.formatToHKTime(training.date);
+      training.deadline = this.dateUtil.formatToHKTime(training.deadline);
       training.updated_at = this.dateUtil.formatToHKTime(new Date().toISOString());
     });
     console.log(`formGroup`, this.trainingForm.value.trainings);
@@ -107,7 +110,7 @@ export class TrainingFormDialogComponent implements OnInit {
         },
         complete: () => {
         }
-      })
+      });
     } else {
       //create new training to db
       this.restful.createTrainingList(this.trainingForm.value.trainings).subscribe({
@@ -119,5 +122,13 @@ export class TrainingFormDialogComponent implements OnInit {
         }
       });
     }
+  }
+
+  autoFillDeadline(event: any, index: number) {
+    console.log(`autoFillDeadline event: `, event);
+    this.trainings = this.trainingForm.get('trainings') as FormArray;
+    let trainingDateTime = new Date(event.value);
+    let deadlineDateTime = new Date(trainingDateTime.getFullYear(), trainingDateTime.getMonth(), trainingDateTime.getDate() - 1, 17, 0, 0);
+    this.trainings.at(index).get('deadline')?.setValue(deadlineDateTime);
   }
 }

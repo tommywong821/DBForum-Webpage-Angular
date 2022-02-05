@@ -2,8 +2,8 @@
 <mat-dialog-content>
   <form [formGroup]="trainingForm">
     <div formArrayName="trainings"
-         *ngFor="let item of trainingFormGroup.controls; let i = index;">
-      <div [formGroupName]="i">
+         *ngFor="let item of trainingFormGroup.controls; let index = index;">
+      <div [formGroupName]="index">
         <mat-form-field appearance="fill">
           <mat-label>Training Place</mat-label>
           <input formControlName="place" matInput>
@@ -16,12 +16,20 @@
 
         <mat-form-field appearance="fill">
           <mat-label>Choose Date & Time</mat-label>
-          <input [ngxMatDatetimePicker]="picker" formControlName="date" matInput>
-          <mat-datepicker-toggle [for]="$any(picker)" matSuffix></mat-datepicker-toggle>
-          <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
+          <input (dateChange)="autoFillDeadline($event, index)" [ngxMatDatetimePicker]="dateTimePicker"
+                 formControlName="date" matInput readonly>
+          <mat-datepicker-toggle [for]="$any(dateTimePicker)" matSuffix></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #dateTimePicker></ngx-mat-datetime-picker>
         </mat-form-field>
 
-        <button (click)="removeTraining(i)" *ngIf="!isEditTraining" mat-button>
+        <mat-form-field appearance="fill">
+          <mat-label>Choose Reply Deadline</mat-label>
+          <input [ngxMatDatetimePicker]="deadlinePicker" formControlName="deadline" matInput readonly>
+          <mat-datepicker-toggle [for]="$any(deadlinePicker)" matSuffix></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #deadlinePicker></ngx-mat-datetime-picker>
+        </mat-form-field>
+
+        <button (click)="removeTraining(index)" *ngIf="!isEditTraining" mat-button>
           <mat-icon>remove</mat-icon>
         </button>
       </div>

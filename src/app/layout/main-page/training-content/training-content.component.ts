@@ -86,15 +86,15 @@ export class TrainingContentComponent implements OnInit {
 
     //check late or not
     if ('attend' === status.toLowerCase()) {
-      var date: any = this.dateUtil.formatToHKTime(new Date());
-      console.log(`date1: `, date);
-      var date2: any = new Date(training.date);
+      let currentDateTime: any = this.dateUtil.formatToHKTime(new Date());
+      console.log(`date1: `, currentDateTime);
+      let deadlineDateTime: any = new Date(training.date);
       //get late reply time range
-      date2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate() - 1, 17, 0, 0);
-      console.log(`date2: `, date2);
-      console.log(`compare them: `, new Date(date) > new Date(date2));
+      deadlineDateTime = new Date(deadlineDateTime.getFullYear(), deadlineDateTime.getMonth(), deadlineDateTime.getDate() - 1, 17, 0, 0);
+      console.log(`date2: `, deadlineDateTime);
+      console.log(`compare them: `, new Date(currentDateTime) > new Date(deadlineDateTime));
       //late reply
-      if (new Date(date) > new Date(date2)) {
+      if (new Date(currentDateTime) > new Date(deadlineDateTime)) {
         status = 'late reply';
       }
     }
