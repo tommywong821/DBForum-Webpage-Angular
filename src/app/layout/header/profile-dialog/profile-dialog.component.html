@@ -3,6 +3,7 @@
 <ng-container *ngIf="isLoading; else content">
   <mat-spinner></mat-spinner>
 </ng-container>
+
 <ng-template #content>
   <mat-dialog-content>
     <form [formGroup]="profileForm">
@@ -53,11 +54,11 @@
       </div>
     </form>
   </mat-dialog-content>
-
-  <mat-dialog-actions>
-    <button mat-button mat-dialog-close="true">Cancel</button>
-    <button (click)="updateProfile()" mat-button>Update</button>
-  </mat-dialog-actions>
 </ng-template>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close="true">Cancel</button>
+  <button (click)="updateProfile()" mat-button>Update</button>
+</mat-dialog-actions>
 
 
