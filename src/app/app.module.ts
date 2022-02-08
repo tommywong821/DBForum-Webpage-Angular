@@ -4,7 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {ApiInterceptor} from "./interceptor/api-interceptor";
+import {AwsLambdaApiInterceptor} from "./interceptor/aws-lambda-api-interceptor";
 import {AwsLambdaBackendService} from "./services/aws-lambda-backend.service";
 import {MainPageComponent} from './layout/main-page/main-page.component';
 import {DashboardComponent} from './layout/dashboard/dashboard.component';
@@ -111,7 +111,7 @@ import {MatMomentDateModule} from "@angular/material-moment-adapter";
     DateUtil,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: ApiInterceptor,
+      useClass: AwsLambdaApiInterceptor,
       multi: true
     },
     {

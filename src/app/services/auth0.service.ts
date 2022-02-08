@@ -1,5 +1,5 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {AuthService} from "@auth0/auth0-angular";
+import {AuthService, User} from "@auth0/auth0-angular";
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +8,26 @@ export class Auth0Service {
   stateChanged: EventEmitter<boolean>;
 
   private _loginRole: string;
+  private _loginUserItsc: string;
+  private _isAuthenticated: boolean;
+
+  constructor(private auth: AuthService) {
+    this._loginRole = '';
+    this._loginUserItsc = '';
+    this._isAuthenticated = false;
+    this._accessToken = '';
+    this.stateChanged = new EventEmitter<boolean>();
+  }
+
+  private _accessToken: string;
+
+  get accessToken(): string {
+    return this._accessToken;
+  }
+
+  set accessToken(value: string) {
+    this._accessToken = value;
+  }
 
   get loginRole(): string {
     return this._loginRole;
@@ -17,7 +37,6 @@ export class Auth0Service {
     this._loginRole = value;
   }
 
-  private _loginUserItsc: string;
 
   get loginUserItsc(): string {
     return this._loginUserItsc;
@@ -27,7 +46,6 @@ export class Auth0Service {
     this._loginUserItsc = value;
   }
 
-  private _isAuthenticated: boolean;
 
   get isAuthenticated(): boolean {
     return this._isAuthenticated;
@@ -37,17 +55,11 @@ export class Auth0Service {
     this._isAuthenticated = value;
   }
 
-  constructor(private auth: AuthService) {
-    this._loginRole = '';
-    this._loginUserItsc = '';
-    this._isAuthenticated = false
-    this.stateChanged = new EventEmitter<boolean>();
-  }
-
-  initUserData(user: any) {
+  initUserData(user: User, accessToken: string) {
     this.loginUserItsc = user['http://demozero.net/itsc'];
     this.loginRole = user['http://demozero.net/roles'];
     this.isAuthenticated = true;
+    this.accessToken = accessToken;
     this.stateChanged.emit(true);
   }
 
@@ -55,6 +67,7 @@ export class Auth0Service {
     this.auth.logout({returnTo: document.location.origin});
     this._loginRole = '';
     this._loginUserItsc = '';
-    this._isAuthenticated = false
+    this._isAuthenticated = false;
+    this._accessToken = '';
   }
 }

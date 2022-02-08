@@ -19,7 +19,8 @@
   <ng-template #content>
     <mat-card-content>
       <div class="mat-elevation-z8">
-        <table *ngIf="displayDataList" [dataSource]="displayDataList" class="full-width-table" mat-table>
+        <table *ngIf="displayDataList" [dataSource]="displayDataList" aria-label="overall training summary table"
+               class="full-width-table" mat-table>
 
           <!--        &lt;!&ndash;        todo debug &ndash;&gt;-->
           <!--        <ng-container matColumnDef="id">-->

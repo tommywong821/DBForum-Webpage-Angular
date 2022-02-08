@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {Observable} from 'rxjs';
+import {combineLatest, mergeMap, Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 import {AuthService} from "@auth0/auth0-angular";
 import {DOCUMENT} from "@angular/common";
@@ -30,6 +30,8 @@ export class NavigationComponent implements OnInit {
       shareReplay()
     );
   isMenuClick: boolean;
+  auth0Login$: Observable<any>;
+  auth0Token$: Observable<any>;
 
   constructor(private breakpointObserver: BreakpointObserver,
               public auth: AuthService,
@@ -39,32 +41,27 @@ export class NavigationComponent implements OnInit {
               private auth0: Auth0Service) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isMenuClick = false;
+    this.auth0Login$ = this.auth.isAuthenticated$.pipe(
+      mergeMap((isAuthenticated) => {
+        if (isAuthenticated) {
+          return this.auth.user$;
+        } else {
+          return this.auth.loginWithRedirect();
+        }
+      })
+    );
+    this.auth0Token$ = this.auth.idTokenClaims$;
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.auth.isAuthenticated$.subscribe({
-      next: (isAuthenticated) => {
-        console.log(`login state: `, isAuthenticated)
-        if (isAuthenticated) {
-          this.storeLoginInfo();
-        } else {
-          this.auth.loginWithRedirect();
-        }
+    combineLatest([this.auth0Login$, this.auth0Token$]).subscribe(([user, accessToken]) => {
+      console.log(`user result: ${JSON.stringify(user)}`);
+      console.log(`accessToken result: ${accessToken.__raw}`);
+      if (user && accessToken) {
+        this.auth0.initUserData(user, accessToken.__raw);
       }
-    });
-  }
 
-  storeLoginInfo(): void {
-    this.auth.user$.subscribe({
-      next: (user) => {
-        console.log(`storeLoginInfo: `, user);
-        if (user) {
-          this.auth0.initUserData(user);
-        }
-      },
-      complete: () => {
-      }
     });
   }
 
