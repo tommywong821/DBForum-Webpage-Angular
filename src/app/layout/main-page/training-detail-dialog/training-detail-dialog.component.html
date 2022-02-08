@@ -20,10 +20,9 @@
           <th *matHeaderCellDef mat-header-cell>
             Left ({{attendLeftStudent?.length}})
           </th>
-          <td *matCellDef="let element" mat-cell>
-          <span [ngClass]="('late reply' === element.status)? 'red-out': 'normal'">
-            {{element.nickname}}
-            <span *ngIf="element.reason">({{element.reason}})</span>
+          <td *matCellDef="let student" mat-cell>
+          <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
+            {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
           </span>
           </td>
         </ng-container>
@@ -39,10 +38,9 @@
           <th *matHeaderCellDef mat-header-cell>
             Right ({{attendRightStudent?.length}})
           </th>
-          <td *matCellDef="let element" mat-cell>
-          <span [ngClass]="('late reply' === element.status)? 'red-out': 'normal'">
-            {{element.nickname}}
-            <span *ngIf="element.reason">({{element.reason}})</span>
+          <td *matCellDef="let student" mat-cell>
+            <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
+              {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
           </span>
           </td>
         </ng-container>
@@ -57,9 +55,10 @@
           <th *matHeaderCellDef mat-header-cell>
             Not Reply / Absent ({{nonReplyStudent?.length}})
           </th>
-          <td *matCellDef="let element" mat-cell>
-            {{element.nickname}}
-            <span *ngIf="element.reason">({{element.reason}})</span>
+          <td *matCellDef="let student" mat-cell>
+            <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
+              {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
+            </span>
           </td>
         </ng-container>
 

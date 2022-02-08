@@ -85,13 +85,7 @@ export class TrainingContentComponent implements OnInit {
     //      username: login info
 
     //check late or not
-    if ('attend' === status.toLowerCase()) {
-      let currentDateTime: any = this.dateUtil.formatToHKTime(new Date());
-      //late reply
-      if (new Date(currentDateTime) > new Date(training.deadline)) {
-        status = 'late reply';
-      }
-    }
+    let currentDateTime: any = this.dateUtil.formatToHKTime(new Date());
 
     let attendance: IAttendance = {
       _id: '',
@@ -99,7 +93,8 @@ export class TrainingContentComponent implements OnInit {
       training_id: training._id,
       status: status,
       reason: absentReason,
-      itsc: this.itsc
+      itsc: this.itsc,
+      is_late_reply: (new Date(currentDateTime) > new Date(training.deadline))
     }
     delete attendance._id;
     console.log(`attendance to db: `, attendance);

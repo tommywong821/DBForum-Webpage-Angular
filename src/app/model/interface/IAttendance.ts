@@ -8,4 +8,5 @@ export interface IAttendance {
   status: string;
   reason: string;
   itsc: string;
+  is_late_reply: boolean;
 }
