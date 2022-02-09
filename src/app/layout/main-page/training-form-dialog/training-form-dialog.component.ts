@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
 import {DateUtil} from "../../../services/date-util.service";
-import {ITraining} from "../../../model/interface/ITraining";
+import {ITraining} from "../../../model/forum/ITraining";
 import {TrainingDataService} from "../../../services/training-data.service";
 import {take} from "rxjs";
 

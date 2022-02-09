@@ -1,7 +1,7 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
-import {IStudent} from "../../../model/interface/IStudent";
+import {IStudent} from "../../../model/forum/IStudent";
 import {TrainingDataService} from "../../../services/training-data.service";
 import {Subscription} from "rxjs";
 

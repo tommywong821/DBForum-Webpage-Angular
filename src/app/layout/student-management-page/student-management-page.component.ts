@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ManagementDataService} from "../../services/management-data.service";
 import {Auth0ManagementService} from "../../services/aws-lambda/auth0-management.service";
 import {saveAs} from "file-saver";
+import {forkJoin, Observable} from "rxjs";
 
 @Component({
   selector: 'app-student-management-page',
@@ -18,13 +19,27 @@ export class StudentManagementPageComponent implements OnInit {
 
   @ViewChild('uploadCsvInput') uploadCsvVariable!: ElementRef;
 
+  managementData$: Array<Observable<any>>;
+
   constructor(private managementData: ManagementDataService,
-              private auth0RestFul: Auth0ManagementService) {
+              private auth0Restful: Auth0ManagementService) {
     console.log(`[${this.constructor.name}] constructor`);
+    this.managementData$ = [this.auth0Restful.getStudentAccountList(), this.auth0Restful.getUserRolesList()]
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
+    forkJoin(this.managementData$).subscribe({
+      next: (result) => {
+        console.log(`result: ${JSON.stringify(result)}`);
+        this.managementData.studentAccountList = result[0];
+        this.managementData.userRoleList = result[1];
+      },
+      complete: () => {
+        console.log(`studentAccountList: ${JSON.stringify(this.managementData.studentAccountList)}`)
+        console.log(`userRoleList: ${JSON.stringify(this.managementData.userRoleList)}`)
+      }
+    })
   }
 
   uploadStudentCsv(event: any) {
@@ -47,7 +62,7 @@ export class StudentManagementPageComponent implements OnInit {
       alert('Empty CSV is uploaded. Please try again');
     } else {
       //call auth0 management api
-      this.auth0RestFul.createLoginUser(this.managementData.studentAccountCsv).subscribe({
+      this.auth0Restful.createLoginUser(this.managementData.studentAccountCsv).subscribe({
         complete: () => {
           alert('Student Account is created!');
           this.reset();

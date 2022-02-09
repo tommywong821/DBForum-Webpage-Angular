@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
-import {IReminder} from "../../../model/interface/IReminder";
+import {IReminder} from "../../../model/forum/IReminder";
 import {DateUtil} from "../../../services/date-util.service";
 import ObjectID from "bson-objectid";
 import {Auth0DataService} from "../../../services/auth0-data.service";

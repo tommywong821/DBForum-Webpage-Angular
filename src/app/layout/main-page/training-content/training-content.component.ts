@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ITraining} from "../../../model/interface/ITraining";
+import {ITraining} from "../../../model/forum/ITraining";
 import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
 import {DateUtil} from "../../../services/date-util.service";
 import {Auth0DataService} from "../../../services/auth0-data.service";
-import {IAttendance} from "../../../model/interface/IAttendance";
+import {IAttendance} from "../../../model/forum/IAttendance";
 import {TrainingDataService} from "../../../services/training-data.service";
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";

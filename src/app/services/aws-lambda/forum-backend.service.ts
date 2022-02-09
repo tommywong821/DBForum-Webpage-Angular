@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {ITraining} from "../../model/interface/ITraining";
+import {ITraining} from "../../model/forum/ITraining";
 import {environment} from "../../../environments/environment";
-import {IStudent} from "../../model/interface/IStudent";
-import {IReminder} from "../../model/interface/IReminder";
+import {IStudent} from "../../model/forum/IStudent";
+import {IReminder} from "../../model/forum/IReminder";
 import {Auth0DataService} from "../auth0-data.service";
-import {IAttendance} from "../../model/interface/IAttendance";
+import {IAttendance} from "../../model/forum/IAttendance";
 
 @Injectable({
   providedIn: 'root'

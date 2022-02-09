@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {IStudent} from "../../../model/interface/IStudent";
+import {IStudent} from "../../../model/forum/IStudent";
 import {DateUtil} from "../../../services/date-util.service";
 
 @Component({
