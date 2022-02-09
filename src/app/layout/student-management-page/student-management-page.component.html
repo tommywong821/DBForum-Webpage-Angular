@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row">
+    <div class="card-body">
+      <h5 class="card-title">Create New Student Account</h5>
+      <!--      <input accept=".csv" type="file" (change)="uploadStudentCsv($event)" #uploadCsvInput/>
+            <button type="button" (click)="createUser()">Create</button>
+            <button type="button" (click)="reset()">Clear</button>-->
+      <div class="input-group">
+        <div class="custom-file">
+          <input #uploadCsvInput (change)="uploadStudentCsv($event)" aria-describedby="inputGroupFileAddon"
+                 class="custom-file-input" id="inputGroupFile04" type="file">
+        </div>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" id="1" type="button">Create</button>
+        </div>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" id="2" type="button">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="card-body">
+      <h5 class="card-title">Assign Role to Student Account</h5>
+
+    </div>
+  </div>
+</div>
+
