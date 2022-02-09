@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ManagementDataService} from "../../services/management-data.service";
 import {Auth0ManagementService} from "../../services/aws-lambda/auth0-management.service";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-student-management-page',
@@ -8,6 +9,12 @@ import {Auth0ManagementService} from "../../services/aws-lambda/auth0-management
   styleUrls: ['./student-management-page.component.scss']
 })
 export class StudentManagementPageComponent implements OnInit {
+
+  sampleCsv = [{
+    "email": 'abcdefg@connect.ust.hk',
+    "itsc": "abcdefg",
+    "sid": "123456"
+  }, {"email": "hijkl@connect.ust.hk", "itsc": "hijkl", "sid": "654321"}];
 
   @ViewChild('uploadCsvInput') uploadCsvVariable!: ElementRef;
 
@@ -43,6 +50,7 @@ export class StudentManagementPageComponent implements OnInit {
       this.auth0RestFul.createLoginUser(this.managementData.studentAccountCsv).subscribe({
         complete: () => {
           alert('Student Account is created!');
+          this.reset();
         }
       })
     }
@@ -51,5 +59,19 @@ export class StudentManagementPageComponent implements OnInit {
   reset() {
     this.uploadCsvVariable.nativeElement.value = "";
     this.managementData.studentAccountCsv = "";
+  }
+
+  downloadSampleFile() {
+    const replacer = (key: string, value: string) => value === null ? '' : value // specify how you want to handle null values here
+    const header = Object.keys((this.sampleCsv)[0]);
+
+    const csv = [
+      header.join(','), // header row first
+      // @ts-ignore
+      ...this.sampleCsv.map((row) => header.map((fieldName) => JSON.stringify(row[fieldName], replacer)).join(','))
+    ].join('\r\n');
+
+    const blob = new Blob([csv], {type: 'text/csv'});
+    saveAs(blob, "SampleLoginInfo.csv");
   }
 }
