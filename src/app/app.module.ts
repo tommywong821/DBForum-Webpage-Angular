@@ -5,7 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AwsLambdaApiInterceptor} from "./interceptor/aws-lambda-api-interceptor";
-import {AwsLambdaBackendService} from "./services/aws-lambda-backend.service";
+import {ForumBackendService} from "./services/aws-lambda/forum-backend.service";
 import {MainPageComponent} from './layout/main-page/main-page.component';
 import {DashboardPageComponent} from './layout/dashboard-page/dashboard-page.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -109,7 +109,7 @@ import {StudentManagementPageComponent} from './layout/student-management-page/s
     MatMomentDateModule
   ],
   providers: [
-    AwsLambdaBackendService,
+    ForumBackendService,
     DateUtil,
     {
       provide: HTTP_INTERCEPTORS,

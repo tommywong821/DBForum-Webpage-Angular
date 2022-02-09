@@ -7,7 +7,7 @@ import {DOCUMENT} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
 import {SidenavService} from "../../services/sidenav.service";
 import {MatSidenav} from "@angular/material/sidenav";
-import {Auth0Service} from "../../services/auth0.service";
+import {Auth0DataService} from "../../services/auth0-data.service";
 
 @Component({
   selector: 'app-navigation',
@@ -38,7 +38,7 @@ export class NavigationComponent implements OnInit {
               @Inject((DOCUMENT)) public document: Document,
               public profileDialog: MatDialog,
               private sidenavService: SidenavService,
-              private auth0: Auth0Service) {
+              private auth0DataService: Auth0DataService) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isMenuClick = false;
     this.auth0Login$ = this.auth.isAuthenticated$.pipe(
@@ -56,10 +56,8 @@ export class NavigationComponent implements OnInit {
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     combineLatest([this.auth0Login$, this.auth0Token$]).subscribe(([user, accessToken]) => {
-      console.log(`user result: ${JSON.stringify(user)}`);
-      console.log(`accessToken result: ${accessToken.__raw}`);
       if (user && accessToken) {
-        this.auth0.initUserData(user, accessToken.__raw);
+        this.auth0DataService.initUserData(user, accessToken.__raw);
       }
 
     });

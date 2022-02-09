@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
+import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingDetailDialogComponent} from "../training-detail-dialog/training-detail-dialog.component";
 import {DateUtil} from "../../../services/date-util.service";
 import {TrainingDataService} from "../../../services/training-data.service";
 import {Subscription} from "rxjs";
-import {Auth0Service} from "../../../services/auth0.service";
+import {Auth0DataService} from "../../../services/auth0-data.service";
 
 @Component({
   selector: 'app-training-summary',
@@ -40,11 +40,11 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy {
 
   monitoringTrainingUpdate: Subscription;
 
-  constructor(private restful: AwsLambdaBackendService,
+  constructor(private restful: ForumBackendService,
               private trainingDialog: MatDialog,
               private dateUtil: DateUtil,
               private trainingDataService: TrainingDataService,
-              private auth0Service: Auth0Service) {
+              private auth0Service: Auth0DataService) {
     console.log(`[${this.constructor.name}] constructor`);
     this.monitoringTrainingUpdate = new Subscription();
     this.isLoading = false;

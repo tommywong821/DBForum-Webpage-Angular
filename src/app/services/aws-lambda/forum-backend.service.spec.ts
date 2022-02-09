@@ -1,13 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 
-import {AwsLambdaBackendService} from './aws-lambda-backend.service';
+import {ForumBackendService} from './forum-backend.service';
 
 describe('AwsLambdaBackendService', () => {
-  let service: AwsLambdaBackendService;
+  let service: ForumBackendService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AwsLambdaBackendService);
+    service = TestBed.inject(ForumBackendService);
   });
 
   it('should be created', () => {

@@ -1,28 +1,34 @@
 <div class="container">
   <div class="row">
-    <div class="card-body">
-      <h5 class="card-title">Create New Student Account</h5>
-      <!--      <input accept=".csv" type="file" (change)="uploadStudentCsv($event)" #uploadCsvInput/>
-            <button type="button" (click)="createUser()">Create</button>
-            <button type="button" (click)="reset()">Clear</button>-->
-      <div class="input-group">
-        <div class="custom-file">
-          <input #uploadCsvInput (change)="uploadStudentCsv($event)" aria-describedby="inputGroupFileAddon"
-                 class="custom-file-input" id="inputGroupFile04" type="file">
+    <div class="col-sm">
+      <div class="card-body">
+        <h5 class="card-title">Create New Student Account</h5>
+        <div class="input-group">
+          <div class="custom-file">
+            <input #uploadCsvInput (change)="uploadStudentCsv($event)" aria-describedby="inputGroupFileAddon"
+                   class="custom-file-input" id="fileUploadInput" type="file">
+            <label class="custom-file-label" for="fileUploadInput">Choose Student Account CSV</label>
+          </div>
+          <div class="input-group-append">
+            <button (click)="createUser()" class="btn btn-outline-secondary" id="createBtn" type="button">Create
+            </button>
+          </div>
+          <div class="input-group-append">
+            <button (click)="reset()" class="btn btn-outline-secondary" id="clearBtn" type="button">Clear</button>
+          </div>
         </div>
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" id="1" type="button">Create</button>
-        </div>
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" id="2" type="button">Clear</button>
-        </div>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="card-body">
+        <h5 class="card-title">Sample Create Student Account File</h5>
+        <button class="btn btn-outline-secondary" type="button">Download</button>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="card-body">
       <h5 class="card-title">Assign Role to Student Account</h5>
-
     </div>
   </div>
 </div>

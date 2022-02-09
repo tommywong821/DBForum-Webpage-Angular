@@ -1,21 +1,20 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {ITraining} from "../model/interface/ITraining";
-import {environment} from "../../environments/environment";
-import {IStudent} from "../model/interface/IStudent";
-import {IReminder} from "../model/interface/IReminder";
-import {Auth0Service} from "./auth0.service";
-import {IAttendance} from "../model/interface/IAttendance";
+import {ITraining} from "../../model/interface/ITraining";
+import {environment} from "../../../environments/environment";
+import {IStudent} from "../../model/interface/IStudent";
+import {IReminder} from "../../model/interface/IReminder";
+import {Auth0DataService} from "../auth0-data.service";
+import {IAttendance} from "../../model/interface/IAttendance";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AwsLambdaBackendService {
-  private apiUrl: string = environment.apiUrl;
+export class ForumBackendService {
+  private apiUrl: string = environment.forumApiUrl;
 
   constructor(private http: HttpClient,
-              private auth0: Auth0Service) {
-    console.log(`[${this.constructor.name}] constructor`);
+              private auth0DataService: Auth0DataService) {
   }
 
   healthCheck() {
@@ -23,7 +22,7 @@ export class AwsLambdaBackendService {
   }
 
   getTrainingList() {
-    let params = new HttpParams().set('itsc', this.auth0.loginUserItsc);
+    let params = new HttpParams().set('itsc', this.auth0DataService.loginUserItsc);
     return this.http.get<Array<ITraining>>(this.apiUrl + "/training", {params: params});
     /*return [{
       "_id": "61ef9b635906f4da86ff89da",
