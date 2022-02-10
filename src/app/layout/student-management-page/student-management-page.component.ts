@@ -25,20 +25,25 @@ export class StudentManagementPageComponent implements OnInit {
 
   managementData$: Array<Observable<any>>;
 
-  studentAccountList: Array<IStudentAccount>;
+  //assign role to student account part
+  assignStudentAccountList: Array<IStudentAccount>;
   userRoleList: Array<IUserRole>;
-
   studentACDropDownSetting: IDropdownSettings;
-  roleDropDownSetting: IDropdownSettings;
+  assignRoleDropDownSetting: IDropdownSettings;
   assignRoleForm: FormGroup;
   isLoading: boolean;
+
+  //remove role from student account part
+  removeRoleDropDownSetting: IDropdownSettings;
+  removeStudentAccountList: Array<IStudentAccount>;
 
   constructor(private managementData: ManagementDataService,
               private auth0Restful: Auth0ManagementService,
               private formBuilder: FormBuilder) {
     console.log(`[${this.constructor.name}] constructor`);
-    this.managementData$ = [this.auth0Restful.getStudentAccountList(), this.auth0Restful.getUserRolesList()]
-    this.studentAccountList = new Array<IStudentAccount>();
+    this.managementData$ = [this.auth0Restful.getStudentAccountList(), this.auth0Restful.getUserRolesList()];
+
+    this.assignStudentAccountList = new Array<IStudentAccount>();
     this.userRoleList = new Array<IUserRole>();
     this.studentACDropDownSetting = {
       singleSelection: false,
@@ -47,7 +52,7 @@ export class StudentManagementPageComponent implements OnInit {
       allowSearchFilter: true,
       enableCheckAll: false
     };
-    this.roleDropDownSetting = {
+    this.assignRoleDropDownSetting = {
       singleSelection: true,
       idField: 'id',
       textField: 'name',
@@ -59,6 +64,16 @@ export class StudentManagementPageComponent implements OnInit {
       users: ''
     });
     this.isLoading = true;
+
+    this.removeRoleDropDownSetting = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'name',
+      allowSearchFilter: true,
+      enableCheckAll: false
+    };
+    this.removeStudentAccountList = new Array<IStudentAccount>();
+
   }
 
   ngOnInit(): void {
@@ -70,7 +85,7 @@ export class StudentManagementPageComponent implements OnInit {
         this.managementData.userRoleList = result[1];
       },
       complete: () => {
-        this.studentAccountList = this.managementData.studentAccountList;
+        this.assignStudentAccountList = this.managementData.studentAccountList;
         this.userRoleList = this.managementData.userRoleList;
         this.isLoading = false;
       }
@@ -147,6 +162,13 @@ export class StudentManagementPageComponent implements OnInit {
     this.assignRoleForm.setValue({
       role: '',
       users: ''
-    })
+    });
+  }
+
+  getStudentInRole(event: any){
+    console.log(`event: `, event);
+    this.auth0Restful.getUserInRole(event.id).subscribe({
+      next: (result) => {this.removeStudentAccountList = result}
+    });
   }
 }

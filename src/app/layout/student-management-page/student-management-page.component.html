@@ -37,7 +37,7 @@
                 Assign
                 <div class="col-4">
                   <ng-multiselect-dropdown
-                    [settings]="roleDropDownSetting"
+                    [settings]="assignRoleDropDownSetting"
                     [data]="userRoleList"
                     formControlName="role"
                     id="role"
@@ -48,13 +48,13 @@
                 <div class="col-4">
                   <ng-multiselect-dropdown
                     [settings]="studentACDropDownSetting"
-                    [data]="studentAccountList"
+                    [data]="assignStudentAccountList"
                     formControlName="users"
                     id="users"
                   >
                   </ng-multiselect-dropdown>
                 </div>
-                <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                <button class="btn btn-outline-secondary" type="submit">Assign</button>
               </div>
             </form>
           </div>
@@ -66,11 +66,30 @@
     <div class="col-sm">
       <div class="card-body">
         <h5 class="card-title">Remove Role From Student Account</h5>
-        <ng-multiselect-dropdown
-          [settings]="studentACDropDownSetting"
-          [data]="studentAccountList"
-        >
-        </ng-multiselect-dropdown>
+        <div class="container">
+          <form >
+            <div class="row">
+              remove
+              <div class="col-4">
+                <ng-multiselect-dropdown
+                  [settings]="removeRoleDropDownSetting"
+                  [data]="userRoleList"
+                  (onSelect)="getStudentInRole($event)"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+              from
+              <div class="col-4">
+                <ng-multiselect-dropdown
+                  [settings]="studentACDropDownSetting"
+                  [data]="removeStudentAccountList"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+              <button class="btn btn-outline-secondary" type="submit">Remove</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>

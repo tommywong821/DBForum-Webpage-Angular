@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {IStudentAccount} from "../../model/auth0-management/IStudentAccount";
 import {IUserRole} from "../../model/auth0-management/IUserRole";
 
@@ -31,5 +31,10 @@ export class Auth0ManagementService {
       userIdList: userIdList
     }
     return this.http.post(this.apiUrl + '/role/assign', body);
+  }
+
+  getUserInRole(roleId: string){
+    const params = new HttpParams().set('roleId', roleId);
+    return this.http.get<Array<IStudentAccount>>(this.apiUrl + '/user/role', {params: params});
   }
 }
