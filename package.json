@@ -34,6 +34,7 @@
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.34",
+    "ng-multiselect-dropdown": "^0.3.8",
     "path": "^0.12.7",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",

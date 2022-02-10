@@ -24,4 +24,12 @@ export class Auth0ManagementService {
   getUserRolesList() {
     return this.http.get<IUserRole>(this.apiUrl + "/role");
   }
+
+  assignRoleToUsers(roleId: string, userIdList: Array<string>) {
+    const body = {
+      roleId: roleId,
+      userIdList: userIdList
+    }
+    return this.http.post(this.apiUrl + '/role/assign', body);
+  }
 }

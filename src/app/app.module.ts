@@ -52,6 +52,7 @@ import {GeneralReminderComponent} from './layout/main-page/general-reminder/gene
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {StudentManagementPageComponent} from './layout/student-management-page/student-management-page.component';
+import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import {StudentManagementPageComponent} from './layout/student-management-page/s
     MatMenuModule,
     MatSelectModule,
     NgbModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [
     ForumBackendService,

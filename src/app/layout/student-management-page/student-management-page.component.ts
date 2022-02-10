@@ -3,6 +3,10 @@ import {ManagementDataService} from "../../services/management-data.service";
 import {Auth0ManagementService} from "../../services/aws-lambda/auth0-management.service";
 import {saveAs} from "file-saver";
 import {forkJoin, Observable} from "rxjs";
+import {IStudentAccount} from "../../model/auth0-management/IStudentAccount";
+import {IUserRole} from "../../model/auth0-management/IUserRole";
+import {IDropdownSettings} from "ng-multiselect-dropdown";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-student-management-page',
@@ -21,10 +25,40 @@ export class StudentManagementPageComponent implements OnInit {
 
   managementData$: Array<Observable<any>>;
 
+  studentAccountList: Array<IStudentAccount>;
+  userRoleList: Array<IUserRole>;
+
+  studentACDropDownSetting: IDropdownSettings;
+  roleDropDownSetting: IDropdownSettings;
+  assignRoleForm: FormGroup;
+  isLoading: boolean;
+
   constructor(private managementData: ManagementDataService,
-              private auth0Restful: Auth0ManagementService) {
+              private auth0Restful: Auth0ManagementService,
+              private formBuilder: FormBuilder) {
     console.log(`[${this.constructor.name}] constructor`);
     this.managementData$ = [this.auth0Restful.getStudentAccountList(), this.auth0Restful.getUserRolesList()]
+    this.studentAccountList = new Array<IStudentAccount>();
+    this.userRoleList = new Array<IUserRole>();
+    this.studentACDropDownSetting = {
+      singleSelection: false,
+      idField: 'user_id',
+      textField: 'username',
+      allowSearchFilter: true,
+      enableCheckAll: false
+    };
+    this.roleDropDownSetting = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'name',
+      allowSearchFilter: true,
+      enableCheckAll: false
+    };
+    this.assignRoleForm = formBuilder.group({
+      role: '',
+      users: ''
+    });
+    this.isLoading = true;
   }
 
   ngOnInit(): void {
@@ -36,8 +70,9 @@ export class StudentManagementPageComponent implements OnInit {
         this.managementData.userRoleList = result[1];
       },
       complete: () => {
-        console.log(`studentAccountList: ${JSON.stringify(this.managementData.studentAccountList)}`)
-        console.log(`userRoleList: ${JSON.stringify(this.managementData.userRoleList)}`)
+        this.studentAccountList = this.managementData.studentAccountList;
+        this.userRoleList = this.managementData.userRoleList;
+        this.isLoading = false;
       }
     })
   }
@@ -88,5 +123,30 @@ export class StudentManagementPageComponent implements OnInit {
 
     const blob = new Blob([csv], {type: 'text/csv'});
     saveAs(blob, "SampleLoginInfo.csv");
+  }
+
+  onSubmitAssignRoleForm() {
+    console.log(`selected form: ${JSON.stringify(this.assignRoleForm.value)}`);
+    if (!this.assignRoleForm.value.role[0] || !this.assignRoleForm.value.users) {
+      alert('Please choose role and student(s) to assign');
+      return;
+    }
+    const roleId = this.assignRoleForm.value.role[0].id;
+    console.log(`roleId: `, roleId);
+    const userList = this.assignRoleForm.value.users.map((user: IStudentAccount) => user.user_id);
+    console.log(`userList: `, userList);
+    this.auth0Restful.assignRoleToUsers(roleId, userList).subscribe({
+      complete: () => {
+        this.clearAssignRoleForm();
+        alert('Role is assigned to users');
+      }
+    });
+  }
+
+  clearAssignRoleForm() {
+    this.assignRoleForm.setValue({
+      role: '',
+      users: ''
+    })
   }
 }
