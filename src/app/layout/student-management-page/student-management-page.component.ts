@@ -23,6 +23,7 @@ export class StudentManagementPageComponent implements OnInit {
 
   @ViewChild('uploadCsvInput') uploadCsvVariable!: ElementRef;
 
+  isLoading: boolean;
   managementData$: Array<Observable<any>>;
 
   //assign role to student account part
@@ -31,11 +32,11 @@ export class StudentManagementPageComponent implements OnInit {
   studentACDropDownSetting: IDropdownSettings;
   assignRoleDropDownSetting: IDropdownSettings;
   assignRoleForm: FormGroup;
-  isLoading: boolean;
 
   //remove role from student account part
   removeRoleDropDownSetting: IDropdownSettings;
   removeStudentAccountList: Array<IStudentAccount>;
+  removeRoleForm: FormGroup;
 
   constructor(private managementData: ManagementDataService,
               private auth0Restful: Auth0ManagementService,
@@ -50,7 +51,7 @@ export class StudentManagementPageComponent implements OnInit {
       idField: 'user_id',
       textField: 'username',
       allowSearchFilter: true,
-      enableCheckAll: false
+      enableCheckAll: true
     };
     this.assignRoleDropDownSetting = {
       singleSelection: true,
@@ -73,14 +74,16 @@ export class StudentManagementPageComponent implements OnInit {
       enableCheckAll: false
     };
     this.removeStudentAccountList = new Array<IStudentAccount>();
-
+    this.removeRoleForm = formBuilder.group({
+      role: '',
+      users: ''
+    });
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     forkJoin(this.managementData$).subscribe({
       next: (result) => {
-        console.log(`result: ${JSON.stringify(result)}`);
         this.managementData.studentAccountList = result[0];
         this.managementData.userRoleList = result[1];
       },
@@ -148,27 +151,45 @@ export class StudentManagementPageComponent implements OnInit {
     }
     const roleId = this.assignRoleForm.value.role[0].id;
     console.log(`roleId: `, roleId);
-    const userList = this.assignRoleForm.value.users.map((user: IStudentAccount) => user.user_id);
-    console.log(`userList: `, userList);
-    this.auth0Restful.assignRoleToUsers(roleId, userList).subscribe({
+    const userIdList = this.assignRoleForm.value.users.map((user: IStudentAccount) => user.user_id);
+    console.log(`userList: `, userIdList);
+    this.auth0Restful.assignRoleToUsers(roleId, userIdList).subscribe({
       complete: () => {
-        this.clearAssignRoleForm();
-        alert('Role is assigned to users');
+        this.clearForm(this.assignRoleForm);
+        alert('Role is assigned to user(s)');
       }
     });
   }
 
-  clearAssignRoleForm() {
-    this.assignRoleForm.setValue({
+  clearForm(form: FormGroup) {
+    form.setValue({
       role: '',
       users: ''
     });
   }
 
-  getStudentInRole(event: any){
+  getStudentInRole(event: any) {
     console.log(`event: `, event);
     this.auth0Restful.getUserInRole(event.id).subscribe({
-      next: (result) => {this.removeStudentAccountList = result}
+      next: (result) => {
+        this.removeStudentAccountList = result
+      }
     });
+  }
+
+  onSubmitRemoveRoleForm() {
+    console.log(`selected form: ${JSON.stringify(this.removeRoleForm.value)}`);
+    if (!this.removeRoleForm.value.role[0] || !this.removeRoleForm.value.users) {
+      alert('Please choose role and student(s) to remove');
+      return;
+    }
+    const roleId = this.removeRoleForm.value.role[0].id;
+    const userIdList = this.removeRoleForm.value.users.map((user: IStudentAccount) => user.user_id);
+    this.auth0Restful.removeRoleFromUser(roleId, userIdList).subscribe({
+      complete: () => {
+        this.clearForm(this.removeRoleForm)
+        alert('Role is remove from user(s)');
+      }
+    })
   }
 }

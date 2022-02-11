@@ -30,11 +30,19 @@ export class Auth0ManagementService {
       roleId: roleId,
       userIdList: userIdList
     }
-    return this.http.post(this.apiUrl + '/role/assign', body);
+    return this.http.post(this.apiUrl + '/user/role/assign', body);
   }
 
-  getUserInRole(roleId: string){
+  getUserInRole(roleId: string) {
     const params = new HttpParams().set('roleId', roleId);
     return this.http.get<Array<IStudentAccount>>(this.apiUrl + '/user/role', {params: params});
+  }
+
+  removeRoleFromUser(roleId: string, userIdList: Array<string>) {
+    const body = {
+      roleId: roleId,
+      userIdList: userIdList
+    }
+    return this.http.delete(this.apiUrl + '/user/role/remove', {body: body});
   }
 }

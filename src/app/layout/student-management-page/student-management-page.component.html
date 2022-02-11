@@ -40,7 +40,6 @@
                     [settings]="assignRoleDropDownSetting"
                     [data]="userRoleList"
                     formControlName="role"
-                    id="role"
                   >
                   </ng-multiselect-dropdown>
                 </div>
@@ -50,7 +49,6 @@
                     [settings]="studentACDropDownSetting"
                     [data]="assignStudentAccountList"
                     formControlName="users"
-                    id="users"
                   >
                   </ng-multiselect-dropdown>
                 </div>
@@ -67,7 +65,7 @@
       <div class="card-body">
         <h5 class="card-title">Remove Role From Student Account</h5>
         <div class="container">
-          <form >
+          <form (ngSubmit)="onSubmitRemoveRoleForm()" [formGroup]="removeRoleForm">
             <div class="row">
               remove
               <div class="col-4">
@@ -75,6 +73,7 @@
                   [settings]="removeRoleDropDownSetting"
                   [data]="userRoleList"
                   (onSelect)="getStudentInRole($event)"
+                  formControlName="role"
                 >
                 </ng-multiselect-dropdown>
               </div>
@@ -83,6 +82,7 @@
                 <ng-multiselect-dropdown
                   [settings]="studentACDropDownSetting"
                   [data]="removeStudentAccountList"
+                  formControlName="users"
                 >
                 </ng-multiselect-dropdown>
               </div>
