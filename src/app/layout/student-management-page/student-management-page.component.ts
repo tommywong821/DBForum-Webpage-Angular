@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ManagementDataService} from "../../services/management-data.service";
 import {Auth0ManagementService} from "../../services/aws-lambda/auth0-management.service";
 import {saveAs} from "file-saver";
@@ -7,6 +7,7 @@ import {IStudentAccount} from "../../model/auth0-management/IStudentAccount";
 import {IUserRole} from "../../model/auth0-management/IUserRole";
 import {IDropdownSettings} from "ng-multiselect-dropdown";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {Auth0DataService} from "../../services/auth0-data.service";
 
 @Component({
   selector: 'app-student-management-page',
@@ -15,15 +16,19 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 })
 export class StudentManagementPageComponent implements OnInit {
 
+  isAdmin: boolean;
+
   sampleCsv = [{
     "email": 'abcdefg@connect.ust.hk',
     "itsc": "abcdefg",
     "sid": "123456"
   }, {"email": "hijkl@connect.ust.hk", "itsc": "hijkl", "sid": "654321"}];
 
-  @ViewChild('uploadCsvInput') uploadCsvVariable!: ElementRef;
+  inputFilePlaceholder = '';
 
-  isLoading: boolean;
+  isCreatingAccount: boolean;
+  isAssignFormLoading: boolean;
+  isRemoveFormLoading: boolean;
   managementData$: Array<Observable<any>>;
 
   //assign role to student account part
@@ -40,7 +45,8 @@ export class StudentManagementPageComponent implements OnInit {
 
   constructor(private managementData: ManagementDataService,
               private auth0Restful: Auth0ManagementService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private auth0Data: Auth0DataService) {
     console.log(`[${this.constructor.name}] constructor`);
     this.managementData$ = [this.auth0Restful.getStudentAccountList(), this.auth0Restful.getUserRolesList()];
 
@@ -64,7 +70,7 @@ export class StudentManagementPageComponent implements OnInit {
       role: '',
       users: ''
     });
-    this.isLoading = true;
+    this.isAssignFormLoading = true;
 
     this.removeRoleDropDownSetting = {
       singleSelection: true,
@@ -78,6 +84,10 @@ export class StudentManagementPageComponent implements OnInit {
       role: '',
       users: ''
     });
+    this.isRemoveFormLoading = true;
+    this.isCreatingAccount = false;
+    this.inputFilePlaceholder = "Choose Student Account CSV";
+    this.isAdmin = false;
   }
 
   ngOnInit(): void {
@@ -90,15 +100,20 @@ export class StudentManagementPageComponent implements OnInit {
       complete: () => {
         this.assignStudentAccountList = this.managementData.studentAccountList;
         this.userRoleList = this.managementData.userRoleList;
-        this.isLoading = false;
+        this.isAssignFormLoading = false;
+        this.isRemoveFormLoading = false
       }
-    })
+    });
+    this.isAdmin = this.auth0Data.loginRole.includes('Admin');
   }
 
   uploadStudentCsv(event: any) {
+    console.log(`event: `, event);
     let csv: FileList = event.target.files
     if (csv && csv.length > 0 && csv.item(0)) {
       let file: File | any = csv.item(0);
+      console.log(`file: `, file);
+      this.inputFilePlaceholder = file.name;
       let reader: FileReader = new FileReader();
       reader.readAsText(file);
       reader.onload = (e) => {
@@ -111,6 +126,7 @@ export class StudentManagementPageComponent implements OnInit {
 
   createUser() {
     console.log(`management data service: ${this.managementData.studentAccountCsv}`);
+    this.isCreatingAccount = true;
     if (this.managementData.studentAccountCsv === "") {
       alert('Empty CSV is uploaded. Please try again');
     } else {
@@ -120,13 +136,14 @@ export class StudentManagementPageComponent implements OnInit {
           alert('Student Account is created!');
           this.reset();
         }
-      })
+      });
     }
   }
 
   reset() {
-    this.uploadCsvVariable.nativeElement.value = "";
+    this.isCreatingAccount = false;
     this.managementData.studentAccountCsv = "";
+    this.inputFilePlaceholder = "Choose Student Account CSV";
   }
 
   downloadSampleFile() {
@@ -144,6 +161,7 @@ export class StudentManagementPageComponent implements OnInit {
   }
 
   onSubmitAssignRoleForm() {
+    this.isAssignFormLoading = true;
     console.log(`selected form: ${JSON.stringify(this.assignRoleForm.value)}`);
     if (!this.assignRoleForm.value.role[0] || !this.assignRoleForm.value.users) {
       alert('Please choose role and student(s) to assign');
@@ -157,6 +175,7 @@ export class StudentManagementPageComponent implements OnInit {
       complete: () => {
         this.clearForm(this.assignRoleForm);
         alert('Role is assigned to user(s)');
+        this.isAssignFormLoading = false;
       }
     });
   }
@@ -168,17 +187,26 @@ export class StudentManagementPageComponent implements OnInit {
     });
   }
 
+  clearStudent() {
+    this.removeStudentAccountList = [];
+  }
+
   getStudentInRole(event: any) {
     console.log(`event: `, event);
+    this.isRemoveFormLoading = true;
     this.auth0Restful.getUserInRole(event.id).subscribe({
       next: (result) => {
         this.removeStudentAccountList = result
+      },
+      complete: () => {
+        this.isRemoveFormLoading = false;
       }
     });
   }
 
   onSubmitRemoveRoleForm() {
     console.log(`selected form: ${JSON.stringify(this.removeRoleForm.value)}`);
+    this.isRemoveFormLoading = true;
     if (!this.removeRoleForm.value.role[0] || !this.removeRoleForm.value.users) {
       alert('Please choose role and student(s) to remove');
       return;
@@ -189,6 +217,7 @@ export class StudentManagementPageComponent implements OnInit {
       complete: () => {
         this.clearForm(this.removeRoleForm)
         alert('Role is remove from user(s)');
+        this.isRemoveFormLoading = false;
       }
     })
   }
