@@ -1,0 +1,108 @@
+<div class="container" *ngIf="isAdmin">
+  <div class="row">
+    <div class="col-sm">
+      <div class="card-body">
+        <h5 class="card-title">Sample Create Student Account File</h5>
+        <button (click)="downloadSampleFile()" class="btn btn-outline-secondary" type="button">Download</button>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="card-body">
+        <ng-container *ngIf="!isCreatingAccount; else loading">
+          <h5 class="card-title">Create New Student Account</h5>
+          <div class="input-group">
+            <div class="custom-file">
+              <input (change)="uploadStudentCsv($event)" aria-describedby="inputGroupFileAddon"
+                     class="custom-file-input" id="fileUploadInput" type="file">
+              <label class="custom-file-label" for="fileUploadInput">{{inputFilePlaceholder}}</label>
+            </div>
+            <div class="input-group-append">
+              <button (click)="createUser()" class="btn btn-outline-secondary" id="createBtn" type="button">Create
+              </button>
+            </div>
+            <div class="input-group-append">
+              <button (click)="reset()" class="btn btn-outline-secondary" id="clearBtn" type="button">Clear</button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <div class="card-body">
+        <h5 class="card-title">Assign Role to Student Account</h5>
+        <ng-container *ngIf="!isAssignFormLoading; else loading">
+          <div class="container">
+            <form (ngSubmit)="onSubmitAssignRoleForm()" [formGroup]="assignRoleForm">
+              <div class="row">
+                Assign
+                <div class="col-4">
+                  <ng-multiselect-dropdown
+                    [settings]="assignRoleDropDownSetting"
+                    [data]="userRoleList"
+                    formControlName="role"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+                To
+                <div class="col-4">
+                  <ng-multiselect-dropdown
+                    [settings]="studentACDropDownSetting"
+                    [data]="assignStudentAccountList"
+                    formControlName="users"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+                <button class="btn btn-outline-secondary" type="submit">Assign</button>
+              </div>
+            </form>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <div class="card-body">
+        <h5 class="card-title">Remove Role From Student Account</h5>
+        <ng-container *ngIf="!isRemoveFormLoading; else loading">
+          <div class="container">
+            <form (ngSubmit)="onSubmitRemoveRoleForm()" [formGroup]="removeRoleForm">
+              <div class="row">
+                remove
+                <div class="col-4">
+                  <ng-multiselect-dropdown
+                    [settings]="removeRoleDropDownSetting"
+                    [data]="userRoleList"
+                    (onSelect)="getStudentInRole($event)"
+                    (onDeSelect)="clearStudent()"
+                    formControlName="role"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+                from
+                <div class="col-4">
+                  <ng-multiselect-dropdown
+                    [settings]="studentACDropDownSetting"
+                    [data]="removeStudentAccountList"
+                    formControlName="users"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+                <button class="btn btn-outline-secondary" type="submit">Remove</button>
+              </div>
+            </form>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="spinner-border text-secondary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</ng-template>
+

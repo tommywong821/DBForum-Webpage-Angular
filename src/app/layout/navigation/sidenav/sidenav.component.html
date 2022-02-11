@@ -1,8 +1,9 @@
 <mat-toolbar>Menu</mat-toolbar>
 <mat-nav-list>
   <a href="/mainpage" mat-list-item>Main Page</a>
-  <!--  <ng-container *ngIf="isAdmin">-->
-  <!--    <a href="/dashboard" mat-list-item>Dashboard</a>-->
-  <!--    <a href="/test" mat-list-item>Test</a>-->
-  <!--  </ng-container>-->
+  <ng-container *ngIf="isAdmin">
+    <!--      <a href="/dashboard-page" mat-list-item>Dashboard</a>-->
+    <!--      <a href="/test" mat-list-item>Test</a>-->
+    <a href="/management" mat-list-item>Management</a>
+  </ng-container>
 </mat-nav-list>

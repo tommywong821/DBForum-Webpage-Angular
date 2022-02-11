@@ -4,7 +4,7 @@ import {AuthService, User} from "@auth0/auth0-angular";
 @Injectable({
   providedIn: 'root'
 })
-export class Auth0Service {
+export class Auth0DataService {
   stateChanged: EventEmitter<boolean>;
 
   private _loginRole: string;

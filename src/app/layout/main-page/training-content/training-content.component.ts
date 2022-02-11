@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ITraining} from "../../../model/interface/ITraining";
-import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
+import {ITraining} from "../../../model/forum/ITraining";
+import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
 import {DateUtil} from "../../../services/date-util.service";
-import {Auth0Service} from "../../../services/auth0.service";
-import {IAttendance} from "../../../model/interface/IAttendance";
+import {Auth0DataService} from "../../../services/auth0-data.service";
+import {IAttendance} from "../../../model/forum/IAttendance";
 import {TrainingDataService} from "../../../services/training-data.service";
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
@@ -25,8 +25,8 @@ export class TrainingContentComponent implements OnInit {
 
   trainingList: Array<ITraining>;
 
-  constructor(private restful: AwsLambdaBackendService,
-              private auth0: Auth0Service,
+  constructor(private restful: ForumBackendService,
+              private auth0DataService: Auth0DataService,
               private dateUtil: DateUtil,
               private trainingDataService: TrainingDataService,
               private trainingFormDialog: MatDialog) {
@@ -48,8 +48,8 @@ export class TrainingContentComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.itsc = this.auth0.loginUserItsc;
-    this.isAdmin = this.auth0.loginRole.includes('Admin');
+    this.itsc = this.auth0DataService.loginUserItsc;
+    this.isAdmin = this.auth0DataService.loginRole.includes('Admin');
     if (this.training) {
       this.trainingList = new Array<ITraining>(this.training);
     }

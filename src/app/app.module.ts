@@ -5,9 +5,9 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AwsLambdaApiInterceptor} from "./interceptor/aws-lambda-api-interceptor";
-import {AwsLambdaBackendService} from "./services/aws-lambda-backend.service";
+import {ForumBackendService} from "./services/aws-lambda/forum-backend.service";
 import {MainPageComponent} from './layout/main-page/main-page.component';
-import {DashboardComponent} from './layout/dashboard/dashboard.component';
+import {DashboardPageComponent} from './layout/dashboard-page/dashboard-page.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
@@ -51,12 +51,14 @@ import {MatSelectModule} from "@angular/material/select";
 import {GeneralReminderComponent} from './layout/main-page/general-reminder/general-reminder.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
+import {StudentManagementPageComponent} from './layout/student-management-page/student-management-page.component';
+import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
-    DashboardComponent,
+    DashboardPageComponent,
     TrainingListComponent,
     TrainingSummaryComponent,
     TrainingFormDialogComponent,
@@ -69,7 +71,8 @@ import {MatMomentDateModule} from "@angular/material-moment-adapter";
     SidenavComponent,
     TestComponent,
     TestMainComponent,
-    GeneralReminderComponent
+    GeneralReminderComponent,
+    StudentManagementPageComponent
   ],
   imports: [
     BrowserModule,
@@ -104,10 +107,11 @@ import {MatMomentDateModule} from "@angular/material-moment-adapter";
     MatMenuModule,
     MatSelectModule,
     NgbModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [
-    AwsLambdaBackendService,
+    ForumBackendService,
     DateUtil,
     {
       provide: HTTP_INTERCEPTORS,

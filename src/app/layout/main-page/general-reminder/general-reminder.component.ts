@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
-import {IReminder} from "../../../model/interface/IReminder";
+import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
+import {IReminder} from "../../../model/forum/IReminder";
 import {DateUtil} from "../../../services/date-util.service";
 import ObjectID from "bson-objectid";
-import {Auth0Service} from "../../../services/auth0.service";
+import {Auth0DataService} from "../../../services/auth0-data.service";
 
 @Component({
   selector: 'app-general-reminder',
@@ -20,9 +20,9 @@ export class GeneralReminderComponent implements OnInit {
   isAdmin: boolean;
 
   constructor(private formBuilder: FormBuilder,
-              private restful: AwsLambdaBackendService,
+              private restful: ForumBackendService,
               private dateUtil: DateUtil,
-              private auth0: Auth0Service) {
+              private auth0DataService: Auth0DataService) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isReadOnly = true;
     this.reminderForm = this.formBuilder.group({
@@ -36,7 +36,7 @@ export class GeneralReminderComponent implements OnInit {
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.initReminderMessage();
-    this.isAdmin = this.auth0.loginRole.includes('Admin');
+    this.isAdmin = this.auth0DataService.loginRole.includes('Admin');
   }
 
   enableEdit() {

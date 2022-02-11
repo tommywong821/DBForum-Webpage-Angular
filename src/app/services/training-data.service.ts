@@ -1,6 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
-import {ITraining} from "../model/interface/ITraining";
+import {ITraining} from "../model/forum/ITraining";
 
 @Injectable({
   providedIn: 'root'

@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {AwsLambdaBackendService} from "../../../services/aws-lambda-backend.service";
+import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
-import {Auth0Service} from "../../../services/auth0.service";
+import {Auth0DataService} from "../../../services/auth0-data.service";
 import {TrainingDataService} from "../../../services/training-data.service";
 
 @Component({
@@ -14,9 +14,9 @@ export class TrainingListComponent implements OnInit {
   isLoading: boolean;
   isAdmin: boolean;
 
-  constructor(private restful: AwsLambdaBackendService,
+  constructor(private restful: ForumBackendService,
               private trainingFormDialog: MatDialog,
-              private auth0: Auth0Service,
+              private auth0DataService: Auth0DataService,
               private trainingDataListService: TrainingDataService) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isLoading = true;
@@ -26,7 +26,7 @@ export class TrainingListComponent implements OnInit {
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.getTrainingList();
-    this.isAdmin = this.auth0.loginRole.includes('Admin');
+    this.isAdmin = this.auth0DataService.loginRole.includes('Admin');
   }
 
   getTrainingList() {

@@ -3,7 +3,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ProfileDialogComponent} from "./profile-dialog/profile-dialog.component";
 import {SidenavService} from "../../services/sidenav.service";
 import {Observable} from "rxjs";
-import {Auth0Service} from "../../services/auth0.service";
+import {Auth0DataService} from "../../services/auth0-data.service";
 
 @Component({
   selector: 'app-header',
@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
   showBtn: boolean;
 
-  constructor(public auth0: Auth0Service,
+  constructor(public auth0DataService: Auth0DataService,
               private profileDialog: MatDialog,
               private sidenavService: SidenavService) {
     console.log(`[${this.constructor.name}] constructor`);
@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
   openProfileDialog() {
     this.profileDialog.open(ProfileDialogComponent, {
       data: {
-        itsc: this.auth0.loginUserItsc
+        itsc: this.auth0DataService.loginUserItsc
       },
       disableClose: true
     });
