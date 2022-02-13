@@ -111,8 +111,6 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
     NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [
-    ForumBackendService,
-    DateUtil,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AwsLambdaApiInterceptor,

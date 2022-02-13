@@ -1,7 +1,9 @@
 import {Injectable} from "@angular/core";
 import {formatDate} from "@angular/common";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class DateUtil {
   convertTimeZone(date: any, tzString: string) {
     return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));
