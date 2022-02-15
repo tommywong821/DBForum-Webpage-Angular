@@ -5,6 +5,7 @@ import {IReminder} from "../../../model/forum/IReminder";
 import {DateUtil} from "../../../services/date-util.service";
 import ObjectID from "bson-objectid";
 import {Auth0DataService} from "../../../services/auth0-data.service";
+import {v4 as uuidV4} from 'uuid';
 
 @Component({
   selector: 'app-general-reminder',
@@ -49,7 +50,7 @@ export class GeneralReminderComponent implements OnInit {
         this.reminderForm.setValue({
           reminder: result.message
         });
-        this.reminderId = result._id;
+        this.reminderId = result.uuid;
       },
       complete: () => {
         this.isLoading = false;
@@ -62,13 +63,13 @@ export class GeneralReminderComponent implements OnInit {
     console.log(`reminder: `, this.reminderForm.value.reminder);
     console.log(`this.reminderId: `, this.reminderId);
     let newReminder: IReminder = {
-      _id: (this.reminderId) ? this.reminderId : ObjectID().toHexString(),
+      uuid: (this.reminderId) ? this.reminderId : uuidV4(),
       message: this.reminderForm.value.reminder,
       updated_at: this.dateUtil.formatToHKTime(new Date()),
-      last_edit_user: ''
+      last_edit_user: this.auth0DataService.loginUserItsc
     }
     console.log(`newReminder: `, newReminder);
-    this.restful.updateReminderMessage(newReminder._id, newReminder).subscribe({
+    this.restful.updateReminderMessage(newReminder.uuid, newReminder).subscribe({
       complete: () => {
         this.isLoading = false;
         this.isReadOnly = true;
