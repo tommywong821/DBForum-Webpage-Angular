@@ -27,7 +27,7 @@ export class TrainingContentComponent implements OnInit {
 
   constructor(private restful: ForumBackendService,
               private auth0DataService: Auth0DataService,
-              private dateUtil: DateUtil,
+              public dateUtil: DateUtil,
               private trainingDataService: TrainingDataService,
               private trainingFormDialog: MatDialog) {
     console.log(`[${this.constructor.name}] constructor`);
@@ -56,10 +56,10 @@ export class TrainingContentComponent implements OnInit {
   }
 
   removeTrainingFromDB(training: ITraining) {
-    this.restful.removeTraining(training._id).subscribe({
+    this.restful.removeTraining(training.uuid).subscribe({
       next: result => {
         console.log(`removeTrainingFromDB result: `, result)
-        this.removeWebViewTraining(training._id);
+        this.removeWebViewTraining(training.uuid);
       }
     });
   }
@@ -90,7 +90,7 @@ export class TrainingContentComponent implements OnInit {
     let attendance: IAttendance = {
       _id: '',
       student_id: '',
-      training_id: training._id,
+      training_id: training.uuid,
       status: status,
       reason: absentReason,
       itsc: this.itsc,
@@ -106,7 +106,7 @@ export class TrainingContentComponent implements OnInit {
       complete: () => {
         //    refresh UI
         if (this.needUpdateUi) {
-          this.removeWebViewTraining(training._id);
+          this.removeWebViewTraining(training.uuid);
         }
         this.trainingDataService.needRefresh();
       }
@@ -115,7 +115,7 @@ export class TrainingContentComponent implements OnInit {
 
   removeWebViewTraining(trainingId: string) {
     this.trainingList = this.trainingList.filter(function (obj) {
-      return obj._id !== trainingId;
+      return obj.uuid !== trainingId;
     });
     this.trainingDataService.updateTrainingDataList(this.trainingList);
   }

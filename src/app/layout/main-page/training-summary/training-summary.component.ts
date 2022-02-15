@@ -42,7 +42,7 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy {
 
   constructor(private restful: ForumBackendService,
               private trainingDialog: MatDialog,
-              private dateUtil: DateUtil,
+              public dateUtil: DateUtil,
               private trainingDataService: TrainingDataService,
               private auth0Service: Auth0DataService) {
     console.log(`[${this.constructor.name}] constructor`);
@@ -92,9 +92,5 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy {
       height: '100%',
       width: '100%'
     });
-  }
-
-  displayDateFormat(date: any) {
-    return this.dateUtil.displayFormat(date);
   }
 }
