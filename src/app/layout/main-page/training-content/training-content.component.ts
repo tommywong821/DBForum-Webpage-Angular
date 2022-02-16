@@ -91,15 +91,16 @@ export class TrainingContentComponent implements OnInit {
     let currentDateTime: any = this.dateUtil.formatToHKTime(new Date());
 
     let attendance: IAttendance = {
-      _id: '',
+      uuid: '',
       student_id: '',
       training_id: training.uuid,
       status: status,
       reason: absentReason,
       itsc: this.itsc,
-      is_late_reply: (new Date(currentDateTime) > new Date(training.deadline))
+      is_late_reply: (new Date(currentDateTime) > new Date(training.deadline)),
+      updated_at: currentDateTime
     }
-    delete attendance._id;
+
     console.log(`attendance to db: `, attendance);
     //    update Attendance table
     this.restful.createAttendance(attendance).subscribe({

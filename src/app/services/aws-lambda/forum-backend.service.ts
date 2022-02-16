@@ -129,8 +129,8 @@ export class ForumBackendService {
     // }];
   }
 
-  getTrainingDetail(trainingId: string) {
-    let params = new HttpParams().set('trainingId', trainingId);
+  getTrainingDetail(trainingUuid: string) {
+    let params = new HttpParams().set('trainingId', trainingUuid);
     return this.http.get<any>(this.apiUrl + "/training/detail", {params: params});
   }
 
