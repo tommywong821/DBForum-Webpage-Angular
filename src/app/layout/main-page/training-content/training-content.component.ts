@@ -19,6 +19,7 @@ export class TrainingContentComponent implements OnInit {
   @Input() parentComponent: any;
   @Input() needUpdateUi: boolean;
   @Input() training: any;
+  @Input() isInputFromTrainingDetail: boolean;
 
   isAdmin: boolean;
   itsc: string;
@@ -36,6 +37,7 @@ export class TrainingContentComponent implements OnInit {
     this.isAdmin = false;
     this.itsc = '';
     this.needUpdateUi = true;
+    this.isInputFromTrainingDetail = false;
     this.trainingDataService.trainingDataList.subscribe((result) => {
       console.log(`training list change: `, result);
       if (this.isEditAble) {
@@ -56,6 +58,7 @@ export class TrainingContentComponent implements OnInit {
   }
 
   removeTrainingFromDB(training: ITraining) {
+    console.log(`remove uuid: `, training.uuid);
     this.restful.removeTraining(training.uuid).subscribe({
       next: result => {
         console.log(`removeTrainingFromDB result: `, result)
@@ -126,7 +129,7 @@ export class TrainingContentComponent implements OnInit {
       data: {
         training: training,
         isEditTraining: true,
-        isInputFromTrainingDetail: true
+        isInputFromTrainingDetail: this.isInputFromTrainingDetail
       }
     });
 
