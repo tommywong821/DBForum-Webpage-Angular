@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {formatDate} from "@angular/common";
-import * as moment from "moment";
+import * as moment from "moment-timezone";
 
 @Injectable({
   providedIn: 'root'
