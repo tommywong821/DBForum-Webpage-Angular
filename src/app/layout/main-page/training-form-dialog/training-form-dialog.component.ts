@@ -95,19 +95,19 @@ export class TrainingFormDialogComponent implements OnInit {
     console.log(`formGroup`, this.trainingForm.value.trainings);
     if (this.isEditTraining) {
       //update existing training info
-      this.restful.updateTrainingInfo(this.importData.training._id, this.trainingForm.value.trainings[0]).subscribe({
+      this.restful.updateTrainingInfo(this.importData.training.uuid, this.trainingForm.value.trainings[0]).subscribe({
         next: (result) => {
           console.log(`update success: `, result);
           if (this.importData.isInputFromTrainingDetail) {
             //update training detail page
-            this.trainingForm.value.trainings[0]._id = this.importData.training._id;
+            this.trainingForm.value.trainings[0]._id = this.importData.training.uuid;
             this.dialogRef.close({data: this.trainingForm.value.trainings[0]});
           } else {
             //update training list in main page
             this.trainingDataService.trainingDataList.pipe(take(1)).subscribe((trainingList) => {
               trainingList = trainingList.map((training) => {
-                this.trainingForm.value.trainings[0]._id = this.importData.training._id;
-                return (training._id === this.importData.training._id) ? this.trainingForm.value.trainings[0] : training;
+                this.trainingForm.value.trainings[0]._id = this.importData.training.uuid;
+                return (training.uuid === this.importData.training.uuid) ? this.trainingForm.value.trainings[0] : training;
               });
               this.trainingDataService.updateTrainingDataList(trainingList);
             });
@@ -137,4 +137,6 @@ export class TrainingFormDialogComponent implements OnInit {
     let deadlineDateTime = new Date(trainingDateTime.getFullYear(), trainingDateTime.getMonth(), trainingDateTime.getDate() - 1, 17, 0, 0);
     this.trainings.at(index).get('deadline')?.setValue(deadlineDateTime);
   }
+
+
 }

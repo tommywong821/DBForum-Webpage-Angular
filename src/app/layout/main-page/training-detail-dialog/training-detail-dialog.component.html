@@ -5,7 +5,7 @@
 </mat-dialog-actions>
 
 <app-training-content [needUpdateUi]="needUpdateUi"
-                      [training]="dialogInputData.trainingData"></app-training-content>
+                      [training]="dialogInputData.trainingData" [isInputFromTrainingDetail]="true"></app-training-content>
 
 <ng-container *ngIf="isLoading; else content">
   <mat-spinner></mat-spinner>

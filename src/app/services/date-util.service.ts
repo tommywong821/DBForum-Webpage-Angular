@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {formatDate} from "@angular/common";
+import * as moment from "moment";
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +19,8 @@ export class DateUtil {
   }
 
   displayFormat(date: any) {
-    const format = 'yyyy/MM/dd HH:mm';
-    const locale = 'en-US';
-    return formatDate(date, format, locale);
+    //display postgres db HK time to UTC display format, no value change
+    return moment(date).tz('UTC').format('YYYY/MM/DD HH:mm');
   }
 }
 

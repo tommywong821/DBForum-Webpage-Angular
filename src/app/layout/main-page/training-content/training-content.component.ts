@@ -19,6 +19,7 @@ export class TrainingContentComponent implements OnInit {
   @Input() parentComponent: any;
   @Input() needUpdateUi: boolean;
   @Input() training: any;
+  @Input() isInputFromTrainingDetail: boolean;
 
   isAdmin: boolean;
   itsc: string;
@@ -27,7 +28,7 @@ export class TrainingContentComponent implements OnInit {
 
   constructor(private restful: ForumBackendService,
               private auth0DataService: Auth0DataService,
-              private dateUtil: DateUtil,
+              public dateUtil: DateUtil,
               private trainingDataService: TrainingDataService,
               private trainingFormDialog: MatDialog) {
     console.log(`[${this.constructor.name}] constructor`);
@@ -36,6 +37,7 @@ export class TrainingContentComponent implements OnInit {
     this.isAdmin = false;
     this.itsc = '';
     this.needUpdateUi = true;
+    this.isInputFromTrainingDetail = false;
     this.trainingDataService.trainingDataList.subscribe((result) => {
       console.log(`training list change: `, result);
       if (this.isEditAble) {
@@ -56,10 +58,11 @@ export class TrainingContentComponent implements OnInit {
   }
 
   removeTrainingFromDB(training: ITraining) {
-    this.restful.removeTraining(training._id).subscribe({
+    console.log(`remove uuid: `, training.uuid);
+    this.restful.removeTraining(training.uuid).subscribe({
       next: result => {
         console.log(`removeTrainingFromDB result: `, result)
-        this.removeWebViewTraining(training._id);
+        this.removeWebViewTraining(training.uuid);
       }
     });
   }
@@ -88,15 +91,16 @@ export class TrainingContentComponent implements OnInit {
     let currentDateTime: any = this.dateUtil.formatToHKTime(new Date());
 
     let attendance: IAttendance = {
-      _id: '',
+      uuid: '',
       student_id: '',
-      training_id: training._id,
+      training_id: training.uuid,
       status: status,
       reason: absentReason,
       itsc: this.itsc,
-      is_late_reply: (new Date(currentDateTime) > new Date(training.deadline))
+      is_late_reply: (new Date(currentDateTime) > new Date(training.deadline)),
+      updated_at: currentDateTime
     }
-    delete attendance._id;
+
     console.log(`attendance to db: `, attendance);
     //    update Attendance table
     this.restful.createAttendance(attendance).subscribe({
@@ -106,7 +110,7 @@ export class TrainingContentComponent implements OnInit {
       complete: () => {
         //    refresh UI
         if (this.needUpdateUi) {
-          this.removeWebViewTraining(training._id);
+          this.removeWebViewTraining(training.uuid);
         }
         this.trainingDataService.needRefresh();
       }
@@ -115,7 +119,7 @@ export class TrainingContentComponent implements OnInit {
 
   removeWebViewTraining(trainingId: string) {
     this.trainingList = this.trainingList.filter(function (obj) {
-      return obj._id !== trainingId;
+      return obj.uuid !== trainingId;
     });
     this.trainingDataService.updateTrainingDataList(this.trainingList);
   }
@@ -126,7 +130,7 @@ export class TrainingContentComponent implements OnInit {
       data: {
         training: training,
         isEditTraining: true,
-        isInputFromTrainingDetail: true
+        isInputFromTrainingDetail: this.isInputFromTrainingDetail
       }
     });
 

@@ -1,5 +1,5 @@
 export interface ITraining {
-  _id: string;
+  uuid: string;
   date: any;
   deadline: any;
   place: string;

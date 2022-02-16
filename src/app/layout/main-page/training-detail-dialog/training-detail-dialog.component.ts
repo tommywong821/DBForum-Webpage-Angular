@@ -25,6 +25,8 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
 
   monitoringTrainingUpdate: Subscription;
 
+  trainingData: any;
+
   constructor(@Inject(MAT_DIALOG_DATA) public dialogInputData: any,
               private restful: ForumBackendService,
               private trainingDataService: TrainingDataService) {
@@ -32,11 +34,12 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.needUpdateUi = false;
     this.monitoringTrainingUpdate = new Subscription();
+    this.trainingData = this.dialogInputData.trainingData;
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    console.log('clicked data: ', this.dialogInputData.trainingData);
+    console.log('clicked data: ', this.trainingData);
     this.initTrainingDetail();
     this.monitoringTrainingUpdate = this.trainingDataService.trainingNeedRefresh.subscribe((needRefresh) => {
       if (needRefresh) {
@@ -51,7 +54,7 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
 
   initTrainingDetail() {
     this.isLoading = true;
-    this.restful.getTrainingDetail(this.dialogInputData.trainingData._id).subscribe({
+    this.restful.getTrainingDetail(this.trainingData.uuid).subscribe({
       next: (result) => {
         console.log(`getTrainingDetail result: `, result);
         this.attendLeftStudent = result.reply.leftStudent;
