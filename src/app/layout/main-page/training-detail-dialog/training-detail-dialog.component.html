@@ -49,11 +49,14 @@
         <tr *matRowDef="let row; columns: rightStudentCol;" mat-row></tr>
       </table>
     </div>
-    <div class="col-12 detail-content">
-      <table [dataSource]="nonReplyStudent" aria-label="not attended student table" class="mat-elevation-z1" mat-table>
-        <ng-container matColumnDef="nonReply">
+  </div>
+
+  <div class="row detail-content">
+    <div class="col-6 detail-content">
+      <table [dataSource]="absentStudent" aria-label="absent student table" class="mat-elevation-z1" mat-table>
+        <ng-container matColumnDef="absent">
           <th *matHeaderCellDef mat-header-cell>
-            Not Reply / Absent ({{nonReplyStudent?.length}})
+            Absent ({{absentStudent?.length}})
           </th>
           <td *matCellDef="let student" mat-cell>
             <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
@@ -62,8 +65,25 @@
           </td>
         </ng-container>
 
-        <tr *matHeaderRowDef="nonReplyStudentCol" mat-header-row></tr>
-        <tr *matRowDef="let row; columns: nonReplyStudentCol;" mat-row></tr>
+        <tr *matHeaderRowDef="absentStudentCol" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: absentStudentCol;" mat-row></tr>
+      </table>
+    </div>
+    <div class="col-6 detail-content">
+      <table [dataSource]="noReplyStudent" aria-label="no reply student table" class="mat-elevation-z1" mat-table>
+        <ng-container matColumnDef="noReply">
+          <th *matHeaderCellDef mat-header-cell>
+            Not Reply ({{noReplyStudent?.length}})
+          </th>
+          <td *matCellDef="let student" mat-cell>
+            <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
+              {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
+            </span>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="noReplyStudentCol" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: noReplyStudentCol;" mat-row></tr>
       </table>
     </div>
   </div>

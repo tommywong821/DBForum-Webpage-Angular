@@ -14,11 +14,13 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
 
   attendLeftStudent: IStudent[] = [];
   attendRightStudent: IStudent[] = [];
-  nonReplyStudent: IStudent[] = [];
+  noReplyStudent: IStudent[] = [];
+  absentStudent: IStudent[] = [];
 
   leftStudentCol: string[] = ['left'];
   rightStudentCol: string[] = ['right'];
-  nonReplyStudentCol: string[] = ['nonReply'];
+  noReplyStudentCol: string[] = ['noReply'];
+  absentStudentCol: string[] = ['absent'];
 
   isLoading: boolean;
   needUpdateUi: boolean;
@@ -57,9 +59,10 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
     this.restful.getTrainingDetail(this.trainingData.uuid).subscribe({
       next: (result) => {
         console.log(`getTrainingDetail result: `, result);
-        this.attendLeftStudent = result.reply.leftStudent;
-        this.attendRightStudent = result.reply.rightStudent;
-        this.nonReplyStudent = result.nonReply;
+        this.attendLeftStudent = result.attend.leftStudent;
+        this.attendRightStudent = result.attend.rightStudent;
+        this.noReplyStudent = result.absent.noReplyStudent;
+        this.absentStudent = result.absent.absentStudent;
       },
       complete: () => {
         console.log('getTrainingDetail complete');
