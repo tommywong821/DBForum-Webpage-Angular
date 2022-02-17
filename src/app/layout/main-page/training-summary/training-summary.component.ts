@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingDetailDialogComponent} from "../training-detail-dialog/training-detail-dialog.component";
@@ -6,39 +6,30 @@ import {DateUtil} from "../../../services/date-util.service";
 import {TrainingDataService} from "../../../services/training-data.service";
 import {Subscription} from "rxjs";
 import {Auth0DataService} from "../../../services/auth0-data.service";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-training-summary',
   templateUrl: './training-summary.component.html',
   styleUrls: ['./training-summary.component.scss']
 })
-export class TrainingSummaryComponent implements OnInit, OnDestroy {
+export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewInit {
 
   displayDataList: any
-  /*= [{
-  "_id": "61fc018cc9384440c093ed62",
-  "date": "2022/02/03 00:23",
-  "place": "TKO",
-  "type": "Water",
-  "paddle_side": "left",
-  "status": "absent",
-  "left_side_paddle": 0,
-  "right_side_paddle": 0
-}, {
-  "_id": "61fc00a6c9384440c093ed61",
-  "date": "2022/02/07 18:45",
-  "place": "Wanchai Competition",
-  "type": "Water",
-  "paddle_side": "left",
-  "status": "absent",
-  "left_side_paddle": 0,
-  "right_side_paddle": 0
-}];*/
   displayColumns: string[] = ['Date', 'Training Type', 'Training Place', 'L/R'];
   isLoading: boolean = false;
   isAdmin: boolean;
+  showHistory: boolean;
 
   monitoringTrainingUpdate: Subscription;
+
+  //paginator
+  currentPage: number;
+  pageSize: number;
+  pageSizeOptions: number[];
+  dataSource: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private restful: ForumBackendService,
               private trainingDialog: MatDialog,
@@ -47,16 +38,27 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy {
               private auth0Service: Auth0DataService) {
     console.log(`[${this.constructor.name}] constructor`);
     this.monitoringTrainingUpdate = new Subscription();
-    this.isLoading = false;
+    this.isLoading = true;
     this.isAdmin = this.auth0Service.loginRole.includes('Admin');
+    this.showHistory = false;
+
+    //paginator config
+    this.currentPage = 0;
+    this.pageSizeOptions = [5, 10, 20];
+    this.pageSize = this.pageSizeOptions[0];
+    this.dataSource = new MatTableDataSource();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.refreshTrainingSummary(false);
+    this.refreshTrainingSummary();
     this.monitoringTrainingUpdate = this.trainingDataService.trainingNeedRefresh.subscribe((needRefresh) => {
       if (needRefresh) {
-        this.refreshTrainingSummary(false);
+        this.refreshTrainingSummary();
       }
     });
   }
@@ -69,18 +71,33 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy {
     return (numberOfPeople && numberOfPeople > 0) ? numberOfPeople : 0;
   }
 
-  refreshTrainingSummary(showHistory: boolean) {
-    this.isLoading = true;
-    this.restful.getTrainingSummary(showHistory).subscribe({
-        next: result => {
-          this.displayDataList = result
+  showTrainingSummaryHistory(){
+    this.showHistory = true;
+    this.refreshTrainingSummary();
+  }
+
+  showTrainingSummary(){
+    this.showHistory = false;
+    this.refreshTrainingSummary();
+  }
+
+  refreshTrainingSummary() {
+    this.restful.getTrainingSummary(this.showHistory, this.currentPage, this.pageSize).subscribe({
+        next: (result) => {
+          console.log(`refreshTrainingSummary: `, result);
+          // this.displayDataList = result
+          this.dataSource.data = result.trainingSummary;
+          //control paginator
+          setTimeout(() => {
+            this.paginator.length = result.totalTrainingSummary.sum;
+            this.paginator.pageIndex = this.currentPage;
+          })
         },
         complete: () => {
           this.isLoading = false
         }
       }
     );
-    this.isLoading = false;
   }
 
   getTrainingDetail(row: any) {
@@ -92,5 +109,12 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy {
       height: '100%',
       width: '100%'
     });
+  }
+
+  handlePageEvent(event: PageEvent){
+    console.log(`event: `, event);
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.refreshTrainingSummary();
   }
 }

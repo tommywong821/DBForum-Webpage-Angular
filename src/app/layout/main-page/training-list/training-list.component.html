@@ -11,13 +11,7 @@
     </button>
   </mat-card-header>
 
-  <ng-container *ngIf="isLoading; else content">
-    <mat-spinner></mat-spinner>
-  </ng-container>
-
-  <ng-template #content>
-    <mat-card-content class="scrollable-content">
-      <app-training-content [isEditAble]="true"></app-training-content>
-    </mat-card-content>
-  </ng-template>
+  <mat-card-content class="scrollable-content">
+    <app-training-content [isEditAble]="true"></app-training-content>
+  </mat-card-content>
 </mat-card>

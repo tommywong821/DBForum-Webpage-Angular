@@ -39,7 +39,6 @@ export class TrainingListComponent implements OnInit {
         complete: () => this.isLoading = false
       }
     );
-    this.isLoading = false;
   }
 
   addNewTrainingToDB() {

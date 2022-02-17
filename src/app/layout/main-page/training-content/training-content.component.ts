@@ -23,6 +23,7 @@ export class TrainingContentComponent implements OnInit {
 
   isAdmin: boolean;
   itsc: string;
+  isLoading: boolean;
 
   trainingList: Array<ITraining>;
 
@@ -38,14 +39,7 @@ export class TrainingContentComponent implements OnInit {
     this.itsc = '';
     this.needUpdateUi = true;
     this.isInputFromTrainingDetail = false;
-    this.trainingDataService.trainingDataList.subscribe((result) => {
-      console.log(`training list change: `, result);
-      if (this.isEditAble) {
-        console.log(`mainpage training content`);
-        //mainpage
-        this.trainingList = result;
-      }
-    });
+    this.isLoading = true;
   }
 
   ngOnInit(): void {
@@ -55,6 +49,17 @@ export class TrainingContentComponent implements OnInit {
     if (this.training) {
       this.trainingList = new Array<ITraining>(this.training);
     }
+    this.trainingDataService.trainingDataList.subscribe({
+      next: (result) => {
+        console.log(`training list change: `, result);
+        if (this.isEditAble) {
+          console.log(`mainpage training content`);
+          //mainpage
+          this.trainingList = result;
+        }
+      },
+      complete: () => this.isLoading = false
+    });
   }
 
   removeTrainingFromDB(training: ITraining) {

@@ -1,12 +1,12 @@
 <mat-card class="mat-elevation-z0">
   <mat-card-header>
     <mat-card-title class="card-container-left">
-      Training Summary
-      <button (click)="refreshTrainingSummary(true)" *ngIf="isAdmin" class="left-btn" mat-icon-button>
+      Training Summary <span *ngIf="showHistory">(History)</span>
+      <button (click)="showTrainingSummaryHistory()" *ngIf="isAdmin" class="left-btn" mat-icon-button>
         <mat-icon aria-label="refresh icon">history</mat-icon>
       </button>
     </mat-card-title>
-    <button (click)="refreshTrainingSummary(false)"
+    <button (click)="showTrainingSummary()"
             class="right-btn" mat-button>
       <mat-icon aria-label="refresh icon">refresh</mat-icon>
     </button>
@@ -19,7 +19,7 @@
   <ng-template #content>
     <mat-card-content>
       <div class="mat-elevation-z8">
-        <table *ngIf="displayDataList" [dataSource]="displayDataList" aria-label="overall training summary table"
+        <table [dataSource]="dataSource" aria-label="overall training summary table"
                class="full-width-table" mat-table>
 
           <!--        &lt;!&ndash;        todo debug &ndash;&gt;-->
@@ -50,6 +50,9 @@
           <tr *matHeaderRowDef="displayColumns" mat-header-row></tr>
           <tr (click)="getTrainingDetail(row)" *matRowDef="let row; columns: displayColumns;" mat-row></tr>
         </table>
+
+        <mat-paginator [pageIndex]="currentPage" [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true" (page)="handlePageEvent($event)">
+        </mat-paginator>
       </div>
     </mat-card-content>
   </ng-template>

@@ -96,8 +96,8 @@ export class ForumBackendService {
     return this.http.delete(this.apiUrl + "/training/" + trainingId);
   }
 
-  getTrainingSummary(showHistory: boolean) {
-    let params = new HttpParams().set('showHistory', showHistory);
+  getTrainingSummary(showHistory: boolean, page: number, pageSize: number) {
+    let params = new HttpParams().set('showHistory', showHistory).set('page', page).set('pageSize', pageSize);
     return this.http.get<any>(this.apiUrl + "/training/summary", {params: params});
     // return [{
     //   "_id": "61ef9b635906f4da86ff89d8",

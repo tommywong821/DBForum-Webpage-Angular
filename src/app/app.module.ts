@@ -5,7 +5,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AwsLambdaApiInterceptor} from "./interceptor/aws-lambda-api-interceptor";
-import {ForumBackendService} from "./services/aws-lambda/forum-backend.service";
 import {MainPageComponent} from './layout/main-page/main-page.component';
 import {DashboardPageComponent} from './layout/dashboard-page/dashboard-page.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -41,10 +40,8 @@ import {MatRadioModule} from "@angular/material/radio";
 import {NavigationComponent} from './layout/navigation/navigation.component';
 import {LayoutModule} from '@angular/cdk/layout';
 import {SidenavComponent} from './layout/navigation/sidenav/sidenav.component';
-import {TestComponent} from './test/test.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
-import {TestMainComponent} from './test-main/test-main.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSelectModule} from "@angular/material/select";
@@ -69,47 +66,45 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
     ProfileDialogComponent,
     NavigationComponent,
     SidenavComponent,
-    TestComponent,
-    TestMainComponent,
     GeneralReminderComponent,
     StudentManagementPageComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatCardModule,
-    MatButtonModule,
-    FlexLayoutModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatDatepickerModule,
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
-    FormsModule,
-    MatTableModule,
-    AuthModule.forRoot({
-      domain: environment.auth0Domain,
-      clientId: environment.auth0ClientId
-    }),
-    MatProgressSpinnerModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatListModule,
-    MatRadioModule,
-    LayoutModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatGridListModule,
-    MatMenuModule,
-    MatSelectModule,
-    NgbModule,
-    MatMomentDateModule,
-    NgMultiSelectDropDownModule.forRoot()
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatCardModule,
+        MatButtonModule,
+        FlexLayoutModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatDatepickerModule,
+        NgxMatDatetimePickerModule,
+        NgxMatNativeDateModule,
+        FormsModule,
+        MatTableModule,
+        AuthModule.forRoot({
+            domain: environment.auth0Domain,
+            clientId: environment.auth0ClientId
+        }),
+        MatProgressSpinnerModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatSidenavModule,
+        MatListModule,
+        MatRadioModule,
+        LayoutModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatGridListModule,
+        MatMenuModule,
+        MatSelectModule,
+        NgbModule,
+        MatMomentDateModule,
+        NgMultiSelectDropDownModule.forRoot()
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
