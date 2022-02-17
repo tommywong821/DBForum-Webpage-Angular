@@ -13,7 +13,7 @@
 
 <ng-template #content>
   <div class="row detail-content">
-    <div class="col-6 side-table">
+    <div class="col-6">
       <table [dataSource]="attendLeftStudent" aria-label="attended left side student table" class="mat-elevation-z1"
              mat-table>
         <ng-container matColumnDef="left">
@@ -31,7 +31,7 @@
         <tr *matRowDef="let row; columns: leftStudentCol;" mat-row></tr>
       </table>
     </div>
-    <div class="col-6 side-table">
+    <div class="col-6">
       <table [dataSource]="attendRightStudent" aria-label="attended right side student table" class="mat-elevation-z1"
              mat-table>
         <ng-container matColumnDef="right">
@@ -52,7 +52,7 @@
   </div>
 
   <div class="row detail-content">
-    <div class="col-6 detail-content">
+    <div class="col-6">
       <table [dataSource]="absentStudent" aria-label="absent student table" class="mat-elevation-z1" mat-table>
         <ng-container matColumnDef="absent">
           <th *matHeaderCellDef mat-header-cell>
@@ -69,7 +69,7 @@
         <tr *matRowDef="let row; columns: absentStudentCol;" mat-row></tr>
       </table>
     </div>
-    <div class="col-6 detail-content">
+    <div class="col-6">
       <table [dataSource]="noReplyStudent" aria-label="no reply student table" class="mat-elevation-z1" mat-table>
         <ng-container matColumnDef="noReply">
           <th *matHeaderCellDef mat-header-cell>
