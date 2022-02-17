@@ -35,23 +35,15 @@ export class ProfileDialogComponent implements OnInit {
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     console.log(`inputDialogData: `, this.inputDialogData);
-    this.restful.getStudentDetail(this.inputDialogData.itsc).subscribe({
-      next: (result) => {
-        console.log(`getStudentDetail: `, result);
-        if (result) {
-          this.initProfileFormFromApi(result);
-        } else {
-          this.initProfileFormFromNull();
-        }
-      },
-      complete: () => {
-        console.log('getStudentDetail complete');
-        this.isLoading = false;
-      }
-    })
+    if(this.inputDialogData.studentDetail){
+      this.initProfileFormFromInputData(this.inputDialogData.studentDetail)
+    }else{
+      this.initProfileFormFromNull();
+    }
+    this.isLoading = false;
   }
 
-  initProfileFormFromApi(studentInfo: IStudent) {
+  initProfileFormFromInputData(studentInfo: IStudent) {
     this.profileForm.setValue({
       itsc: studentInfo.itsc,
       nickname: studentInfo.nickname,
@@ -79,12 +71,10 @@ export class ProfileDialogComponent implements OnInit {
     this.isLoading = true;
     this.profileForm.value.updated_at = this.dateUtil.formatToHKTime(new Date());
     console.log(`after: `, this.profileForm.value);
-    this.restful.updateStudentProfile(this.inputDialogData.itsc, this.profileForm.value).subscribe({
-      next: (result) => {
-      },
+    this.restful.updateStudentProfile(this.profileForm.value.itsc, this.profileForm.value).subscribe({
       complete: () => {
-        this.isLoading = false;
         this.dialogRef.close();
+        this.isLoading = false;
       }
     });
   }
