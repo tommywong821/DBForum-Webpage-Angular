@@ -22,6 +22,7 @@ export class TrainingDataService {
 
   updateTrainingDataList(trainingList: Array<ITraining>): void {
     this._trainingDataList.next(trainingList);
+    this._trainingDataList.complete();
   }
 
   needRefresh() {

@@ -33,9 +33,6 @@ export class TrainingFormDialogComponent implements OnInit {
     });
     this.isEditTraining = false;
     this.trainingList = new Array<ITraining>();
-    this.trainingDataService.trainingDataList.subscribe((result) => {
-      this.trainingList = this.trainingList.concat(result);
-    });
   }
 
   get trainingFormGroup() {
@@ -44,6 +41,10 @@ export class TrainingFormDialogComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
+    this.trainingDataService.trainingDataList.subscribe((result) => {
+      this.trainingList = this.trainingList.concat(result);
+    });
+
     console.log(`importData: `, this.importData);
     this.initDataFromImportData();
   }

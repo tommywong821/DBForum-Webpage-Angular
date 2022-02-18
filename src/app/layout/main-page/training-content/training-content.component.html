@@ -1,10 +1,11 @@
 <div [style.margin-bottom]="'12px'" [style.margin-top]="'12px'" fxLayout="row" fxLayoutGap="12px">
 
-  <ng-container *ngIf="isLoading">
+  <ng-container *ngIf="isLoading; else content">
     <mat-spinner></mat-spinner>
   </ng-container>
 
-  <span *ngFor="let training of trainingList">
+  <ng-template #content>
+    <span *ngFor="let training of trainingList">
     <mat-card [ngClass]="(trainingList.length > 1)? 'training-card': 'single-training-card'">
       <div>
          <div class="card-container-left">{{training.type}}</div>
@@ -37,4 +38,5 @@
       </mat-card-content>
     </mat-card>
   </span>
+  </ng-template>
 </div>
