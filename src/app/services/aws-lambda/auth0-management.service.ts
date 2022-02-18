@@ -45,4 +45,11 @@ export class Auth0ManagementService {
     }
     return this.http.delete(this.apiUrl + '/user/role/remove', {body: body});
   }
+
+  deleteUserAccount(userIdList: Array<string>) {
+    const body = {
+      userIdList: userIdList
+    }
+    return this.http.delete(this.apiUrl + '/user', {body: body});
+  }
 }

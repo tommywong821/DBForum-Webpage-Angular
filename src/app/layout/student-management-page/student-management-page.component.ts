@@ -31,6 +31,10 @@ export class StudentManagementPageComponent implements OnInit {
   isRemoveFormLoading: boolean;
   managementData$: Array<Observable<any>>;
 
+  //delete student account part
+  deleteStudentForm: FormGroup;
+  isDeleteFormLoading: boolean;
+
   //assign role to student account part
   assignStudentAccountList: Array<IStudentAccount>;
   userRoleList: Array<IUserRole>;
@@ -50,6 +54,13 @@ export class StudentManagementPageComponent implements OnInit {
     console.log(`[${this.constructor.name}] constructor`);
     this.managementData$ = [this.auth0Restful.getStudentAccountList(), this.auth0Restful.getUserRolesList()];
 
+    //delete student account
+    this.deleteStudentForm = formBuilder.group({
+      users: ''
+    });
+    this.isDeleteFormLoading = true;
+
+    //assign role to student
     this.assignStudentAccountList = new Array<IStudentAccount>();
     this.userRoleList = new Array<IUserRole>();
     this.studentACDropDownSetting = {
@@ -72,6 +83,7 @@ export class StudentManagementPageComponent implements OnInit {
     });
     this.isAssignFormLoading = true;
 
+    //remove role from student
     this.removeRoleDropDownSetting = {
       singleSelection: true,
       idField: 'id',
@@ -92,6 +104,14 @@ export class StudentManagementPageComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
+    this.fetchDataFromAuth0();
+    this.isAdmin = this.auth0Data.loginRole.includes('Admin');
+  }
+
+  fetchDataFromAuth0(){
+    this.isAssignFormLoading = true;
+    this.isRemoveFormLoading = true;
+    this.isDeleteFormLoading = true;
     forkJoin(this.managementData$).subscribe({
       next: (result) => {
         this.managementData.studentAccountList = result[0];
@@ -101,10 +121,10 @@ export class StudentManagementPageComponent implements OnInit {
         this.assignStudentAccountList = this.managementData.studentAccountList;
         this.userRoleList = this.managementData.userRoleList;
         this.isAssignFormLoading = false;
-        this.isRemoveFormLoading = false
+        this.isRemoveFormLoading = false;
+        this.isDeleteFormLoading = false;
       }
     });
-    this.isAdmin = this.auth0Data.loginRole.includes('Admin');
   }
 
   uploadStudentCsv(event: any) {
@@ -135,6 +155,7 @@ export class StudentManagementPageComponent implements OnInit {
         complete: () => {
           alert('Student Account is created!');
           this.reset();
+          this.fetchDataFromAuth0();
         }
       });
     }
@@ -162,7 +183,7 @@ export class StudentManagementPageComponent implements OnInit {
 
   onSubmitAssignRoleForm() {
     this.isAssignFormLoading = true;
-    console.log(`selected form: ${JSON.stringify(this.assignRoleForm.value)}`);
+    console.log(`assign role form: ${JSON.stringify(this.assignRoleForm.value)}`);
     if (!this.assignRoleForm.value.role[0] || !this.assignRoleForm.value.users) {
       alert('Please choose role and student(s) to assign');
       return;
@@ -173,17 +194,10 @@ export class StudentManagementPageComponent implements OnInit {
     console.log(`userList: `, userIdList);
     this.auth0Restful.assignRoleToUsers(roleId, userIdList).subscribe({
       complete: () => {
-        this.clearForm(this.assignRoleForm);
+        this.assignRoleForm.reset();
         alert('Role is assigned to user(s)');
-        this.isAssignFormLoading = false;
+        this.fetchDataFromAuth0();
       }
-    });
-  }
-
-  clearForm(form: FormGroup) {
-    form.setValue({
-      role: '',
-      users: ''
     });
   }
 
@@ -205,7 +219,7 @@ export class StudentManagementPageComponent implements OnInit {
   }
 
   onSubmitRemoveRoleForm() {
-    console.log(`selected form: ${JSON.stringify(this.removeRoleForm.value)}`);
+    console.log(`remove role form: ${JSON.stringify(this.removeRoleForm.value)}`);
     this.isRemoveFormLoading = true;
     if (!this.removeRoleForm.value.role[0] || !this.removeRoleForm.value.users) {
       alert('Please choose role and student(s) to remove');
@@ -215,9 +229,28 @@ export class StudentManagementPageComponent implements OnInit {
     const userIdList = this.removeRoleForm.value.users.map((user: IStudentAccount) => user.user_id);
     this.auth0Restful.removeRoleFromUser(roleId, userIdList).subscribe({
       complete: () => {
-        this.clearForm(this.removeRoleForm)
+        this.removeRoleForm.reset();
         alert('Role is remove from user(s)');
-        this.isRemoveFormLoading = false;
+        this.fetchDataFromAuth0();
+      }
+    });
+  }
+
+  onSubmitDeleteStudentForm() {
+    console.log(`delete student form: ${JSON.stringify(this.deleteStudentForm.value)}`);
+    this.isDeleteFormLoading = true;
+    if (!this.deleteStudentForm.value) {
+      alert('Please choose student(s) account to delete');
+      return;
+    }
+    const studentAccountId = this.deleteStudentForm.value.users.map((student: any) => {
+      return student.user_id;
+    });
+    this.auth0Restful.deleteUserAccount(studentAccountId).subscribe({
+      complete: () => {
+        this.deleteStudentForm.reset();
+        alert('Student(s) is remove from forum');
+        this.fetchDataFromAuth0();
       }
     })
   }

@@ -31,7 +31,32 @@
   <div class="row">
     <div class="col-sm">
       <div class="card-body">
-        <h5 class="card-title">Assign Role to Student Account</h5>
+        <h5 class="card-title">Remove Student(s) Account</h5>
+        <ng-container *ngIf="!isDeleteFormLoading; else loading">
+          <div class="container">
+            <form (ngSubmit)="onSubmitDeleteStudentForm()" [formGroup]="deleteStudentForm">
+              <div class="row">
+                Delete
+                <div class="col-3">
+                  <ng-multiselect-dropdown
+                    [settings]="studentACDropDownSetting"
+                    [data]="assignStudentAccountList"
+                    formControlName="users"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>
+                <button class="btn btn-outline-secondary" type="submit">Remove</button>
+              </div>
+            </form>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <div class="card-body">
+        <h5 class="card-title">Assign Role to Student(s) Account</h5>
         <ng-container *ngIf="!isAssignFormLoading; else loading">
           <div class="container">
             <form (ngSubmit)="onSubmitAssignRoleForm()" [formGroup]="assignRoleForm">
@@ -65,7 +90,7 @@
   <div class="row">
     <div class="col-sm">
       <div class="card-body">
-        <h5 class="card-title">Remove Role From Student Account</h5>
+        <h5 class="card-title">Remove Role From Student(s) Account</h5>
         <ng-container *ngIf="!isRemoveFormLoading; else loading">
           <div class="container">
             <form (ngSubmit)="onSubmitRemoveRoleForm()" [formGroup]="removeRoleForm">
