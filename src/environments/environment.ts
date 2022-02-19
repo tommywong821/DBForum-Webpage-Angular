@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  forumApiUrl: 'https://pyret1uvgk.execute-api.ap-southeast-1.amazonaws.com/dev',
+  forumApiUrl: 'https://w729853zuj.execute-api.ap-southeast-1.amazonaws.com/dev',
   auth0ManagementApiUrl: 'https://bh0txw4pzb.execute-api.ap-southeast-1.amazonaws.com/dev',
-  xApiKey: 'tros2K5xguC2IhRlNALROlJsroBJKr951gIYxSa0',
+  xApiKey: 'jp6s9AB5FN6L9cgjbPoJMLVwobnU8QqR8vkyHCh0',
   auth0Domain: 'dev-feuvbc3k.us.auth0.com',
   auth0ClientId: 'loBVYiglzMWAZE7MHBl24WOi4MHBl7Ac'
 };
