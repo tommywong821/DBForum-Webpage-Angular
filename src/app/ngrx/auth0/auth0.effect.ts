@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {Auth0Service} from "../../services/auth0.service";
 import * as auth0Action from './auth0.action';
-import {combineLatest, combineLatestWith, of, switchMap, switchMapTo, tap} from "rxjs";
+import {combineLatest, of, switchMap, tap} from "rxjs";
 
 @Injectable()
 export class Auth0Effect{
@@ -32,7 +32,7 @@ export class Auth0Effect{
           return of(auth0Action.loginComplete({ isLoggedIn, profile, accessToken }));
         }
 
-        return of(auth0Action.logoutComplete());
+        return of(auth0Action.login());
       })
     )
   );
