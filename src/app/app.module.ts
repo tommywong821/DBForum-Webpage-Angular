@@ -29,7 +29,6 @@ import {
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {TrainingContentComponent} from "./layout/main-page/training-content/training-content.component";
 import {LoadingComponent} from "./layout/shared/loading/loading.component";
-import {DateUtil} from "./services/date-util.service";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {HeaderComponent} from './layout/header/header.component';
@@ -54,7 +53,6 @@ import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {Auth0Effect} from "./ngrx/auth0/auth0.effect";
 import {auth0Reducer} from "./ngrx/auth0/auth0.reducer";
-import { TestComponent } from './test/test.component';
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 
 @NgModule({
