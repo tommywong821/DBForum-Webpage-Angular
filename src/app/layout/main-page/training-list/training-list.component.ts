@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
-import {Auth0DataService} from "../../../services/auth0-data.service";
 import {TrainingDataService} from "../../../services/training-data.service";
+import {select, Store} from "@ngrx/store";
+import {selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
 
 @Component({
   selector: 'app-training-list',
@@ -16,8 +17,8 @@ export class TrainingListComponent implements OnInit {
 
   constructor(private restful: ForumBackendService,
               private trainingFormDialog: MatDialog,
-              private auth0DataService: Auth0DataService,
-              private trainingDataListService: TrainingDataService) {
+              private trainingDataListService: TrainingDataService,
+              private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isLoading = true;
     this.isAdmin = false;
@@ -26,7 +27,11 @@ export class TrainingListComponent implements OnInit {
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.getTrainingList();
-    this.isAdmin = this.auth0DataService.loginRole.includes('Admin');
+    this.store.pipe(select(selectCurrentUserRole)).subscribe({
+      next: (userLoginRole) => {
+        this.isAdmin = userLoginRole?.includes('Admin');
+      }
+    })
   }
 
   getTrainingList() {

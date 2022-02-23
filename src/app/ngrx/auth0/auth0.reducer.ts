@@ -3,29 +3,33 @@ import {Action, createReducer, on} from "@ngrx/store";
 import * as auth0Action from './auth0.action';
 
 export const initialState: Auth0State = {
-  userProfile: null,
   isLoggedIn: false,
   accessToken: null,
+  loginUserItsc: null,
+  loginUserRole: null,
 };
 
 const auth0ReducerInternal = createReducer(
   initialState,
 
   on(auth0Action.loginComplete, (state, {profile, isLoggedIn, accessToken}) => {
-    return{
+    return {
       ...state,
       userProfile: profile,
       isLoggedIn: isLoggedIn,
-      accessToken: accessToken,
+      accessToken: accessToken.__raw,
+      loginUserItsc: profile['http://demozero.net/itsc'],
+      loginUserRole: profile['http://demozero.net/roles'],
     };
   }),
 
   on(auth0Action.logoutComplete, (state, {}) => {
-    return{
+    return {
       ...state,
-      userProfile: null,
       isLoggedIn: false,
       accessToken: null,
+      loginUserItsc: null,
+      loginUserRole: null,
     };
   })
 );

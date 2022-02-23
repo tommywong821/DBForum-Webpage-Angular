@@ -5,22 +5,23 @@ import {Observable} from "rxjs";
 @Injectable({
   providedIn: 'root',
 })
-export class Auth0Service{
-  constructor(private authService: AuthService) {}
+export class Auth0Service {
+  constructor(private authService: AuthService) {
+  }
 
-  get isLoggedIn$(): Observable<boolean>{
+  get isLoggedIn$(): Observable<boolean> {
     return this.authService.isAuthenticated$;
   }
 
-  get accessToken$(): Observable<string>{
-    return this.authService.getAccessTokenSilently();
+  get accessToken$(): Observable<any> {
+    return this.authService.idTokenClaims$;
   }
 
-  get user$(): Observable<any>{
+  get user$(): Observable<any> {
     return this.authService.user$;
   }
 
-  login(): void{
+  login(): void {
     this.authService.loginWithRedirect();
   }
 

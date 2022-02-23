@@ -1,4 +1,4 @@
-<ng-container *ngIf="isLogined">
+<ng-container *ngIf="loggedIn$ | async">
   <div class="row">
     <div class="col-12">
       <app-training-list></app-training-list>

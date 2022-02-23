@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Auth0DataService} from "../../services/auth0-data.service";
+import {Observable} from "rxjs";
+import {select, Store} from "@ngrx/store";
+import {selectIsLoggedIn} from "../../ngrx/auth0/auth0.selectors";
 
 @Component({
   selector: 'app-main-page',
@@ -8,21 +10,14 @@ import {Auth0DataService} from "../../services/auth0-data.service";
 })
 export class MainPageComponent implements OnInit {
 
-  isLogined: boolean;
+  loggedIn$: Observable<boolean>;
 
-  constructor(private auth0DataService: Auth0DataService) {
+  constructor(private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
-    this.isLogined = false;
+    this.loggedIn$ = this.store.pipe(select(selectIsLoggedIn));
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.auth0DataService.stateChanged.subscribe({
-      next: (isDataFetched: boolean) => {
-        if (isDataFetched) {
-          this.isLogined = this.auth0DataService.isAuthenticated;
-        }
-      }
-    });
   }
 }

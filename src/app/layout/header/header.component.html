@@ -12,7 +12,7 @@
     <span class="spacer"></span>
 
     <ng-container *ngIf="showBtn">
-      <ng-container *ngIf="auth0DataService.isAuthenticated">
+      <ng-container *ngIf="isLoggedIn$ | async">
         <button
           (click)="openProfileDialog()"
           aria-label="profile btn"
@@ -22,7 +22,7 @@
           <span> Profile</span>
         </button>
         <button
-          (click)="auth0DataService.logout()"
+          (click)="logout()"
           aria-label="logout btn"
           mat-button
           type="button">

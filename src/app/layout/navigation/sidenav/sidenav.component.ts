@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Auth0DataService} from "../../../services/auth0-data.service";
+import {select, Store} from "@ngrx/store";
+import {selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
 
 @Component({
   selector: 'app-sidenav',
@@ -9,20 +10,18 @@ import {Auth0DataService} from "../../../services/auth0-data.service";
 export class SidenavComponent implements OnInit {
   isAdmin: boolean;
 
-  constructor(private auth0DataService: Auth0DataService) {
+  constructor(private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isAdmin = false;
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.auth0DataService.stateChanged.subscribe({
-      next: (isDataFetched: boolean) => {
-        if (isDataFetched) {
-          this.isAdmin = this.auth0DataService.loginRole.includes('Admin');
-        }
+    this.store.pipe(select(selectCurrentUserRole)).subscribe({
+      next: (userLoginRole) => {
+        this.isAdmin = userLoginRole?.includes('Admin');
       }
-    });
+    })
   }
 
 }

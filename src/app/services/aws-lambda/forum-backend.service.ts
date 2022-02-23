@@ -4,17 +4,24 @@ import {ITraining} from "../../model/forum/ITraining";
 import {environment} from "../../../environments/environment";
 import {IStudent} from "../../model/forum/IStudent";
 import {IReminder} from "../../model/forum/IReminder";
-import {Auth0DataService} from "../auth0-data.service";
 import {IAttendance} from "../../model/forum/IAttendance";
+import {select, Store} from "@ngrx/store";
+import {selectCurrentUserItsc} from "../../ngrx/auth0/auth0.selectors";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ForumBackendService {
   private apiUrl: string = environment.forumApiUrl;
+  private itsc: any;
 
   constructor(private http: HttpClient,
-              private auth0DataService: Auth0DataService) {
+              private store: Store<any>) {
+    this.store.pipe(select(selectCurrentUserItsc)).subscribe({
+      next: (userItsc) => {
+        this.itsc = userItsc;
+      }
+    })
   }
 
   healthCheck() {
@@ -22,7 +29,7 @@ export class ForumBackendService {
   }
 
   getTrainingList() {
-    let params = new HttpParams().set('itsc', this.auth0DataService.loginUserItsc);
+    let params = new HttpParams().set('itsc', this.itsc);
     return this.http.get<Array<ITraining>>(this.apiUrl + "/training", {params: params});
     /*return [{
       "_id": "61ef9b635906f4da86ff89da",

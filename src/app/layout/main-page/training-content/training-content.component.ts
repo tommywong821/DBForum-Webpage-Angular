@@ -2,11 +2,13 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ITraining} from "../../../model/forum/ITraining";
 import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
 import {DateUtil} from "../../../services/date-util.service";
-import {Auth0DataService} from "../../../services/auth0-data.service";
 import {IAttendance} from "../../../model/forum/IAttendance";
 import {TrainingDataService} from "../../../services/training-data.service";
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
+import {combineLatest} from "rxjs";
+import {select, Store} from "@ngrx/store";
+import {selectCurrentUserItsc, selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
 
 @Component({
   selector: 'app-training-content',
@@ -28,10 +30,10 @@ export class TrainingContentComponent implements OnInit {
   trainingList: Array<ITraining>;
 
   constructor(private restful: ForumBackendService,
-              private auth0DataService: Auth0DataService,
               public dateUtil: DateUtil,
               private trainingDataService: TrainingDataService,
-              private trainingFormDialog: MatDialog) {
+              private trainingFormDialog: MatDialog,
+              private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingList = new Array<ITraining>();
     this.isEditAble = false;
@@ -44,8 +46,15 @@ export class TrainingContentComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.itsc = this.auth0DataService.loginUserItsc;
-    this.isAdmin = this.auth0DataService.loginRole.includes('Admin');
+    combineLatest([
+      this.store.pipe(select(selectCurrentUserRole)),
+      this.store.pipe(select(selectCurrentUserItsc)),
+    ]).subscribe({
+      next: ([userLoginRole, userItsc]) => {
+        this.isAdmin = userLoginRole?.includes('Admin');
+        this.itsc = userItsc
+      }
+    })
     if (this.training) {
       this.trainingList = new Array<ITraining>(this.training);
     }

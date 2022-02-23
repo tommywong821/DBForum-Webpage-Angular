@@ -5,9 +5,10 @@ import {TrainingDetailDialogComponent} from "../training-detail-dialog/training-
 import {DateUtil} from "../../../services/date-util.service";
 import {TrainingDataService} from "../../../services/training-data.service";
 import {Subscription} from "rxjs";
-import {Auth0DataService} from "../../../services/auth0-data.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {select, Store} from "@ngrx/store";
+import {selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
 
 @Component({
   selector: 'app-training-summary',
@@ -35,11 +36,11 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
               private trainingDialog: MatDialog,
               public dateUtil: DateUtil,
               private trainingDataService: TrainingDataService,
-              private auth0Service: Auth0DataService) {
+              private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.monitoringTrainingUpdate = new Subscription();
     this.isLoading = true;
-    this.isAdmin = this.auth0Service.loginRole.includes('Admin');
+    this.isAdmin = false;
     this.showHistory = false;
 
     //paginator config
@@ -61,6 +62,12 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
         this.refreshTrainingSummary();
       }
     });
+
+    this.store.pipe(select(selectCurrentUserRole)).subscribe({
+      next: (userLoginRole) => {
+        this.isAdmin = userLoginRole?.includes('Admin');
+      }
+    })
   }
 
   ngOnDestroy() {

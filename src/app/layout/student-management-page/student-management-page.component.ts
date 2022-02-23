@@ -7,7 +7,8 @@ import {IStudentAccount} from "../../model/auth0-management/IStudentAccount";
 import {IUserRole} from "../../model/auth0-management/IUserRole";
 import {IDropdownSettings} from "ng-multiselect-dropdown";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {Auth0DataService} from "../../services/auth0-data.service";
+import {select, Store} from "@ngrx/store";
+import {selectCurrentUserRole} from "../../ngrx/auth0/auth0.selectors";
 
 @Component({
   selector: 'app-student-management-page',
@@ -50,7 +51,7 @@ export class StudentManagementPageComponent implements OnInit {
   constructor(private managementData: ManagementDataService,
               private auth0Restful: Auth0ManagementService,
               private formBuilder: FormBuilder,
-              private auth0Data: Auth0DataService) {
+              private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.managementData$ = [this.auth0Restful.getStudentAccountList(), this.auth0Restful.getUserRolesList()];
 
@@ -105,7 +106,11 @@ export class StudentManagementPageComponent implements OnInit {
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.fetchDataFromAuth0();
-    this.isAdmin = this.auth0Data.loginRole.includes('Admin');
+    this.store.pipe(select(selectCurrentUserRole)).subscribe({
+      next: (userLoginRole) => {
+        this.isAdmin = userLoginRole.includes('Admin');
+      }
+    })
   }
 
   fetchDataFromAuth0(){

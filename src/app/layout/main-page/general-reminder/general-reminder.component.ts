@@ -3,9 +3,10 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
 import {IReminder} from "../../../model/forum/IReminder";
 import {DateUtil} from "../../../services/date-util.service";
-import ObjectID from "bson-objectid";
-import {Auth0DataService} from "../../../services/auth0-data.service";
 import {v4 as uuidV4} from 'uuid';
+import {select, Store} from "@ngrx/store";
+import {selectCurrentUserItsc, selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
+import {combineLatest} from "rxjs";
 
 @Component({
   selector: 'app-general-reminder',
@@ -19,11 +20,12 @@ export class GeneralReminderComponent implements OnInit {
   isLoading: boolean;
   reminderId: string;
   isAdmin: boolean;
+  userItsc: any;
 
   constructor(private formBuilder: FormBuilder,
               private restful: ForumBackendService,
               private dateUtil: DateUtil,
-              private auth0DataService: Auth0DataService) {
+              private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isReadOnly = true;
     this.reminderForm = this.formBuilder.group({
@@ -37,7 +39,15 @@ export class GeneralReminderComponent implements OnInit {
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.initReminderMessage();
-    this.isAdmin = this.auth0DataService.loginRole.includes('Admin');
+    combineLatest([
+      this.store.pipe(select(selectCurrentUserRole)),
+      this.store.pipe(select(selectCurrentUserItsc))
+    ]).subscribe({
+      next: ([userLoginRole, userItsc]) => {
+        this.isAdmin = userLoginRole?.includes('Admin');
+        this.userItsc = userItsc;
+      }
+    })
   }
 
   enableEdit() {
@@ -66,7 +76,7 @@ export class GeneralReminderComponent implements OnInit {
       uuid: (this.reminderId) ? this.reminderId : uuidV4(),
       message: this.reminderForm.value.reminder,
       updated_at: this.dateUtil.formatToHKTime(new Date()),
-      last_edit_user: this.auth0DataService.loginUserItsc
+      last_edit_user: this.userItsc,
     }
     console.log(`newReminder: `, newReminder);
     this.restful.updateReminderMessage(newReminder.uuid, newReminder).subscribe({
