@@ -50,6 +50,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {StudentManagementPageComponent} from './layout/student-management-page/student-management-page.component';
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
+import {StoreModule} from "@ngrx/store";
+import {EffectsModule} from "@ngrx/effects";
+import {Auth0Effect} from "./ngrx/auth0/auth0.effect";
+import {auth0Reducer} from "./ngrx/auth0/auth0.reducer";
+import { TestComponent } from './test/test.component';
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 
 @NgModule({
   declarations: [
@@ -103,7 +109,10 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
         MatSelectModule,
         NgbModule,
         MatMomentDateModule,
-        NgMultiSelectDropDownModule.forRoot()
+        NgMultiSelectDropDownModule.forRoot(),
+        StoreModule.forRoot({ auth0: auth0Reducer }),
+        EffectsModule.forRoot([Auth0Effect]),
+        StoreDevtoolsModule.instrument({maxAge: 10})
     ],
   providers: [
     {
