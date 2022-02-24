@@ -22,12 +22,6 @@
         <table [dataSource]="dataSource" aria-label="overall training summary table"
                class="full-width-table" mat-table>
 
-          <!--        &lt;!&ndash;        todo debug &ndash;&gt;-->
-          <!--        <ng-container matColumnDef="id">-->
-          <!--          <th *matHeaderCellDef mat-header-cell> id</th>-->
-          <!--          <td *matCellDef="let element" mat-cell> {{element._id}} </td>-->
-          <!--        </ng-container>-->
-
           <ng-container matColumnDef="Date">
             <th *matHeaderCellDef mat-header-cell>Date</th>
             <td *matCellDef="let element" mat-cell> {{dateUtil.displayFormat(element.date)}} </td>

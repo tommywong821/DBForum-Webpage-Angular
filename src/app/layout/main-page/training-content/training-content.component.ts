@@ -22,6 +22,7 @@ export class TrainingContentComponent implements OnInit {
   @Input() needUpdateUi: boolean;
   @Input() training: any;
   @Input() isInputFromTrainingDetail: boolean;
+  @Input() isRefreshing: any;
 
   isAdmin: boolean;
   itsc: string;
@@ -152,7 +153,6 @@ export class TrainingContentComponent implements OnInit {
       if (updatedTraining) {
         console.log(`updatedTraining: `, updatedTraining);
         this.trainingList = new Array<ITraining>(updatedTraining.data);
-        //todo think how to reduce api call
         this.trainingDataService.trainingNeedRefresh.emit(true);
       }
     });

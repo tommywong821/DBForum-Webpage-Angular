@@ -12,7 +12,7 @@ import {selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
   styleUrls: ['./training-list.component.scss']
 })
 export class TrainingListComponent implements OnInit {
-  isLoading: boolean;
+  isRefreshing: boolean;
   isAdmin: boolean;
 
   constructor(private restful: ForumBackendService,
@@ -20,7 +20,7 @@ export class TrainingListComponent implements OnInit {
               private trainingDataListService: TrainingDataService,
               private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
-    this.isLoading = true;
+    this.isRefreshing = true;
     this.isAdmin = false;
   }
 
@@ -35,13 +35,13 @@ export class TrainingListComponent implements OnInit {
   }
 
   getTrainingList() {
-    this.isLoading = true;
+    this.isRefreshing = true;
     this.restful.getTrainingList().subscribe({
         next: (result) => {
           console.log(`getTrainingList: `, result);
           this.trainingDataListService.updateTrainingDataList(result);
-        },
-        complete: () => this.isLoading = false
+          this.isRefreshing = false;
+        }
       }
     );
   }

@@ -89,16 +89,17 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   refreshTrainingSummary() {
+    this.isLoading = true;
     this.restful.getTrainingSummary(this.showHistory, this.currentPage, this.pageSize).subscribe({
-        next: (result) => {
-          console.log(`refreshTrainingSummary: `, result);
-          // this.displayDataList = result
-          this.dataSource.data = result.trainingSummary;
-          //control paginator
-          setTimeout(() => {
-            this.paginator.length = result.totalTrainingSummary.sum;
-            this.paginator.pageIndex = this.currentPage;
-          })
+      next: (result) => {
+        console.log(`refreshTrainingSummary: `, result);
+        // this.displayDataList = result
+        this.dataSource.data = result.trainingSummary;
+        //control paginator
+        setTimeout(() => {
+          this.paginator.length = result.totalTrainingSummary.sum;
+          this.paginator.pageIndex = this.currentPage;
+        })
         },
         complete: () => {
           this.isLoading = false

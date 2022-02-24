@@ -1,6 +1,6 @@
 <div [style.margin-bottom]="'12px'" [style.margin-top]="'12px'" fxLayout="row" fxLayoutGap="12px">
 
-  <ng-container *ngIf="isLoading; else content">
+  <ng-container *ngIf="isLoading || isRefreshing; else content">
     <mat-spinner></mat-spinner>
   </ng-container>
 
