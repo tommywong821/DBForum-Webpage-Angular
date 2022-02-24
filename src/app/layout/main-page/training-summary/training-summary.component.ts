@@ -87,7 +87,7 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
   }
 
   showTrainingSummary() {
-    if (this.historyDateForm.value.toDate < this.historyDateForm.value.fromDate) {
+    if (this.historyDateForm.value.toDate && (this.historyDateForm.value.toDate < this.historyDateForm.value.fromDate)) {
       alert(`End Date cannot be before Start Date`);
       return;
     }
