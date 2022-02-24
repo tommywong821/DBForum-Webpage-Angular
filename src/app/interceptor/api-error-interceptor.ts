@@ -2,7 +2,9 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {catchError, Observable, retry, throwError} from "rxjs";
 import {Injectable} from "@angular/core";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class ApiErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

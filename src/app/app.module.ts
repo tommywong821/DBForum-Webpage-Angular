@@ -47,8 +47,6 @@ import {MatSelectModule} from "@angular/material/select";
 import {GeneralReminderComponent} from './layout/main-page/general-reminder/general-reminder.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
-import {StudentManagementPageComponent} from './layout/student-management-page/student-management-page.component';
-import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {Auth0Effect} from "./ngrx/auth0/auth0.effect";
@@ -70,8 +68,7 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
     ProfileDialogComponent,
     NavigationComponent,
     SidenavComponent,
-    GeneralReminderComponent,
-    StudentManagementPageComponent
+    GeneralReminderComponent
   ],
     imports: [
         BrowserModule,
@@ -107,7 +104,6 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
         MatSelectModule,
         NgbModule,
         MatMomentDateModule,
-        NgMultiSelectDropDownModule.forRoot(),
         StoreModule.forRoot({ auth0: auth0Reducer }),
         EffectsModule.forRoot([Auth0Effect]),
         StoreDevtoolsModule.instrument({maxAge: 10})

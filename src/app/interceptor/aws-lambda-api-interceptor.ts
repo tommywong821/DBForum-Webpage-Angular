@@ -5,7 +5,9 @@ import {environment} from "../../environments/environment";
 import {Store} from "@ngrx/store";
 import {selectAccessToken} from "../ngrx/auth0/auth0.selectors";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class AwsLambdaApiInterceptor implements HttpInterceptor {
   xApiKey: string = environment.xApiKey;
 

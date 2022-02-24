@@ -11,11 +11,11 @@ import {select, Store} from "@ngrx/store";
 import {selectCurrentUserRole} from "../../ngrx/auth0/auth0.selectors";
 
 @Component({
-  selector: 'app-student-management-page',
-  templateUrl: './student-management-page.component.html',
-  styleUrls: ['./student-management-page.component.scss']
+  selector: 'app-management-page',
+  templateUrl: './management-page.component.html',
+  styleUrls: ['./management-page.component.scss']
 })
-export class StudentManagementPageComponent implements OnInit {
+export class ManagementPageComponent implements OnInit {
 
   isAdmin: boolean;
 
@@ -105,12 +105,14 @@ export class StudentManagementPageComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.fetchDataFromAuth0();
     this.store.pipe(select(selectCurrentUserRole)).subscribe({
       next: (userLoginRole) => {
-        this.isAdmin = userLoginRole.includes('Admin');
-      }
-    })
+        if (userLoginRole) {
+          this.isAdmin = userLoginRole.includes('Admin');
+          this.fetchDataFromAuth0();
+        }
+      },
+    });
   }
 
   fetchDataFromAuth0(){
