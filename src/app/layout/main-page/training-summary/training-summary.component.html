@@ -1,10 +1,27 @@
 <mat-card class="mat-elevation-z0">
   <mat-card-header>
     <mat-card-title class="card-container-left">
-      Training Summary <span *ngIf="showHistory">(History)</span>
-      <button (click)="showTrainingSummaryHistory()" *ngIf="isAdmin" class="left-btn" mat-icon-button>
-        <mat-icon aria-label="refresh icon">history</mat-icon>
-      </button>
+      Training Summary
+      <form [formGroup]="historyDateForm">
+        From
+        <span class="datepicker">
+          <mat-form-field appearance="fill">
+            <mat-label>Start Date</mat-label>
+            <input [matDatepicker]="fromDateTimePicker" formControlName="fromDate" matInput readonly>
+            <mat-datepicker-toggle [for]="$any(fromDateTimePicker)" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #fromDateTimePicker></mat-datepicker>
+          </mat-form-field>
+        </span>
+        To
+        <span class="datepicker">
+          <mat-form-field appearance="fill">
+            <mat-label>End Date</mat-label>
+            <input [matDatepicker]="toDateTimePicker" formControlName="toDate" matInput readonly>
+            <mat-datepicker-toggle [for]="$any(toDateTimePicker)" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #toDateTimePicker></mat-datepicker>
+          </mat-form-field>
+        </span>
+      </form>
     </mat-card-title>
     <button (click)="showTrainingSummary()"
             class="right-btn" mat-button>

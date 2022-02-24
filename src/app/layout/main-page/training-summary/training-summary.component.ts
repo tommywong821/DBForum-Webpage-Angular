@@ -9,6 +9,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-training-summary',
@@ -21,7 +22,6 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
   displayColumns: string[] = ['Date', 'Training Type', 'Training Place', 'L/R'];
   isLoading: boolean = false;
   isAdmin: boolean;
-  showHistory: boolean;
 
   monitoringTrainingUpdate: Subscription;
 
@@ -32,22 +32,30 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  //history date
+  historyDateForm: FormGroup;
+
   constructor(private restful: ForumBackendService,
               private trainingDialog: MatDialog,
               public dateUtil: DateUtil,
               private trainingDataService: TrainingDataService,
-              private store: Store<any>) {
+              private store: Store<any>,
+              private formBuilder: FormBuilder) {
     console.log(`[${this.constructor.name}] constructor`);
     this.monitoringTrainingUpdate = new Subscription();
     this.isLoading = true;
     this.isAdmin = false;
-    this.showHistory = false;
 
     //paginator config
     this.currentPage = 0;
     this.pageSizeOptions = [5, 10, 20];
     this.pageSize = this.pageSizeOptions[0];
     this.dataSource = new MatTableDataSource();
+
+    this.historyDateForm = this.formBuilder.group({
+      fromDate: '',
+      toDate: ''
+    });
   }
 
   ngAfterViewInit() {
@@ -78,19 +86,21 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
     return (numberOfPeople && numberOfPeople > 0) ? numberOfPeople : 0;
   }
 
-  showTrainingSummaryHistory(){
-    this.showHistory = true;
-    this.refreshTrainingSummary();
+  showTrainingSummary() {
+    if (this.historyDateForm.value.toDate < this.historyDateForm.value.fromDate) {
+      alert(`End Date cannot be before Start Date`);
+      return;
+    }
+    this.refreshTrainingSummary(this.historyDateForm.value.fromDate, this.historyDateForm.value.toDate);
   }
 
-  showTrainingSummary(){
-    this.showHistory = false;
-    this.refreshTrainingSummary();
-  }
-
-  refreshTrainingSummary() {
+  refreshTrainingSummary(fromDate?: any, toDate?: any) {
     this.isLoading = true;
-    this.restful.getTrainingSummary(this.showHistory, this.currentPage, this.pageSize).subscribe({
+    let todayDate = new Date();
+    fromDate = (fromDate) ? this.dateUtil.formatToHKTime(fromDate) : this.dateUtil.formatToHKTime(todayDate);
+    todayDate.setDate(todayDate.getDate() + 7)
+    toDate = (toDate) ? this.dateUtil.formatToHKTime(toDate) : this.dateUtil.formatToHKTime(todayDate);
+    this.restful.getTrainingSummary(this.currentPage, this.pageSize, fromDate, toDate).subscribe({
       next: (result) => {
         console.log(`refreshTrainingSummary: `, result);
         // this.displayDataList = result
@@ -100,7 +110,7 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
           this.paginator.length = result.totalTrainingSummary.sum;
           this.paginator.pageIndex = this.currentPage;
         })
-        },
+      },
         complete: () => {
           this.isLoading = false
         }

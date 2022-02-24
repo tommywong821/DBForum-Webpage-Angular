@@ -134,8 +134,9 @@ export class TrainingFormDialogComponent implements OnInit {
   autoFillDeadline(event: any, index: number) {
     console.log(`autoFillDeadline event: `, event);
     this.trainings = this.trainingForm.get('trainings') as FormArray;
-    let trainingDateTime = new Date(event.value);
-    let deadlineDateTime = new Date(trainingDateTime.getFullYear(), trainingDateTime.getMonth(), trainingDateTime.getDate() - 1, 17, 0, 0);
+    let deadlineDateTime = new Date(event.value);
+    deadlineDateTime.setDate(deadlineDateTime.getDate() - 1);
+    deadlineDateTime.setHours(17, 0, 0);
     this.trainings.at(index).get('deadline')?.setValue(deadlineDateTime);
   }
 
