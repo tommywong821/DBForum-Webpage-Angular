@@ -4,6 +4,7 @@ import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.se
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {IStudent} from "../../../model/forum/IStudent";
 import {DateUtil} from "../../../services/date-util.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-profile-dialog',
@@ -73,8 +74,9 @@ export class ProfileDialogComponent implements OnInit {
     console.log(`after: `, this.profileForm.value);
     this.restful.updateStudentProfile(this.profileForm.value.itsc, this.profileForm.value).subscribe({
       complete: () => {
-        this.dialogRef.close();
+        sessionStorage.setItem(environment.studentProfileKey, JSON.stringify(this.profileForm.value));
         this.isLoading = false;
+        this.dialogRef.close();
       }
     });
   }
