@@ -6,7 +6,6 @@ import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AwsLambdaApiInterceptor} from "./interceptor/aws-lambda-api-interceptor";
 import {MainPageComponent} from './layout/main-page/main-page.component';
-import {DashboardPageComponent} from './layout/dashboard-page/dashboard-page.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
@@ -52,12 +51,12 @@ import {EffectsModule} from "@ngrx/effects";
 import {Auth0Effect} from "./ngrx/auth0/auth0.effect";
 import {auth0Reducer} from "./ngrx/auth0/auth0.reducer";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
-    DashboardPageComponent,
     TrainingListComponent,
     TrainingSummaryComponent,
     TrainingFormDialogComponent,
@@ -68,7 +67,7 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
     ProfileDialogComponent,
     NavigationComponent,
     SidenavComponent,
-    GeneralReminderComponent
+    GeneralReminderComponent,
   ],
     imports: [
         BrowserModule,
@@ -96,17 +95,18 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
         MatSidenavModule,
         MatListModule,
         MatRadioModule,
-        LayoutModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatGridListModule,
-        MatMenuModule,
-        MatSelectModule,
-        NgbModule,
-        MatMomentDateModule,
-        StoreModule.forRoot({ auth0: auth0Reducer }),
-        EffectsModule.forRoot([Auth0Effect]),
-        StoreDevtoolsModule.instrument({maxAge: 10})
+      LayoutModule,
+      MatPaginatorModule,
+      MatSortModule,
+      MatGridListModule,
+      MatMenuModule,
+      MatSelectModule,
+      NgbModule,
+      MatMomentDateModule,
+      StoreModule.forRoot({auth0: auth0Reducer}),
+      EffectsModule.forRoot([Auth0Effect]),
+      StoreDevtoolsModule.instrument({maxAge: 10}),
+      DragDropModule
     ],
   providers: [
     {
