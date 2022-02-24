@@ -50,8 +50,8 @@ import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {Auth0Effect} from "./ngrx/auth0/auth0.effect";
 import {auth0Reducer} from "./ngrx/auth0/auth0.reducer";
-import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {storeDevToolsImport} from "../environments/store-dev-tools-import";
 
 @NgModule({
   declarations: [
@@ -105,7 +105,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
       MatMomentDateModule,
       StoreModule.forRoot({auth0: auth0Reducer}),
       EffectsModule.forRoot([Auth0Effect]),
-      StoreDevtoolsModule.instrument({maxAge: 10}),
+      ...storeDevToolsImport,
       DragDropModule
     ],
   providers: [
