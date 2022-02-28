@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ITraining} from "../../../model/forum/ITraining";
-import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
+import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
 import {DateUtil} from "../../../services/date-util.service";
 import {IAttendance} from "../../../model/forum/IAttendance";
 import {TrainingDataService} from "../../../services/training-data.service";
@@ -30,7 +30,7 @@ export class TrainingContentComponent implements OnInit {
 
   trainingList: Array<ITraining>;
 
-  constructor(private restful: ForumBackendService,
+  constructor(private restful: ForumMainPageBackendService,
               public dateUtil: DateUtil,
               private trainingDataService: TrainingDataService,
               private trainingFormDialog: MatDialog,

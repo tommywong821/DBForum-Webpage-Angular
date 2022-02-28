@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
+import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
 import {IStudent} from "../../../model/forum/IStudent";
 import {TrainingDataService} from "../../../services/training-data.service";
 import {Subscription} from "rxjs";
@@ -30,7 +30,7 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
   trainingData: any;
 
   constructor(@Inject(MAT_DIALOG_DATA) public dialogInputData: any,
-              private restful: ForumBackendService,
+              private restful: ForumMainPageBackendService,
               private trainingDataService: TrainingDataService) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isLoading = true;

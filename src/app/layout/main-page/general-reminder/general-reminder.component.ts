@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
+import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
 import {IReminder} from "../../../model/forum/IReminder";
 import {DateUtil} from "../../../services/date-util.service";
 import {v4 as uuidV4} from 'uuid';
@@ -23,7 +23,7 @@ export class GeneralReminderComponent implements OnInit {
   userItsc: any;
 
   constructor(private formBuilder: FormBuilder,
-              private restful: ForumBackendService,
+              private restful: ForumMainPageBackendService,
               private dateUtil: DateUtil,
               private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);

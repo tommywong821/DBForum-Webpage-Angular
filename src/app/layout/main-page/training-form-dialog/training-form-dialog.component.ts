@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
-import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
+import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
 import {DateUtil} from "../../../services/date-util.service";
 import {ITraining} from "../../../model/forum/ITraining";
 import {TrainingDataService} from "../../../services/training-data.service";
@@ -21,7 +21,7 @@ export class TrainingFormDialogComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<TrainingFormDialogComponent>,
               private formBuilder: FormBuilder,
-              private restful: ForumBackendService,
+              private restful: ForumMainPageBackendService,
               private dateUtil: DateUtil,
               @Inject(MAT_DIALOG_DATA) private importData: { training: ITraining, isEditTraining: boolean, isInputFromTrainingDetail: boolean },
               private trainingDataService: TrainingDataService) {

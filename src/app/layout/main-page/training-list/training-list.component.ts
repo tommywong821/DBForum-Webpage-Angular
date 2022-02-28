@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
+import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
 import {TrainingDataService} from "../../../services/training-data.service";
@@ -15,7 +15,7 @@ export class TrainingListComponent implements OnInit {
   isRefreshing: boolean;
   isAdmin: boolean;
 
-  constructor(private restful: ForumBackendService,
+  constructor(private restful: ForumMainPageBackendService,
               private trainingFormDialog: MatDialog,
               private trainingDataListService: TrainingDataService,
               private store: Store<any>) {

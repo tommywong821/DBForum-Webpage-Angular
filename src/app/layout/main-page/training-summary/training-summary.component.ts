@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ForumBackendService} from "../../../services/aws-lambda/forum-backend.service";
+import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingDetailDialogComponent} from "../training-detail-dialog/training-detail-dialog.component";
 import {DateUtil} from "../../../services/date-util.service";
@@ -35,7 +35,7 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
   //history date
   historyDateForm: FormGroup;
 
-  constructor(private restful: ForumBackendService,
+  constructor(private restful: ForumMainPageBackendService,
               private trainingDialog: MatDialog,
               public dateUtil: DateUtil,
               private trainingDataService: TrainingDataService,
