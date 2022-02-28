@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ForumDashboardBackendService} from "../../services/aws-lambda/forum-dashboard-backend.service";
 
 @Component({
   selector: 'app-dashboard-page',
@@ -7,11 +8,24 @@ import {Component, OnInit} from '@angular/core';
 })
 export class DashboardPageComponent implements OnInit {
 
-  constructor() {
+  trainingStatisticList: any;
+  totalTraining: any;
+
+  constructor(private restful: ForumDashboardBackendService) {
     console.log(`[${this.constructor.name}] constructor`);
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
+    this.restful.getTrainingStatistic().subscribe({
+      next: value => {
+        this.trainingStatisticList = value.trainingStatistics;
+        this.totalTraining = value.totalTraining;
+      }
+    });
+  }
+
+  public calculatePercentage(input: number) {
+    return (input / this.totalTraining * 100).toFixed(0);
   }
 }
