@@ -5,38 +5,45 @@
   </ng-container>
 
   <ng-template #content>
+    <!--    <ng-container *ngIf="trainingList.length > 0; else noTraining">-->
     <span *ngFor="let training of trainingList">
-    <mat-card [ngClass]="(trainingList.length > 1)? 'training-card': 'single-training-card'">
-      <div>
-         <div class="card-container-left">{{training.type}}</div>
-          <button (click)="editTraining(training)" *ngIf="isAdmin" mat-icon-button>
-            <mat-icon>edit</mat-icon>
-          </button>
-         <button (click)="removeTrainingFromDB(training)" *ngIf="isEditAble && isAdmin" class="card-container-right">
-           <i aria-hidden="true" class="fa fa-times fa-sm"></i>
-         </button>
-      </div>
-      <mat-card-content>
-        <p style="margin-bottom: 5px">
-          Date&Time: <br>{{dateUtil.displayFormat(training.date)}}<br>
-          Place: {{training.place}}<br>
-        </p>
+        <mat-card [ngClass]="(trainingList.length > 1)? 'training-card': 'single-training-card'">
+          <div>
+             <div class="card-container-left">{{training.type}}</div>
+              <button (click)="editTraining(training)" *ngIf="isAdmin" mat-icon-button>
+                <mat-icon>edit</mat-icon>
+              </button>
+             <button (click)="removeTrainingFromDB(training)" *ngIf="isEditAble && isAdmin"
+                     class="card-container-right">
+               <i aria-hidden="true" class="fa fa-times fa-sm"></i>
+             </button>
+          </div>
+          <mat-card-content>
+            <p style="margin-bottom: 5px">
+              Date&Time: <br>{{dateUtil.displayFormat(training.date)}}<br>
+              Place: {{training.place}}<br>
+            </p>
 
-        <input #reason
-               placeholder="Absent reason"
-               type="string"
-               style="width: 100%"
-        />
-        <mat-card-actions>
-          <button (click)="replyBtnOnclick('attend', training, reason.value)" color="primary" mat-button>
-            Attend
-          </button>
-          <button (click)="replyBtnOnclick('absent', training, reason.value)" color="accent" mat-button>
-            Absent
-          </button>
-        </mat-card-actions>
-      </mat-card-content>
-    </mat-card>
-  </span>
+            <input #reason
+                   placeholder="Absent reason"
+                   type="string"
+                   style="width: 100%"
+            />
+            <mat-card-actions>
+              <button (click)="replyBtnOnclick('attend', training, reason.value)" color="primary" mat-button>
+                Attend
+              </button>
+              <button (click)="replyBtnOnclick('absent', training, reason.value)" color="accent" mat-button>
+                Absent
+              </button>
+            </mat-card-actions>
+          </mat-card-content>
+        </mat-card>
+      </span>
+    <!--    </ng-container>-->
+
+    <ng-template #noTraining>
+      <span>No Incoming Training</span>
+    </ng-template>
   </ng-template>
 </div>

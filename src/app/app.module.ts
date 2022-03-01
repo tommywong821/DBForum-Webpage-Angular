@@ -49,8 +49,9 @@ import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {Auth0Effect} from "./ngrx/auth0/auth0.effect";
-import {auth0Reducer} from "./ngrx/auth0/auth0.reducer";
 import {storeDevToolsImport} from "../environments/store-dev-tools-import";
+import {AppReducer} from "./ngrx/app.state";
+import {TrainingDataEffect} from "./ngrx/training-data/training-data.effect";
 
 @NgModule({
   declarations: [
@@ -92,8 +93,8 @@ import {storeDevToolsImport} from "../environments/store-dev-tools-import";
         MatToolbarModule,
         MatIconModule,
         MatSidenavModule,
-        MatListModule,
-        MatRadioModule,
+      MatListModule,
+      MatRadioModule,
       LayoutModule,
       MatPaginatorModule,
       MatSortModule,
@@ -102,8 +103,8 @@ import {storeDevToolsImport} from "../environments/store-dev-tools-import";
       MatSelectModule,
       NgbModule,
       MatMomentDateModule,
-      StoreModule.forRoot({auth0: auth0Reducer}),
-      EffectsModule.forRoot([Auth0Effect]),
+      StoreModule.forRoot(AppReducer),
+      EffectsModule.forRoot([Auth0Effect, TrainingDataEffect]),
       ...storeDevToolsImport
     ],
   providers: [
