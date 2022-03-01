@@ -22,6 +22,8 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
   displayColumns: string[] = ['Date', 'Training Type', 'Training Place', 'L/R'];
   isLoading: boolean = false;
   isAdmin: boolean;
+  todayDate: any;
+  oneWeekAfterTodayDate: any;
 
   monitoringTrainingUpdate: Subscription;
 
@@ -52,9 +54,12 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
     this.pageSize = this.pageSizeOptions[0];
     this.dataSource = new MatTableDataSource();
 
+    this.todayDate = new Date();
+    this.oneWeekAfterTodayDate = new Date();
+    this.oneWeekAfterTodayDate.setDate(this.oneWeekAfterTodayDate.getDate() + 7);
     this.historyDateForm = this.formBuilder.group({
-      fromDate: '',
-      toDate: ''
+      fromDate: this.todayDate,
+      toDate: this.oneWeekAfterTodayDate
     });
   }
 
@@ -96,10 +101,8 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
 
   refreshTrainingSummary(fromDate?: any, toDate?: any) {
     this.isLoading = true;
-    let todayDate = new Date();
-    fromDate = (fromDate) ? this.dateUtil.formatToHKTime(fromDate) : this.dateUtil.formatToHKTime(todayDate);
-    todayDate.setDate(todayDate.getDate() + 7)
-    toDate = (toDate) ? this.dateUtil.formatToHKTime(toDate) : this.dateUtil.formatToHKTime(todayDate);
+    fromDate = (fromDate) ? this.dateUtil.formatToHKTime(fromDate) : this.dateUtil.formatToHKTime(this.todayDate);
+    toDate = (toDate) ? this.dateUtil.formatToHKTime(toDate) : this.dateUtil.formatToHKTime(this.oneWeekAfterTodayDate);
     this.restful.getTrainingSummary(this.currentPage, this.pageSize, fromDate, toDate).subscribe({
       next: (result) => {
         console.log(`refreshTrainingSummary: `, result);
