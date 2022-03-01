@@ -2,36 +2,52 @@
   <div class="row">
     <div class="card">
       <div class="card-header">
-        <h5>Training Statistics</h5>
-        download data in to excel
+        <div class="row">
+          <div class="col-11">
+            <h4>Training Statistics</h4>
+          </div>
+          <div class="col-1">
+            <button class="btn" (click)="downloadStatistics()" *ngIf="trainingStatisticList">
+              <fa-icon [icon]="faDownload"></fa-icon>
+            </button>
+          </div>
+        </div>
       </div>
       <div class="card-body">
-        <table class="table table-striped">
-          <thead>
-          <tr>
-            <th scope="col">Itsc</th>
-            <th scope="col">Nickname</th>
-            <th scope="col">Attended Training</th>
-            <th scope="col">Absented Training</th>
-            <th scope="col">Late Replied Training</th>
-            <th scope="col">No Replied Training</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let trainingStatic of trainingStatisticList">
-            <th scope="row">{{trainingStatic.itsc}}</th>
-            <th scope="row">{{trainingStatic.nickname}}</th>
-            <td>{{trainingStatic.attend_training}} ({{calculatePercentage(trainingStatic.attend_training)}}%)</td>
-            <td>{{trainingStatic.absent_training}} ({{calculatePercentage(trainingStatic.absent_training)}}%)</td>
-            <td>{{trainingStatic.late_reply_training}} ({{calculatePercentage(trainingStatic.late_reply_training)}}%)
-            </td>
-            <td>{{trainingStatic.no_reply_training}} ({{calculatePercentage(trainingStatic.no_reply_training)}}%)</td>
-          </tr>
-          </tbody>
-        </table>
+        <ng-container *ngIf="isLoading; else content">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </ng-container>
+        <ng-template #content>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">Itsc</th>
+              <th scope="col">Nickname</th>
+              <th scope="col">Attended Training</th>
+              <th scope="col">Absented Training</th>
+              <th scope="col">Late Replied Training</th>
+              <th scope="col">No Replied Training</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let trainingStatic of trainingStatisticList">
+              <th scope="row">{{trainingStatic.itsc}}</th>
+              <th scope="row">{{trainingStatic.nickname}}</th>
+              <td>{{trainingStatic.attend_training}} ({{calculatePercentage(trainingStatic.attend_training)}}%)</td>
+              <td>{{trainingStatic.absent_training}} ({{calculatePercentage(trainingStatic.absent_training)}}%)</td>
+              <td>{{trainingStatic.late_reply_training}} ({{calculatePercentage(trainingStatic.late_reply_training)}}
+                %)
+              </td>
+              <td>{{trainingStatic.no_reply_training}} ({{calculatePercentage(trainingStatic.no_reply_training)}}%)</td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-template>
       </div>
       <div class="card-footer">
-        Total Trainings: {{totalTraining}}
+        <h6>Total Trainings: {{totalTraining}}</h6>
       </div>
     </div>
   </div>

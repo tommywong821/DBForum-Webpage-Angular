@@ -49,8 +49,8 @@ import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {Auth0Effect} from "./ngrx/auth0/auth0.effect";
-import {auth0Reducer} from "./ngrx/auth0/auth0.reducer";
 import {storeDevToolsImport} from "../environments/store-dev-tools-import";
+import {auth0Reducer} from "./ngrx/auth0/auth0.reducer";
 
 @NgModule({
   declarations: [
