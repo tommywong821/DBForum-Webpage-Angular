@@ -15,7 +15,7 @@
               </button>
              <button (click)="removeTrainingFromDB(training)" *ngIf="isEditAble && isAdmin"
                      class="card-container-right">
-               <i aria-hidden="true" class="fa fa-times fa-sm"></i>
+                  <fa-icon [icon]="faTime" [size]="'lg'"></fa-icon>
              </button>
           </div>
           <mat-card-content>

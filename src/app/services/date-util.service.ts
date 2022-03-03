@@ -11,8 +11,8 @@ export class DateUtil {
   }
 
   //input non Hong Kong Time
-  formatToHKTime(date: any) {
-    const format = 'yyyy/MM/dd HH:mm';
+  formatToHKTime(date: any, hasTime?: boolean) {
+    const format = (hasTime) ? 'yyyy/MM/dd HH:mm' : 'yyyy/MM/dd';
     const locale = 'en-US';
     const timeZone = 'Asia/Hong_Kong';
     return formatDate(this.convertTimeZone(date, timeZone), format, locale);
