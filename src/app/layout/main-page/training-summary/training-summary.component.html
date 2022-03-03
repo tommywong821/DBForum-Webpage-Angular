@@ -3,24 +3,18 @@
     <mat-card-title class="card-container-left">
       Training Summary
       <form [formGroup]="historyDateForm">
-        From
-        <span class="datepicker">
+        <div style="font-size: 12px">
           <mat-form-field appearance="fill">
-            <mat-label>Start Date</mat-label>
-            <input [matDatepicker]="fromDateTimePicker" formControlName="fromDate" matInput readonly>
-            <mat-datepicker-toggle [for]="$any(fromDateTimePicker)" matSuffix></mat-datepicker-toggle>
-            <mat-datepicker #fromDateTimePicker></mat-datepicker>
+            <mat-label>Time Range</mat-label>
+            <mat-date-range-input
+              [rangePicker]="fromToDatePicker">
+              <input matStartDate placeholder="Start date" formControlName="fromDate">
+              <input matEndDate placeholder="End date" formControlName="toDate">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="fromToDatePicker"></mat-datepicker-toggle>
+            <mat-date-range-picker #fromToDatePicker></mat-date-range-picker>
           </mat-form-field>
-        </span>
-        To
-        <span class="datepicker">
-          <mat-form-field appearance="fill">
-            <mat-label>End Date</mat-label>
-            <input [matDatepicker]="toDateTimePicker" formControlName="toDate" matInput readonly>
-            <mat-datepicker-toggle [for]="$any(toDateTimePicker)" matSuffix></mat-datepicker-toggle>
-            <mat-datepicker #toDateTimePicker></mat-datepicker>
-          </mat-form-field>
-        </span>
+        </div>
       </form>
     </mat-card-title>
     <button (click)="showTrainingSummary()"
