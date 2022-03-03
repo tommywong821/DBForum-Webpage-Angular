@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ForumDashboardBackendService} from "../../services/aws-lambda/forum-dashboard-backend.service";
 import {faCalendarAlt, faDownload, faRedoAlt} from "@fortawesome/free-solid-svg-icons";
 import {saveAs} from "file-saver";
@@ -22,7 +22,10 @@ export class DashboardPageComponent implements OnInit {
   faRedoAlt = faRedoAlt;
   hoveredDate: NgbDate | null = null;
   fromDate: NgbDate | null;
+  isFromDateSelected: boolean;
   toDate: NgbDate | null;
+  isToDateSelected: boolean;
+  @ViewChild('datepicker') datePicker: ElementRef | any;
 
   constructor(private restful: ForumDashboardBackendService,
               private calendar: NgbCalendar,
@@ -32,7 +35,9 @@ export class DashboardPageComponent implements OnInit {
     this.isLoading = false;
     this.totalTraining = 0;
     this.fromDate = null;
+    this.isFromDateSelected = false;
     this.toDate = null;
+    this.isToDateSelected = false;
   }
 
   ngOnInit(): void {
@@ -72,12 +77,17 @@ export class DashboardPageComponent implements OnInit {
   public onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
+      this.isFromDateSelected = true;
     } else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
       this.toDate = date;
+      this.isToDateSelected = true;
     } else {
       this.toDate = null;
       this.fromDate = date;
+      this.isToDateSelected = false;
+      this.isFromDateSelected = true;
     }
+    this.handleDateChange()
   }
 
   isHovered(date: NgbDate) {
@@ -112,7 +122,17 @@ export class DashboardPageComponent implements OnInit {
         this.trainingStatisticList = result.trainingStatistics;
         this.totalTraining = result.totalTraining;
       },
-      complete: () => this.isLoading = false
+      complete: () => {
+        this.isLoading = false;
+      }
     });
+  }
+
+  public handleDateChange() {
+    if (this.isFromDateSelected && this.isToDateSelected) {
+      this.datePicker.close();
+      this.isFromDateSelected = false;
+      this.isToDateSelected = false;
+    }
   }
 }
