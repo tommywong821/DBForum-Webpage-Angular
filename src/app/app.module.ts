@@ -50,8 +50,7 @@ import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {Auth0Effect} from "./ngrx/auth0/auth0.effect";
 import {storeDevToolsImport} from "../environments/store-dev-tools-import";
-import {AppReducer} from "./ngrx/app.state";
-import {TrainingDataEffect} from "./ngrx/training-data/training-data.effect";
+import {auth0Reducer} from "./ngrx/auth0/auth0.reducer";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 @NgModule({
@@ -104,8 +103,8 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     MatSelectModule,
     NgbModule,
     MatMomentDateModule,
-    StoreModule.forRoot(AppReducer),
-    EffectsModule.forRoot([Auth0Effect, TrainingDataEffect]),
+    StoreModule.forRoot({auth0: auth0Reducer}),
+    EffectsModule.forRoot([Auth0Effect]),
     ...storeDevToolsImport,
     FontAwesomeModule
   ],
