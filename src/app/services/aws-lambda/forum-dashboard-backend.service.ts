@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserItsc} from "../../ngrx/auth0/auth0.selectors";
 
@@ -20,7 +20,8 @@ export class ForumDashboardBackendService {
     })
   }
 
-  getTrainingStatistic() {
-    return this.http.get<any>(this.apiUrl + "/training/statistics");
+  getTrainingStatistic(toDate: string, fromDate: string) {
+    const params = new HttpParams().set('fromDate', fromDate).set('toDate', toDate);
+    return this.http.get<any>(this.apiUrl + "/training/statistics", {params: params});
   }
 }

@@ -50,7 +50,9 @@ import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {Auth0Effect} from "./ngrx/auth0/auth0.effect";
 import {storeDevToolsImport} from "../environments/store-dev-tools-import";
-import {auth0Reducer} from "./ngrx/auth0/auth0.reducer";
+import {AppReducer} from "./ngrx/app.state";
+import {TrainingDataEffect} from "./ngrx/training-data/training-data.effect";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 @NgModule({
   declarations: [
@@ -68,44 +70,45 @@ import {auth0Reducer} from "./ngrx/auth0/auth0.reducer";
     SidenavComponent,
     GeneralReminderComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        MatCardModule,
-        MatButtonModule,
-        FlexLayoutModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-        MatDatepickerModule,
-        NgxMatDatetimePickerModule,
-        NgxMatNativeDateModule,
-        FormsModule,
-        MatTableModule,
-        AuthModule.forRoot({
-            domain: environment.auth0Domain,
-            clientId: environment.auth0ClientId
-        }),
-        MatProgressSpinnerModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatSidenavModule,
-        MatListModule,
-        MatRadioModule,
-      LayoutModule,
-      MatPaginatorModule,
-      MatSortModule,
-      MatGridListModule,
-      MatMenuModule,
-      MatSelectModule,
-      NgbModule,
-      MatMomentDateModule,
-      StoreModule.forRoot({auth0: auth0Reducer}),
-      EffectsModule.forRoot([Auth0Effect]),
-      ...storeDevToolsImport
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatButtonModule,
+    FlexLayoutModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    FormsModule,
+    MatTableModule,
+    AuthModule.forRoot({
+      domain: environment.auth0Domain,
+      clientId: environment.auth0ClientId
+    }),
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule,
+    MatRadioModule,
+    LayoutModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatGridListModule,
+    MatMenuModule,
+    MatSelectModule,
+    NgbModule,
+    MatMomentDateModule,
+    StoreModule.forRoot(AppReducer),
+    EffectsModule.forRoot([Auth0Effect, TrainingDataEffect]),
+    ...storeDevToolsImport,
+    FontAwesomeModule
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

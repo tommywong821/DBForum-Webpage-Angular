@@ -9,6 +9,7 @@ import {TrainingFormDialogComponent} from "../training-form-dialog/training-form
 import {combineLatest} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserItsc, selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
+import {faTimes} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-training-content',
@@ -27,6 +28,7 @@ export class TrainingContentComponent implements OnInit {
   isAdmin: boolean;
   itsc: string;
   isLoading: boolean;
+  faTime = faTimes;
 
   trainingList: Array<ITraining>;
 
