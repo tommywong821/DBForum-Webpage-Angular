@@ -94,4 +94,12 @@ export class ForumMainPageBackendService {
   updateTrainingInfo(trainingId: string, training: ITraining) {
     return this.http.put(this.apiUrl + "/training/" + trainingId, training);
   }
+
+  updateNoShowStudentAttendance(trainingId: string, noShowStudentIdList: string[], showUpStudentIdList: string[]) {
+    const body = {
+      noShowStudentIdList: noShowStudentIdList,
+      showUpStudentIdList: showUpStudentIdList
+    };
+    return this.http.put(this.apiUrl + "/attendance/" + trainingId, body);
+  }
 }

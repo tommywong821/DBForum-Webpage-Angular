@@ -4,6 +4,9 @@ import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-ma
 import {IStudent} from "../../../model/forum/IStudent";
 import {TrainingDataService} from "../../../services/training-data.service";
 import {Subscription} from "rxjs";
+import {select, Store} from "@ngrx/store";
+import {selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
+import {SelectionModel} from "@angular/cdk/collections";
 
 @Component({
   selector: 'app-training-detail-dialog',
@@ -24,6 +27,11 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
 
   isLoading: boolean;
   needUpdateUi: boolean;
+  isAdmin: boolean;
+
+  selection = new SelectionModel<any>(true, []);
+  noShowStudentIdList: string[] = [];
+  showUpStudentIdList: string[] = [];
 
   monitoringTrainingUpdate: Subscription;
 
@@ -31,12 +39,14 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(MAT_DIALOG_DATA) public dialogInputData: any,
               private restful: ForumMainPageBackendService,
-              private trainingDataService: TrainingDataService) {
+              private trainingDataService: TrainingDataService,
+              private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isLoading = true;
     this.needUpdateUi = false;
     this.monitoringTrainingUpdate = new Subscription();
     this.trainingData = this.dialogInputData.trainingData;
+    this.isAdmin = false;
   }
 
   ngOnInit(): void {
@@ -48,6 +58,15 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
         this.initTrainingDetail();
       }
     });
+    this.store.pipe(select(selectCurrentUserRole)).subscribe({
+      next: userLoginRole => {
+        this.isAdmin = userLoginRole.includes('Admin');
+        if (this.isAdmin) {
+          this.leftStudentCol.push('leftNoShow');
+          this.rightStudentCol.push('rightNoShow');
+        }
+      }
+    })
   }
 
   ngOnDestroy() {
@@ -64,11 +83,37 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
         this.noReplyStudent = result.absent.noReplyStudent;
         this.absentStudent = result.absent.absentStudent;
       },
-      complete: () => {
-        console.log('getTrainingDetail complete');
-        this.isLoading = false;
-      }
+        complete: () => {
+          console.log('getTrainingDetail complete');
+          this.isLoading = false;
+        }
       }
     );
+  }
+
+  handleNoShowSelection(student: any, $event: any) {
+    console.log(`row: `, student);
+    console.log(`$event: `, $event);
+    console.log(`$event.checked: `, $event.checked);
+    //add to list
+    if ($event.checked && !this.noShowStudentIdList.find(studentId => studentId == student.uuid)) {
+      this.showUpStudentIdList = this.showUpStudentIdList.filter((studentId) => studentId != student.uuid);
+      this.noShowStudentIdList.push(student.uuid);
+    } else if (!$event.checked && !this.showUpStudentIdList.find(studentId => studentId == student.uuid)) {
+      this.showUpStudentIdList.push(student.uuid);
+      this.noShowStudentIdList = this.noShowStudentIdList.filter((studentId) => studentId != student.uuid);
+    }
+    console.log(`noShowStudentIdList: `, this.noShowStudentIdList);
+    console.log(`showUpStudentIdList: `, this.showUpStudentIdList);
+  }
+
+  updateNoShowAttendance() {
+    if (this.noShowStudentIdList.length < 1 && this.showUpStudentIdList.length < 1) {
+      alert("Please select student(s) to update no show status");
+      return;
+    }
+    this.restful.updateNoShowStudentAttendance(this.trainingData.uuid, this.noShowStudentIdList, this.showUpStudentIdList).subscribe({
+      complete: () => this.initTrainingDetail()
+    })
   }
 }

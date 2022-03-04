@@ -52,6 +52,7 @@ import {Auth0Effect} from "./ngrx/auth0/auth0.effect";
 import {storeDevToolsImport} from "../environments/store-dev-tools-import";
 import {auth0Reducer} from "./ngrx/auth0/auth0.reducer";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     StoreModule.forRoot({auth0: auth0Reducer}),
     EffectsModule.forRoot([Auth0Effect]),
     ...storeDevToolsImport,
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatCheckboxModule
   ],
   providers: [
     {

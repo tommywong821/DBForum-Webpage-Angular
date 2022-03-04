@@ -1,90 +1,119 @@
-<mat-dialog-actions align="end">
-  <button mat-dialog-close="true" mat-icon-button>
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-dialog-actions>
+<div class="container">
+  <mat-dialog-actions align="end">
+    <button mat-dialog-close="true" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-dialog-actions>
 
-<app-training-content [needUpdateUi]="needUpdateUi"
-                      [training]="dialogInputData.trainingData" [isInputFromTrainingDetail]="true"></app-training-content>
+  <app-training-content [needUpdateUi]="needUpdateUi"
+                        [training]="dialogInputData.trainingData"
+                        [isInputFromTrainingDetail]="true"></app-training-content>
 
-<ng-container *ngIf="isLoading; else content">
-  <mat-spinner></mat-spinner>
-</ng-container>
+  <div align="end">
+    <ng-container *ngIf="isAdmin && !isLoading">
+      <button mat-stroked-button (click)="updateNoShowAttendance()">Submit</button>
+    </ng-container>
+  </div>
 
-<ng-template #content>
-  <div class="row detail-content">
-    <div class="col-6">
-      <table [dataSource]="attendLeftStudent" aria-label="attended left side student table" class="mat-elevation-z1"
-             mat-table>
-        <ng-container matColumnDef="left">
-          <th *matHeaderCellDef mat-header-cell>
-            Left ({{attendLeftStudent?.length}})
-          </th>
-          <td *matCellDef="let student" mat-cell>
+  <ng-container *ngIf="isLoading; else content">
+    <mat-spinner></mat-spinner>
+  </ng-container>
+
+  <ng-template #content>
+    <div class="row detail-content">
+      <div class="col">
+        <table [dataSource]="attendLeftStudent" aria-label="attended left side student table" class="mat-elevation-z1"
+               mat-table>
+          <ng-container matColumnDef="left">
+            <th *matHeaderCellDef mat-header-cell>
+              Left ({{attendLeftStudent?.length}})
+            </th>
+            <td *matCellDef="let student" mat-cell>
+              <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
+                {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="leftNoShow">
+            <th mat-header-cell *matHeaderCellDef>
+              No Show
+            </th>
+            <td mat-cell *matCellDef="let student">
+              <mat-checkbox [checked]="student.is_no_show"
+                            (change)="handleNoShowSelection(student, $event)"></mat-checkbox>
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="leftStudentCol" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: leftStudentCol;" mat-row></tr>
+        </table>
+      </div>
+      <div class="col">
+        <table [dataSource]="attendRightStudent" aria-label="attended right side student table" class="mat-elevation-z1"
+               mat-table>
+          <ng-container matColumnDef="right">
+            <th *matHeaderCellDef mat-header-cell>
+              Right ({{attendRightStudent?.length}})
+            </th>
+            <td *matCellDef="let student" mat-cell>
           <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
             {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
           </span>
-          </td>
-        </ng-container>
+            </td>
+          </ng-container>
 
-        <tr *matHeaderRowDef="leftStudentCol" mat-header-row></tr>
-        <tr *matRowDef="let row; columns: leftStudentCol;" mat-row></tr>
-      </table>
+          <ng-container matColumnDef="rightNoShow">
+            <th mat-header-cell *matHeaderCellDef>
+              No Show
+            </th>
+            <td mat-cell *matCellDef="let student">
+              <mat-checkbox [checked]="student.is_no_show"
+                            (change)="handleNoShowSelection(student, $event)"></mat-checkbox>
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="rightStudentCol" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: rightStudentCol;" mat-row></tr>
+        </table>
+      </div>
     </div>
-    <div class="col-6">
-      <table [dataSource]="attendRightStudent" aria-label="attended right side student table" class="mat-elevation-z1"
-             mat-table>
-        <ng-container matColumnDef="right">
-          <th *matHeaderCellDef mat-header-cell>
-            Right ({{attendRightStudent?.length}})
-          </th>
-          <td *matCellDef="let student" mat-cell>
-            <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
-              {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
-          </span>
-          </td>
-        </ng-container>
 
-        <tr *matHeaderRowDef="rightStudentCol" mat-header-row></tr>
-        <tr *matRowDef="let row; columns: rightStudentCol;" mat-row></tr>
-      </table>
-    </div>
-  </div>
-
-  <div class="row detail-content">
-    <div class="col-6">
-      <table [dataSource]="absentStudent" aria-label="absent student table" class="mat-elevation-z1" mat-table>
-        <ng-container matColumnDef="absent">
-          <th *matHeaderCellDef mat-header-cell>
-            Absent ({{absentStudent?.length}})
-          </th>
-          <td *matCellDef="let student" mat-cell>
+    <div class="row detail-content">
+      <div class="col-6">
+        <table [dataSource]="absentStudent" aria-label="absent student table" class="mat-elevation-z1" mat-table>
+          <ng-container matColumnDef="absent">
+            <th *matHeaderCellDef mat-header-cell>
+              Absent ({{absentStudent?.length}})
+            </th>
+            <td *matCellDef="let student" mat-cell>
             <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
               {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
             </span>
-          </td>
-        </ng-container>
+            </td>
+          </ng-container>
 
-        <tr *matHeaderRowDef="absentStudentCol" mat-header-row></tr>
-        <tr *matRowDef="let row; columns: absentStudentCol;" mat-row></tr>
-      </table>
-    </div>
-    <div class="col-6">
-      <table [dataSource]="noReplyStudent" aria-label="no reply student table" class="mat-elevation-z1" mat-table>
-        <ng-container matColumnDef="noReply">
-          <th *matHeaderCellDef mat-header-cell>
-            Not Reply ({{noReplyStudent?.length}})
-          </th>
-          <td *matCellDef="let student" mat-cell>
+          <tr *matHeaderRowDef="absentStudentCol" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: absentStudentCol;" mat-row></tr>
+        </table>
+      </div>
+      <div class="col-6">
+        <table [dataSource]="noReplyStudent" aria-label="no reply student table" class="mat-elevation-z1" mat-table>
+          <ng-container matColumnDef="noReply">
+            <th *matHeaderCellDef mat-header-cell>
+              Not Reply ({{noReplyStudent?.length}})
+            </th>
+            <td *matCellDef="let student" mat-cell>
             <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
               {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
             </span>
-          </td>
-        </ng-container>
+            </td>
+          </ng-container>
 
-        <tr *matHeaderRowDef="noReplyStudentCol" mat-header-row></tr>
-        <tr *matRowDef="let row; columns: noReplyStudentCol;" mat-row></tr>
-      </table>
+          <tr *matHeaderRowDef="noReplyStudentCol" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: noReplyStudentCol;" mat-row></tr>
+        </table>
+      </div>
     </div>
-  </div>
-</ng-template>
+  </ng-template>
+</div>
