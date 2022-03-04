@@ -84,6 +84,7 @@
               <th scope="col">Itsc</th>
               <th scope="col">Nickname</th>
               <th scope="col">Attended Training</th>
+              <th scope="col">No Show Training</th>
               <th scope="col">Absented Training</th>
               <th scope="col">Late Replied Training</th>
               <th scope="col">No Replied Training</th>
@@ -94,6 +95,7 @@
               <th scope="row">{{trainingStatic.itsc}}</th>
               <th scope="row">{{trainingStatic.nickname}}</th>
               <td>{{trainingStatic.attend_training}} ({{calculatePercentage(trainingStatic.attend_training)}}%)</td>
+              <td>{{trainingStatic.no_show_training}} ({{calculatePercentage(trainingStatic.no_show_training)}}%)</td>
               <td>{{trainingStatic.absent_training}} ({{calculatePercentage(trainingStatic.absent_training)}}%)</td>
               <td>{{trainingStatic.late_reply_training}} ({{calculatePercentage(trainingStatic.late_reply_training)}}
                 %)
