@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {selectIsLoggedIn} from "../../ngrx/auth0/auth0.selectors";
 import {selectTrainingDataList} from "../../ngrx/training-data/training-data.selector";
 import {getTrainingDataList} from "../../ngrx/training-data/training-data.action";
+import {combineLatest} from "rxjs";
 
 @Component({
   selector: 'app-main-page',
@@ -12,19 +12,25 @@ import {getTrainingDataList} from "../../ngrx/training-data/training-data.action
 })
 export class MainPageComponent implements OnInit {
 
-  loggedIn$: Observable<boolean>;
-  trainingList$: Observable<any>;
-  trainingList2$: Observable<any>;
+  loggedIn: boolean;
 
   constructor(private store: Store<any>) {
+    this.loggedIn = false;
     console.log(`[${this.constructor.name}] constructor`);
-    this.loggedIn$ = this.store.pipe(select(selectIsLoggedIn));
-    this.store.dispatch(getTrainingDataList());
-    this.trainingList$ = this.store.pipe(select(selectTrainingDataList));
-    this.trainingList2$ = this.store.pipe(select(selectIsLoggedIn));
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
+    combineLatest([
+      this.store.pipe(select(selectIsLoggedIn)),
+      this.store.pipe(select(selectTrainingDataList))
+    ]).subscribe({
+      next: ([isLoggedIn]) => {
+        if (isLoggedIn) {
+          this.loggedIn = isLoggedIn;
+          this.store.dispatch(getTrainingDataList());
+        }
+      }
+    });
   }
 }

@@ -4,8 +4,10 @@ import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
 import {DateUtil} from "../../../services/date-util.service";
 import {ITraining} from "../../../model/forum/ITraining";
-import {TrainingDataService} from "../../../services/training-data.service";
-import {take} from "rxjs";
+import {select, Store} from "@ngrx/store";
+import {selectTrainingDataList} from "../../../ngrx/training-data/training-data.selector";
+import {updateTrainingDataList} from "../../../ngrx/training-data/training-data.action";
+import {TrainingSummaryDataService} from "../../../services/training-summary-data.service";
 
 @Component({
   selector: 'app-training-form-dialog',
@@ -24,7 +26,8 @@ export class TrainingFormDialogComponent implements OnInit {
               private restful: ForumMainPageBackendService,
               private dateUtil: DateUtil,
               @Inject(MAT_DIALOG_DATA) private importData: { training: ITraining, isEditTraining: boolean, isInputFromTrainingDetail: boolean },
-              private trainingDataService: TrainingDataService) {
+              private store: Store<any>,
+              private trainingDataService: TrainingSummaryDataService) {
     console.log(`[${this.constructor.name}] constructor`);
     dialogRef.disableClose = true;
     this.trainings = this.formBuilder.array([this.createEmptyTraining()]);
@@ -32,7 +35,7 @@ export class TrainingFormDialogComponent implements OnInit {
       trainings: this.trainings
     });
     this.isEditTraining = false;
-    this.trainingList = new Array<ITraining>();
+    this.trainingList = [];
   }
 
   get trainingFormGroup() {
@@ -41,15 +44,20 @@ export class TrainingFormDialogComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.trainingDataService.trainingDataList.subscribe((result) => {
-      this.trainingList = this.trainingList.concat(result);
-    });
-
-    console.log(`importData: `, this.importData);
     this.initDataFromImportData();
+    this.initDataFromStore();
+  }
+
+  initDataFromStore() {
+    this.store.pipe(select(selectTrainingDataList)).subscribe({
+      next: trainingList => {
+        this.trainingList = trainingList;
+      }
+    })
   }
 
   initDataFromImportData() {
+    console.log(`importData: `, this.importData);
     if (this.importData) {
       console.log(`initDataFromImportData`);
       this.isEditTraining = this.importData.isEditTraining;
@@ -105,18 +113,15 @@ export class TrainingFormDialogComponent implements OnInit {
             this.dialogRef.close({data: this.trainingForm.value.trainings[0]});
           } else {
             //update training list in main page
-            this.trainingDataService.trainingDataList.pipe(take(1)).subscribe((trainingList) => {
-              trainingList = trainingList.map((training) => {
-                this.trainingForm.value.trainings[0]._id = this.importData.training.uuid;
-                return (training.uuid === this.importData.training.uuid) ? this.trainingForm.value.trainings[0] : training;
-              });
-              this.trainingDataService.updateTrainingDataList(trainingList);
+            this.trainingList = this.trainingList.map((training) => {
+              this.trainingForm.value.trainings[0]._id = this.importData.training.uuid;
+              return (training.uuid === this.importData.training.uuid) ? this.trainingForm.value.trainings[0] : training;
             });
+            this.store.dispatch(updateTrainingDataList({trainingList: this.trainingList}));
             this.dialogRef.close();
           }
         },
-        complete: () => {
-        }
+        complete: () => this.trainingDataService.needRefresh()
       });
     } else {
       //create new training to db
@@ -124,7 +129,7 @@ export class TrainingFormDialogComponent implements OnInit {
         next: (result) => {
           console.log(`create successfully: `, result);
           this.trainingList = this.trainingList.concat(result);
-          this.trainingDataService.updateTrainingDataList(this.trainingList);
+          this.store.dispatch(updateTrainingDataList({trainingList: this.trainingList}));
           this.dialogRef.close();
         }
       });
@@ -139,6 +144,4 @@ export class TrainingFormDialogComponent implements OnInit {
     deadlineDateTime.setHours(17, 0, 0);
     this.trainings.at(index).get('deadline')?.setValue(deadlineDateTime);
   }
-
-
 }

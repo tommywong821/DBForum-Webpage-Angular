@@ -3,13 +3,14 @@ import {ITraining} from "../../../model/forum/ITraining";
 import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
 import {DateUtil} from "../../../services/date-util.service";
 import {IAttendance} from "../../../model/forum/IAttendance";
-import {TrainingDataService} from "../../../services/training-data.service";
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
 import {combineLatest} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserItsc, selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {selectTrainingDataList} from "../../../ngrx/training-data/training-data.selector";
+import {updateTrainingDataList} from "../../../ngrx/training-data/training-data.action";
 
 @Component({
   selector: 'app-training-content',
@@ -21,7 +22,7 @@ export class TrainingContentComponent implements OnInit {
   @Input() isEditAble: boolean;
   @Input() parentComponent: any;
   @Input() needUpdateUi: boolean;
-  @Input() training: any;
+  @Input() editTrainingContent: any;
   @Input() isInputFromTrainingDetail: boolean;
   @Input() isRefreshing: any;
 
@@ -34,7 +35,6 @@ export class TrainingContentComponent implements OnInit {
 
   constructor(private restful: ForumMainPageBackendService,
               public dateUtil: DateUtil,
-              private trainingDataService: TrainingDataService,
               private trainingFormDialog: MatDialog,
               private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
@@ -44,33 +44,25 @@ export class TrainingContentComponent implements OnInit {
     this.itsc = '';
     this.needUpdateUi = true;
     this.isInputFromTrainingDetail = false;
-    this.isLoading = true;
+    this.isLoading = false;
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
+    this.initData();
+  }
+
+  initData() {
     combineLatest([
       this.store.pipe(select(selectCurrentUserRole)),
       this.store.pipe(select(selectCurrentUserItsc)),
+      this.store.pipe(select(selectTrainingDataList))
     ]).subscribe({
-      next: ([userLoginRole, userItsc]) => {
+      next: ([userLoginRole, userItsc, trainingDataList]) => {
         this.isAdmin = userLoginRole?.includes('Admin');
-        this.itsc = userItsc
+        this.itsc = userItsc;
+        this.trainingList = (this.editTrainingContent) ? [this.editTrainingContent] : trainingDataList;
       }
-    })
-    if (this.training) {
-      this.trainingList = new Array<ITraining>(this.training);
-    }
-    this.trainingDataService.trainingDataList.subscribe({
-      next: (result) => {
-        console.log(`training list change: `, result);
-        if (this.isEditAble) {
-          console.log(`mainpage training content`);
-          //mainpage
-          this.trainingList = result;
-        }
-      },
-      complete: () => this.isLoading = false
     });
   }
 
@@ -129,7 +121,6 @@ export class TrainingContentComponent implements OnInit {
         if (this.needUpdateUi) {
           this.removeWebViewTraining(training.uuid);
         }
-        this.trainingDataService.needRefresh();
       }
     });
   }
@@ -138,7 +129,7 @@ export class TrainingContentComponent implements OnInit {
     this.trainingList = this.trainingList.filter(function (obj) {
       return obj.uuid !== trainingId;
     });
-    this.trainingDataService.updateTrainingDataList(this.trainingList);
+    this.store.dispatch(updateTrainingDataList({trainingList: this.trainingList}));
   }
 
   editTraining(training: ITraining) {
@@ -154,8 +145,7 @@ export class TrainingContentComponent implements OnInit {
     dialogRef.afterClosed().subscribe((updatedTraining) => {
       if (updatedTraining) {
         console.log(`updatedTraining: `, updatedTraining);
-        this.trainingList = new Array<ITraining>(updatedTraining.data);
-        this.trainingDataService.trainingNeedRefresh.emit(true);
+        this.trainingList = [updatedTraining.data];
       }
     });
   }
