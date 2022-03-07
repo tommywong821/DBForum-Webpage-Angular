@@ -3,7 +3,7 @@ import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-ma
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingDetailDialogComponent} from "../training-detail-dialog/training-detail-dialog.component";
 import {DateUtil} from "../../../services/date-util.service";
-import {TrainingDataService} from "../../../services/training-data.service";
+import {TrainingSummaryDataService} from "../../../services/training-summary-data.service";
 import {Subscription} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
@@ -40,7 +40,7 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
   constructor(private restful: ForumMainPageBackendService,
               private trainingDialog: MatDialog,
               public dateUtil: DateUtil,
-              private trainingDataService: TrainingDataService,
+              private trainingSummaryDataService: TrainingSummaryDataService,
               private store: Store<any>,
               private formBuilder: FormBuilder) {
     console.log(`[${this.constructor.name}] constructor`);
@@ -61,6 +61,12 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
       fromDate: this.todayDate,
       toDate: this.oneWeekAfterTodayDate
     });
+
+    this.monitoringTrainingUpdate = this.trainingSummaryDataService.trainingNeedRefresh.subscribe((needRefresh) => {
+      if (needRefresh) {
+        this.refreshTrainingSummary();
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -69,12 +75,8 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
+    this.trainingSummaryDataService.initFromToDate(this.historyDateForm.value.fromDate, this.historyDateForm.value.toDate);
     this.refreshTrainingSummary();
-    this.monitoringTrainingUpdate = this.trainingDataService.trainingNeedRefresh.subscribe((needRefresh) => {
-      if (needRefresh) {
-        this.refreshTrainingSummary();
-      }
-    });
 
     this.store.pipe(select(selectCurrentUserRole)).subscribe({
       next: (userLoginRole) => {
@@ -96,13 +98,14 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
       alert(`End Date cannot be before Start Date`);
       return;
     }
+    this.trainingSummaryDataService.initFromToDate(this.historyDateForm.value.fromDate, this.historyDateForm.value.toDate);
     this.refreshTrainingSummary(this.historyDateForm.value.fromDate, this.historyDateForm.value.toDate);
   }
 
   refreshTrainingSummary(fromDate?: any, toDate?: any) {
     this.isLoading = true;
-    fromDate = (fromDate) ? this.dateUtil.formatToHKTime(fromDate) : this.dateUtil.formatToHKTime(this.todayDate);
-    toDate = (toDate) ? this.dateUtil.formatToHKTime(toDate) : this.dateUtil.formatToHKTime(this.oneWeekAfterTodayDate);
+    fromDate = (fromDate) ? this.dateUtil.formatToHKTime(fromDate) : this.dateUtil.formatToHKTime(this.trainingSummaryDataService.fromDate);
+    toDate = (toDate) ? this.dateUtil.formatToHKTime(toDate) : this.dateUtil.formatToHKTime(this.trainingSummaryDataService.toDate);
     this.restful.getTrainingSummary(this.currentPage, this.pageSize, fromDate, toDate).subscribe({
       next: (result) => {
         console.log(`refreshTrainingSummary: `, result);
