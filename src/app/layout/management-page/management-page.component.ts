@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ManagementDataService} from "../../services/management-data.service";
+import {ManagementDataService} from "../../services/data-services/management-data.service";
 import {Auth0ManagementService} from "../../services/aws-lambda/auth0-management.service";
 import {saveAs} from "file-saver";
 import {forkJoin, Observable} from "rxjs";

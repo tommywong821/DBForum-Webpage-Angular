@@ -3,7 +3,7 @@ import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-ma
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingDetailDialogComponent} from "../training-detail-dialog/training-detail-dialog.component";
 import {DateUtil} from "../../../services/date-util.service";
-import {TrainingSummaryDataService} from "../../../services/training-summary-data.service";
+import {TrainingSummaryDataService} from "../../../services/data-services/training-summary-data.service";
 import {Subscription} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";

@@ -44,7 +44,6 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSelectModule} from "@angular/material/select";
 import {GeneralReminderComponent} from './layout/main-page/general-reminder/general-reminder.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
@@ -103,7 +102,6 @@ import {TrainingDataEffect} from "./ngrx/training-data/training-data.effect";
     MatGridListModule,
     MatMenuModule,
     MatSelectModule,
-    NgbModule,
     MatMomentDateModule,
     StoreModule.forRoot(AppReducer),
     EffectsModule.forRoot([Auth0Effect, TrainingDataEffect]),

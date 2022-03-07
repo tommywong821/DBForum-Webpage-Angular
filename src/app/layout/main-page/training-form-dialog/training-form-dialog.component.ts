@@ -7,7 +7,7 @@ import {ITraining} from "../../../model/forum/ITraining";
 import {select, Store} from "@ngrx/store";
 import {selectTrainingDataList} from "../../../ngrx/training-data/training-data.selector";
 import {updateTrainingDataList} from "../../../ngrx/training-data/training-data.action";
-import {TrainingSummaryDataService} from "../../../services/training-summary-data.service";
+import {TrainingSummaryDataService} from "../../../services/data-services/training-summary-data.service";
 
 @Component({
   selector: 'app-training-form-dialog',

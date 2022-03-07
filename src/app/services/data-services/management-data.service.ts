@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {IStudentAccount} from "../model/auth0-management/IStudentAccount";
-import {IUserRole} from "../model/auth0-management/IUserRole";
+import {IStudentAccount} from "../../model/auth0-management/IStudentAccount";
+import {IUserRole} from "../../model/auth0-management/IUserRole";
 
 @Injectable({
   providedIn: 'root'
