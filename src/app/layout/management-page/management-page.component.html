@@ -1,20 +1,20 @@
 <div class="container" *ngIf="isAdmin">
   <div class="row">
-    <div class="col-sm">
+    <div class="col-5">
       <div class="card-body">
         <h5 class="card-title">Sample Create Student Account File</h5>
         <button (click)="downloadSampleFile()" class="btn btn-outline-secondary" type="button">Download</button>
       </div>
     </div>
-    <div class="col-sm">
+    <div class="col-7">
       <div class="card-body">
         <ng-container *ngIf="!isCreatingAccount; else loading">
           <h5 class="card-title">Create New Student Account</h5>
           <div class="input-group">
-            <div class="custom-file">
+            <div class="form-file">
               <input (change)="uploadStudentCsv($event)" aria-describedby="inputGroupFileAddon"
-                     class="custom-file-input" id="fileUploadInput" type="file">
-              <label class="custom-file-label" for="fileUploadInput">{{inputFilePlaceholder}}</label>
+                     class="form-control" id="fileUploadInput" type="file">
+              <label class="form-label"></label>
             </div>
             <div class="input-group-append">
               <button (click)="createUser()" class="btn btn-outline-secondary" id="createBtn" type="button">Create
@@ -45,7 +45,9 @@
                   >
                   </ng-multiselect-dropdown>
                 </div>
-                <button class="btn btn-outline-secondary" type="submit">Remove</button>
+                <div class="col">
+                  <button class="btn btn-outline-secondary" type="submit">Remove</button>
+                </div>
               </div>
             </form>
           </div>
@@ -79,7 +81,9 @@
                   >
                   </ng-multiselect-dropdown>
                 </div>
-                <button class="btn btn-outline-secondary" type="submit">Assign</button>
+                <div class="col">
+                  <button class="btn btn-outline-secondary" type="submit">Assign</button>
+                </div>
               </div>
             </form>
           </div>
@@ -115,7 +119,9 @@
                   >
                   </ng-multiselect-dropdown>
                 </div>
-                <button class="btn btn-outline-secondary" type="submit">Remove</button>
+                <div class="col">
+                  <button class="btn btn-outline-secondary" type="submit">Remove</button>
+                </div>
               </div>
             </form>
           </div>
