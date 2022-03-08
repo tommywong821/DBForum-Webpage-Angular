@@ -5,109 +5,69 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AwsLambdaApiInterceptor} from "./interceptor/aws-lambda-api-interceptor";
-import {MainPageComponent} from './layout/main-page/main-page.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
-import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatInputModule} from "@angular/material/input";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {TrainingListComponent} from "./layout/main-page/training-list/training-list.component";
-import {TrainingSummaryComponent} from './layout/main-page/training-summary/training-summary.component';
-import {TrainingFormDialogComponent} from './layout/main-page/training-form-dialog/training-form-dialog.component';
+import {ReactiveFormsModule} from "@angular/forms";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {NgxMatDatetimePickerModule, NgxMatNativeDateModule} from "@angular-material-components/datetime-picker";
-import {MatTableModule} from "@angular/material/table";
 import {ApiErrorInterceptor} from "./interceptor/api-error-interceptor";
 import {AuthModule} from "@auth0/auth0-angular";
 import {environment} from "../environments/environment";
-import {
-  TrainingDetailDialogComponent
-} from './layout/main-page/training-detail-dialog/training-detail-dialog.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {TrainingContentComponent} from "./layout/main-page/training-content/training-content.component";
-import {LoadingComponent} from "./layout/shared/loading/loading.component";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
-import {HeaderComponent} from './layout/header/header.component';
+import {HeaderComponent} from './layout/shared/header/header.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
-import {ProfileDialogComponent} from './layout/header/profile-dialog/profile-dialog.component';
+import {ProfileDialogComponent} from './layout/shared/header/profile-dialog/profile-dialog.component';
 import {MatRadioModule} from "@angular/material/radio";
-import {NavigationComponent} from './layout/navigation/navigation.component';
-import {LayoutModule} from '@angular/cdk/layout';
-import {SidenavComponent} from './layout/navigation/sidenav/sidenav.component';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSortModule} from '@angular/material/sort';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatSelectModule} from "@angular/material/select";
-import {GeneralReminderComponent} from './layout/main-page/general-reminder/general-reminder.component';
+import {NavigationComponent} from './layout/shared/navigation/navigation.component';
+import {SidenavComponent} from './layout/shared/navigation/sidenav/sidenav.component';
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {Auth0Effect} from "./ngrx/auth0/auth0.effect";
 import {storeDevToolsImport} from "../environments/store-dev-tools-import";
-import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import {MatCheckboxModule} from "@angular/material/checkbox";
 import {AppReducer} from "./ngrx/app.state";
 import {TrainingDataEffect} from "./ngrx/training-data/training-data.effect";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainPageComponent,
-    TrainingListComponent,
-    TrainingSummaryComponent,
-    TrainingFormDialogComponent,
-    TrainingDetailDialogComponent,
-    TrainingContentComponent,
-    LoadingComponent,
     HeaderComponent,
     ProfileDialogComponent,
     NavigationComponent,
     SidenavComponent,
-    GeneralReminderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatCardModule,
-    MatButtonModule,
-    FlexLayoutModule,
-    MatInputModule,
-    ReactiveFormsModule,
+    MatToolbarModule,
+    MatListModule,
+    MatSidenavModule,
+    MatProgressSpinnerModule,
     MatDialogModule,
+    MatRadioModule,
+    MatFormFieldModule,
     MatDatepickerModule,
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule,
-    FormsModule,
-    MatTableModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMomentDateModule,
+    //auth0
     AuthModule.forRoot({
       domain: environment.auth0Domain,
       clientId: environment.auth0ClientId
     }),
-    MatProgressSpinnerModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatListModule,
-    MatRadioModule,
-    LayoutModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatGridListModule,
-    MatMenuModule,
-    MatSelectModule,
-    MatMomentDateModule,
+    //ngrx
     StoreModule.forRoot(AppReducer),
     EffectsModule.forRoot([Auth0Effect, TrainingDataEffect]),
     ...storeDevToolsImport,
-    FontAwesomeModule,
-    MatCheckboxModule
+    MatInputModule,
   ],
   providers: [
     {

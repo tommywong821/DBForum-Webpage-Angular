@@ -1,9 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ForumDashboardBackendService} from "../../services/aws-lambda/forum-dashboard-backend.service";
+import {ForumDashboardBackendService} from "../../../services/aws-lambda/forum-dashboard-backend.service";
 import {faCalendarAlt, faDownload, faRedoAlt} from "@fortawesome/free-solid-svg-icons";
 import {saveAs} from "file-saver";
 import {NgbCalendar, NgbDate, NgbDateParserFormatter} from "@ng-bootstrap/ng-bootstrap";
-import {DateUtil} from "../../services/date-util.service";
+import {DateUtil} from "../../../services/date-util.service";
 
 @Component({
   selector: 'app-dashboard-page',

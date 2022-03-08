@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
-import {selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
+import {selectCurrentUserRole} from "../../../../ngrx/auth0/auth0.selectors";
 
 @Component({
   selector: 'app-sidenav',

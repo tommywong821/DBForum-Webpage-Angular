@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {ManagementDataService} from "../../services/data-services/management-data.service";
-import {Auth0ManagementService} from "../../services/aws-lambda/auth0-management.service";
+import {ManagementDataService} from "../../../services/data-services/management-data.service";
+import {Auth0ManagementService} from "../../../services/aws-lambda/auth0-management.service";
 import {saveAs} from "file-saver";
 import {forkJoin, Observable} from "rxjs";
-import {IStudentAccount} from "../../model/auth0-management/IStudentAccount";
-import {IUserRole} from "../../model/auth0-management/IUserRole";
+import {IStudentAccount} from "../../../model/auth0-management/IStudentAccount";
+import {IUserRole} from "../../../model/auth0-management/IUserRole";
 import {IDropdownSettings} from "ng-multiselect-dropdown";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {select, Store} from "@ngrx/store";
-import {selectCurrentUserRole} from "../../ngrx/auth0/auth0.selectors";
+import {selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
 
 @Component({
   selector: 'app-management-page',

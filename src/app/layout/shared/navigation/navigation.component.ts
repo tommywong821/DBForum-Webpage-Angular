@@ -5,7 +5,7 @@ import {map, shareReplay} from 'rxjs/operators';
 import {AuthService} from "@auth0/auth0-angular";
 import {DOCUMENT} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
-import {SidenavService} from "../../services/sidenav.service";
+import {SidenavService} from "../../../services/sidenav.service";
 import {MatSidenav} from "@angular/material/sidenav";
 
 @Component({

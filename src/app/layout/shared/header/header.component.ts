@@ -1,14 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {ProfileDialogComponent} from "./profile-dialog/profile-dialog.component";
-import {SidenavService} from "../../services/sidenav.service";
+import {SidenavService} from "../../../services/sidenav.service";
 import {combineLatest, Observable} from "rxjs";
-import {ForumMainPageBackendService} from "../../services/aws-lambda/forum-main-page-backend.service";
-import {IStudent} from "../../model/forum/IStudent";
+import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
+import {IStudent} from "../../../model/forum/IStudent";
 import {select, Store} from "@ngrx/store";
 import {logout} from 'src/app/ngrx/auth0/auth0.action';
-import {selectCurrentUserItsc, selectIsLoggedIn} from "../../ngrx/auth0/auth0.selectors";
-import {environment} from "../../../environments/environment";
+import {selectCurrentUserItsc, selectIsLoggedIn} from "../../../ngrx/auth0/auth0.selectors";
+import {environment} from "../../../../environments/environment";
 
 
 @Component({

@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
-import {IReminder} from "../../../model/forum/IReminder";
-import {DateUtil} from "../../../services/date-util.service";
+import {ForumMainPageBackendService} from "../../../../services/aws-lambda/forum-main-page-backend.service";
+import {IReminder} from "../../../../model/forum/IReminder";
+import {DateUtil} from "../../../../services/date-util.service";
 import {v4 as uuidV4} from 'uuid';
 import {select, Store} from "@ngrx/store";
-import {selectCurrentUserItsc, selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
+import {selectCurrentUserItsc, selectCurrentUserRole} from "../../../../ngrx/auth0/auth0.selectors";
 import {combineLatest} from "rxjs";
 
 @Component({

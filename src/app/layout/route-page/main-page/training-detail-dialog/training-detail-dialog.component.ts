@@ -1,11 +1,11 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
-import {IStudent} from "../../../model/forum/IStudent";
-import {TrainingSummaryDataService} from "../../../services/data-services/training-summary-data.service";
+import {ForumMainPageBackendService} from "../../../../services/aws-lambda/forum-main-page-backend.service";
+import {IStudent} from "../../../../model/forum/IStudent";
+import {TrainingSummaryDataService} from "../../../../services/data-services/training-summary-data.service";
 import {Subscription} from "rxjs";
 import {select, Store} from "@ngrx/store";
-import {selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
+import {selectCurrentUserRole} from "../../../../ngrx/auth0/auth0.selectors";
 import {SelectionModel} from "@angular/cdk/collections";
 
 @Component({

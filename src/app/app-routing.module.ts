@@ -1,18 +1,20 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {MainPageComponent} from "./layout/main-page/main-page.component";
 import {AuthGuard} from "@auth0/auth0-angular";
 
 const routes: Routes = [
-  {path: 'mainpage', component: MainPageComponent},
+  {
+    path: 'mainpage',
+    loadChildren: () => import('./layout/route-page/main-page/main-page.module').then(m => m.MainPageModule)
+  },
   {
     path: 'dashboard',
-    loadChildren: () => import('./layout/dashboard-page/dashboard-page.module').then(m => m.DashboardPageModule),
+    loadChildren: () => import('./layout/route-page/dashboard-page/dashboard-page.module').then(m => m.DashboardPageModule),
     canActivate: [AuthGuard]
   },
   {
     path: 'management',
-    loadChildren: () => import('./layout/management-page/management-page.module').then(m => m.ManagementPageModule),
+    loadChildren: () => import('./layout/route-page/management-page/management-page.module').then(m => m.ManagementPageModule),
     canActivate: [AuthGuard]
   },
 

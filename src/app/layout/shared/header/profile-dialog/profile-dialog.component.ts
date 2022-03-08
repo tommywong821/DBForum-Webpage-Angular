@@ -1,10 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
+import {ForumMainPageBackendService} from "../../../../services/aws-lambda/forum-main-page-backend.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {IStudent} from "../../../model/forum/IStudent";
-import {DateUtil} from "../../../services/date-util.service";
-import {environment} from "../../../../environments/environment";
+import {IStudent} from "../../../../model/forum/IStudent";
+import {DateUtil} from "../../../../services/date-util.service";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-profile-dialog',
