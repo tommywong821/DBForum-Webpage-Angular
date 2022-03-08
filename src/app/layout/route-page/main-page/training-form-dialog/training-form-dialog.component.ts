@@ -8,6 +8,7 @@ import {select, Store} from "@ngrx/store";
 import {selectTrainingDataList} from "../../../../ngrx/training-data/training-data.selector";
 import {updateTrainingDataList} from "../../../../ngrx/training-data/training-data.action";
 import {TrainingSummaryDataService} from "../../../../services/data-services/training-summary-data.service";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-training-form-dialog',
@@ -71,8 +72,8 @@ export class TrainingFormDialogComponent implements OnInit {
     arrayControl.push(this.formBuilder.group({
       place: training.place,
       type: training.type,
-      date: new Date(training.date),
-      deadline: new Date(training.deadline)
+      date: new Date(this.dateUtil.displayFormat(training.date)),
+      deadline: new Date(this.dateUtil.displayFormat(training.deadline))
     }));
   }
 
@@ -115,20 +116,28 @@ export class TrainingFormDialogComponent implements OnInit {
             //update training list in main page
             this.trainingList = this.trainingList.map((training) => {
               this.trainingForm.value.trainings[0]._id = this.importData.training.uuid;
-              return (training.uuid === this.importData.training.uuid) ? this.trainingForm.value.trainings[0] : training;
+              return (training.uuid === this.importData.training.uuid) ? this.convertStringDateToDate(this.trainingForm.value.trainings[0]) : training;
             });
-            this.store.dispatch(updateTrainingDataList({trainingList: this.trainingList}));
-            this.dialogRef.close();
           }
         },
-        complete: () => this.trainingDataService.needRefresh()
+        complete: () => {
+          this.trainingDataService.needRefresh();
+          this.store.dispatch(updateTrainingDataList({trainingList: this.trainingList}));
+          this.dialogRef.close();
+        }
       });
     } else {
       //create new training to db
       this.restful.createTrainingList(this.trainingForm.value.trainings).subscribe({
-        next: (result) => {
-          console.log(`create successfully: `, result);
-          this.trainingList = this.trainingList.concat(result);
+        next: (createdTrainingList) => {
+          console.log(`create successfully: `, createdTrainingList);
+          //todo check format not match with api response
+          createdTrainingList.forEach((training) => {
+            this.trainingList = this.trainingList.concat([this.convertStringDateToDate(training)]);
+          });
+          console.log(`trainingList: `, this.trainingList)
+        },
+        complete: () => {
           this.store.dispatch(updateTrainingDataList({trainingList: this.trainingList}));
           this.dialogRef.close();
         }
@@ -143,5 +152,15 @@ export class TrainingFormDialogComponent implements OnInit {
     deadlineDateTime.setDate(deadlineDateTime.getDate() - 1);
     deadlineDateTime.setHours(17, 0, 0);
     this.trainings.at(index).get('deadline')?.setValue(deadlineDateTime);
+  }
+
+  convertStringDateToDate(training: any): any {
+    console.log(`stringDate: `, training)
+    let newTrainingList = JSON.parse(JSON.stringify(training));
+    console.log(`before: `, newTrainingList);
+    newTrainingList.date = moment(newTrainingList.date).tz('Asia/Hong_Kong').format('YYYY-MM-DDTHH:mm:ss') + 'Z'
+    newTrainingList.deadline = moment(newTrainingList.deadline).tz('Asia/Hong_Kong').format('YYYY-MM-DDTHH:mm:ss') + 'Z'
+    console.log(`after: `, newTrainingList);
+    return newTrainingList;
   }
 }
