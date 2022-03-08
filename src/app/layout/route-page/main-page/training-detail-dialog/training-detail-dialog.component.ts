@@ -1,5 +1,5 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ForumMainPageBackendService} from "../../../../services/aws-lambda/forum-main-page-backend.service";
 import {IStudent} from "../../../../model/forum/IStudent";
 import {TrainingSummaryDataService} from "../../../../services/data-services/training-summary-data.service";
@@ -7,6 +7,7 @@ import {Subscription} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserRole} from "../../../../ngrx/auth0/auth0.selectors";
 import {SelectionModel} from "@angular/cdk/collections";
+import {ITraining} from "../../../../model/forum/ITraining";
 
 @Component({
   selector: 'app-training-detail-dialog',
@@ -40,7 +41,8 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
   constructor(@Inject(MAT_DIALOG_DATA) public dialogInputData: any,
               private restful: ForumMainPageBackendService,
               private trainingDataService: TrainingSummaryDataService,
-              private store: Store<any>) {
+              private store: Store<any>,
+              private dialogRef: MatDialogRef<TrainingDetailDialogComponent>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isLoading = true;
     this.needUpdateUi = false;
@@ -115,5 +117,17 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
     this.restful.updateNoShowStudentAttendance(this.trainingData.uuid, this.noShowStudentIdList, this.showUpStudentIdList).subscribe({
       complete: () => this.initTrainingDetail()
     })
+  }
+
+  removeTrainingFromDB(training: ITraining) {
+    if (confirm("Are you sure to delete this training")) {
+      console.log(`remove uuid: `, training.uuid);
+      this.restful.removeTraining(training.uuid).subscribe({
+        next: result => {
+          console.log(`removeTrainingFromDB result: `, result)
+        }
+      });
+      this.dialogRef.close();
+    }
   }
 }
