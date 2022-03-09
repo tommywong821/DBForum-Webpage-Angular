@@ -11,11 +11,17 @@
                             [editTrainingContent]="dialogInputData.trainingData"
                             [isInputFromTrainingDetail]="true"></app-training-content>
     </div>
-    <div class="col" style="padding-top: 12px">
-      <button mat-flat-button color="warn" (click)="removeTrainingFromDB(dialogInputData.trainingData)">Remove
-        Training
-      </button>
-    </div>
+    <ng-container *ngIf="isAdmin">
+      <div class="col" style="padding-top: 12px">
+        <div class="container">
+          <div class="row">
+            <button mat-flat-button color="warn" (click)="removeTrainingFromDB(dialogInputData.trainingData)">
+              Remove Training
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 
   <div align="end">
