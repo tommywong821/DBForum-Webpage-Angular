@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from "@auth0/auth0-angular";
+import {TestComponent} from "./layout/route-page/test/test.component";
 
 const routes: Routes = [
   {
@@ -17,8 +18,8 @@ const routes: Routes = [
     loadChildren: () => import('./layout/route-page/management-page/management-page.module').then(m => m.ManagementPageModule),
     canActivate: [AuthGuard]
   },
-
-  {path: '**', redirectTo: 'mainpage', pathMatch: 'full'}
+  {path: 'training/:trainingId', component: TestComponent},
+  {path: '**', redirectTo: 'mainpage', pathMatch: 'full'},
 ];
 
 @NgModule({

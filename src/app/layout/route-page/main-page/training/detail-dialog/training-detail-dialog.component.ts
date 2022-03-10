@@ -1,16 +1,17 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ForumMainPageBackendService} from "../../../../services/aws-lambda/forum-main-page-backend.service";
-import {IStudent} from "../../../../model/forum/IStudent";
-import {TrainingSummaryDataService} from "../../../../services/data-services/training-summary-data.service";
+import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
+import {IStudent} from "../../../../../model/forum/IStudent";
+import {TrainingSummaryDataService} from "../../../../../services/data-services/training-summary-data.service";
 import {Subscription} from "rxjs";
 import {select, Store} from "@ngrx/store";
-import {selectCurrentUserRole} from "../../../../ngrx/auth0/auth0.selectors";
+import {selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
 import {SelectionModel} from "@angular/cdk/collections";
-import {ITraining} from "../../../../model/forum/ITraining";
+import {ITraining} from "../../../../../model/forum/ITraining";
+import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-training-detail-dialog',
+  selector: 'app-detail-dialog',
   templateUrl: './training-detail-dialog.component.html',
   styleUrls: ['./training-detail-dialog.component.scss']
 })
@@ -42,7 +43,8 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
               private restful: ForumMainPageBackendService,
               private trainingDataService: TrainingSummaryDataService,
               private store: Store<any>,
-              private dialogRef: MatDialogRef<TrainingDetailDialogComponent>) {
+              private dialogRef: MatDialogRef<TrainingDetailDialogComponent>,
+              private router: Router) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isLoading = true;
     this.needUpdateUi = false;
@@ -78,13 +80,13 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
   initTrainingDetail() {
     this.isLoading = true;
     this.restful.getTrainingDetail(this.trainingData.uuid).subscribe({
-      next: (result) => {
-        console.log(`getTrainingDetail result: `, result);
-        this.attendLeftStudent = result.attend.leftStudent;
-        this.attendRightStudent = result.attend.rightStudent;
-        this.noReplyStudent = result.absent.noReplyStudent;
-        this.absentStudent = result.absent.absentStudent;
-      },
+        next: (result) => {
+          console.log(`getTrainingDetail result: `, result);
+          this.attendLeftStudent = result.attend.leftStudent;
+          this.attendRightStudent = result.attend.rightStudent;
+          this.noReplyStudent = result.absent.noReplyStudent;
+          this.absentStudent = result.absent.absentStudent;
+        },
         complete: () => {
           console.log('getTrainingDetail complete');
           this.isLoading = false;
@@ -129,5 +131,11 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
       });
       this.dialogRef.close();
     }
+  }
+
+  routeToTrainingSeatArr(trainingId: string) {
+    this.router.navigate(['/training', trainingId]).then(() => {
+      this.dialogRef.close();
+    })
   }
 }
