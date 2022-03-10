@@ -134,7 +134,7 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
   }
 
   routeToTrainingSeatArr(trainingId: string) {
-    this.router.navigate(['/training', trainingId]).then(() => {
+    this.router.navigate(['/mainpage/training', trainingId]).then(() => {
       this.dialogRef.close();
     })
   }
