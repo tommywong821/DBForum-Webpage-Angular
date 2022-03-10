@@ -110,20 +110,25 @@ export class TrainingFormDialogComponent implements OnInit {
           console.log(`update success: `, result);
           if (this.importData.isInputFromTrainingDetail) {
             //update training detail page
+            console.log(`update training detail page`);
             this.trainingForm.value.trainings[0]._id = this.importData.training.uuid;
-            this.dialogRef.close({data: this.trainingForm.value.trainings[0]});
+            console.log(this.trainingForm.value.trainings[0]);
+            this.dialogRef.close({
+              data: this.convertStringDateToDate(this.trainingForm.value.trainings[0])
+            });
           } else {
             //update training list in main page
+            console.log(`update training list in main page`);
             this.trainingList = this.trainingList.map((training) => {
               this.trainingForm.value.trainings[0]._id = this.importData.training.uuid;
               return (training.uuid === this.importData.training.uuid) ? this.convertStringDateToDate(this.trainingForm.value.trainings[0]) : training;
             });
+            this.dialogRef.close();
           }
         },
         complete: () => {
           this.trainingDataService.needRefresh();
           this.store.dispatch(updateTrainingDataList({trainingList: this.trainingList}));
-          this.dialogRef.close();
         }
       });
     } else {
@@ -156,11 +161,11 @@ export class TrainingFormDialogComponent implements OnInit {
 
   convertStringDateToDate(training: any): any {
     console.log(`stringDate: `, training)
-    let newTrainingList = JSON.parse(JSON.stringify(training));
-    console.log(`before: `, newTrainingList);
-    newTrainingList.date = moment(newTrainingList.date).tz('Asia/Hong_Kong').format('YYYY-MM-DDTHH:mm:ss') + 'Z'
-    newTrainingList.deadline = moment(newTrainingList.deadline).tz('Asia/Hong_Kong').format('YYYY-MM-DDTHH:mm:ss') + 'Z'
-    console.log(`after: `, newTrainingList);
-    return newTrainingList;
+    let newTraining = JSON.parse(JSON.stringify(training));
+    console.log(`before: `, newTraining);
+    newTraining.date = moment(newTraining.date).tz('Asia/Hong_Kong').format('YYYY-MM-DDTHH:mm:ss') + 'Z'
+    newTraining.deadline = moment(newTraining.deadline).tz('Asia/Hong_Kong').format('YYYY-MM-DDTHH:mm:ss') + 'Z'
+    console.log(`after: `, newTraining);
+    return newTraining;
   }
 }
