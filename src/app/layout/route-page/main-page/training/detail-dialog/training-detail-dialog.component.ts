@@ -9,6 +9,7 @@ import {selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
 import {SelectionModel} from "@angular/cdk/collections";
 import {ITraining} from "../../../../../model/forum/ITraining";
 import {Router} from "@angular/router";
+import {AttendedStudentDataService} from "../../../../../services/data-services/attended-student-data.service";
 
 @Component({
   selector: 'app-detail-dialog',
@@ -44,7 +45,8 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
               private trainingDataService: TrainingSummaryDataService,
               private store: Store<any>,
               private dialogRef: MatDialogRef<TrainingDetailDialogComponent>,
-              private router: Router) {
+              private router: Router,
+              private attendStudentDataService: AttendedStudentDataService) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isLoading = true;
     this.needUpdateUi = false;
@@ -82,6 +84,7 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
     this.restful.getTrainingDetail(this.trainingData.uuid).subscribe({
         next: (result) => {
           console.log(`getTrainingDetail result: `, result);
+          this.attendStudentDataService.attendedStudent = result.attend;
           this.attendLeftStudent = result.attend.leftStudent;
           this.attendRightStudent = result.attend.rightStudent;
           this.noReplyStudent = result.absent.noReplyStudent;

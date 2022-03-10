@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
+import {AttendedStudentDataService} from "../../../../../services/data-services/attended-student-data.service";
 
 @Component({
   selector: 'app-seat-arrangement',
@@ -7,10 +9,23 @@ import {Component, OnInit} from '@angular/core';
 })
 export class TrainingSeatArrangementComponent implements OnInit {
 
-  constructor() {
+  private trainingId: string | null;
+  private attendedStudentList: any;
+
+  constructor(private route: ActivatedRoute,
+              private attendedStudentDataService: AttendedStudentDataService) {
+    console.log(`[${this.constructor.name}] constructor`);
+    this.trainingId = '';
   }
 
   ngOnInit(): void {
+    console.log(`[${this.constructor.name}] ngOnInit`);
+    this.route.paramMap.subscribe((paramMap) => {
+      this.trainingId = paramMap.get('trainingId');
+      console.log(`this.trainingId: `, this.trainingId);
+    });
+    this.attendedStudentList = this.attendedStudentDataService.attendedStudent;
+    console.log(`this.attendedStudentList: `, this.attendedStudentList);
   }
 
 }
