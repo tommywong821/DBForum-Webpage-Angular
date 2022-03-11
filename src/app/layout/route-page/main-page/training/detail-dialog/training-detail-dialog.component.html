@@ -14,7 +14,7 @@
     <ng-container *ngIf="isAdmin">
       <div class="col" style="padding-top: 12px">
         <div class="container">
-          <div class="row">
+          <div class="row" *ngIf="!isLoading">
             <button mat-flat-button color="primary" (click)="routeToTrainingSeatArr(dialogInputData.trainingData.uuid)">
               Seat Arrangement
             </button>
