@@ -102,4 +102,16 @@ export class ForumMainPageBackendService {
     };
     return this.http.put(this.apiUrl + "/attendance/" + trainingId, body);
   }
+
+  updateTrainingSearArr(trainingId: any, seatArrList: any) {
+    const body = {
+      seatArrList: seatArrList
+    }
+    return this.http.put(this.apiUrl + "/training/seat/" + trainingId, body);
+  }
+
+  getTrainingSearArr(trainingId: any) {
+    const params = new HttpParams().set('trainingId', trainingId);
+    return this.http.get(this.apiUrl + "/training/seat", {params: params});
+  }
 }

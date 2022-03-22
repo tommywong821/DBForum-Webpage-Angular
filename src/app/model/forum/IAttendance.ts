@@ -10,4 +10,5 @@ export interface IAttendance {
   itsc: string;
   is_late_reply: boolean;
   updated_at: string;
+  weight?: number;
 }

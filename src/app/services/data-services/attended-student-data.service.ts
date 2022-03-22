@@ -24,46 +24,37 @@ export class AttendedStudentDataService {
         "weight": 70
       },
       {
-        "student_id": "884fbc57-9030-4012-a805-a6df0ab5c138",
+        "student_id": "8473e3d9-3ba4-4fcc-ab82-b46bc969ed2d",
         "reason": "",
         "is_late_reply": false,
-        "itsc": "tkwongax",
-        "gender": "female",
-        "nickname": "Tester1",
+        "itsc": "khlamas",
+        "gender": "male",
+        "nickname": "Allen",
         "paddle_side": "left",
         "weight": 70
       },
-      {
-        "student_id": "884fbc57-9030-4012-a805-a6df0ab5c138",
-        "reason": "",
-        "is_late_reply": false,
-        "itsc": "tkwongax",
-        "gender": "female",
-        "nickname": "Tester2",
-        "paddle_side": "left",
-        "weight": 70
-      },
+
     ],
     "rightStudent": [
       {
-        "student_id": "884fbc57-9030-4012-a805-a6df0ab5c138",
+        "student_id": "e633e966-46da-41a1-be02-3a55d6ec57d2",
         "reason": "",
         "is_late_reply": false,
-        "itsc": "tkwongax",
+        "itsc": "twlauad",
         "gender": "male",
-        "nickname": "Tester3",
+        "nickname": "Wai (DLLM→)",
         "paddle_side": "right",
-        "weight": 70
+        "weight": 74
       },
       {
-        "student_id": "884fbc57-9030-4012-a805-a6df0ab5c138",
+        "student_id": "b5fd3924-9a83-40b9-be3e-d5a912017381",
         "reason": "",
         "is_late_reply": false,
-        "itsc": "tkwongax",
-        "gender": "male",
-        "nickname": "Tester4",
+        "itsc": "hlhluiaa",
+        "gender": "female",
+        "nickname": "Hilary",
         "paddle_side": "right",
-        "weight": 70
+        "weight": 66
       }
     ]
   };
