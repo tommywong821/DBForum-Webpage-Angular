@@ -91,9 +91,13 @@
                       <h6>
                         Left
                         <span>
-                        {{calculateSidePeople(dragonBoat.id, "left")}} people
-                        ({{calculateSideWeight(dragonBoat.id, "left")}}kg)
-                      </span>
+                          {{calculateSidePeople(dragonBoat.id, "left")}} people
+                          ({{calculateSideWeight(dragonBoat.id, "left")}}kg)
+                        </span>
+                        <button type="button" class="btn btn-outline-secondary"
+                                (click)="appendEmptySeat(dragonBoat.id, 'left')">
+                          Append Empty Seat
+                        </button>
                       </h6>
                       <div cdkDropList id="dragonBoat_{{dragonBoat.id}}_left"
                            [cdkDropListData]="dragonBoat.leftSeatList"
@@ -110,9 +114,13 @@
                       <h6>
                         Right
                         <span>
-                        {{calculateSidePeople(dragonBoat.id, "right")}} people
-                        ({{calculateSideWeight(dragonBoat.id, "right")}}kg)
-                      </span>
+                          {{calculateSidePeople(dragonBoat.id, "right")}} people
+                          ({{calculateSideWeight(dragonBoat.id, "right")}}kg)
+                        </span>
+                        <button type="button" class="btn btn-outline-secondary"
+                                (click)="appendEmptySeat(dragonBoat.id, 'right')">
+                          Append Empty Seat
+                        </button>
                       </h6>
                       <div cdkDropList id="dragonBoat_{{dragonBoat.id}}_right"
                            [cdkDropListData]="dragonBoat.rightSeatList"
@@ -154,12 +162,18 @@
 </div>
 
 <ng-template #studentTemplate let-student>
-  <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
-    <fa-icon [icon]="(student.gender === 'male')? faMale: faFemale"
-             [ngClass]="(student.gender === 'male')? 'male': 'female'">
-    </fa-icon>
-    {{student.nickname}}
-    <span>({{student.paddle_side}})</span>
-    <span *ngIf="student.reason">({{student.reason}})</span>
-  </span>
+  <ng-container *ngIf="student && student?._id != ''; else empty">
+      <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
+        <fa-icon [icon]="(student.gender === 'male')? faMale: faFemale"
+                 [ngClass]="(student.gender === 'male')? 'male': 'female'">
+        </fa-icon>
+        {{student.nickname}}
+        <span>({{student.paddle_side}})</span>
+        <span *ngIf="student.reason">({{student.reason}})</span>
+      </span>
+  </ng-container>
+
+  <ng-template #empty>
+    Empty Seat
+  </ng-template>
 </ng-template>

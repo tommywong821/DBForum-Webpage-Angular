@@ -7,6 +7,7 @@ import {IDragonBoat} from "../../../../../model/forum/IDragonBoat";
 import {DateUtil} from "../../../../../services/date-util.service";
 import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
 import {switchMap} from "rxjs";
+import {IStudent} from "../../../../../model/forum/IStudent";
 
 @Component({
   selector: 'app-seat-arrangement',
@@ -98,24 +99,32 @@ export class TrainingSeatArrangementComponent implements OnInit {
   calculateSideWeight(dragonId: any, position: any) {
     let dragonBoat: IDragonBoat = this.dragonBoats.filter((dboat: IDragonBoat) => dboat.id == dragonId)[0];
     let studentList = (position === "left") ? dragonBoat.leftSeatList : dragonBoat.rightSeatList;
-    return studentList.map(student => student?.weight).reduce((prev, next) => prev + next, 0);
+    return studentList.map(student => student?.weight).reduce(
+      (prev, curr) => this.sumFunction(prev, curr), 0
+    );
   }
 
   calculateSidePeople(dragonId: any, position: any) {
     let dragonBoat: IDragonBoat = this.dragonBoats.filter((dboat: IDragonBoat) => dboat.id == dragonId)[0];
     let studentList = (position === "left") ? dragonBoat.leftSeatList : dragonBoat.rightSeatList;
-    return studentList.length;
+    return studentList.filter((student) => student).length;
   }
 
   calculateTotalWeight(dragonId: any) {
     let dragonBoat: IDragonBoat = this.dragonBoats.filter((dboat: IDragonBoat) => dboat.id == dragonId)[0];
-    return dragonBoat.leftSeatList.map(student => student?.weight).reduce((prev, next) => prev + next, 0) +
-      dragonBoat.rightSeatList.map(student => student?.weight).reduce((prev, next) => prev + next, 0);
+    return dragonBoat.leftSeatList.map(student => student?.weight).reduce(
+        (prev, curr) => this.sumFunction(prev, curr), 0
+      )
+      +
+      dragonBoat.rightSeatList.map(student => student?.weight).reduce(
+        (prev, curr) => this.sumFunction(prev, curr), 0
+      );
   }
 
   calculateTotalPeople(dragonId: any) {
     let dragonBoat: IDragonBoat = this.dragonBoats.filter((dboat: IDragonBoat) => dboat.id == dragonId)[0];
-    return dragonBoat.leftSeatList.length + dragonBoat.rightSeatList.length;
+    return dragonBoat.leftSeatList.filter((student) => student).length
+      + dragonBoat.rightSeatList.filter((student) => student).length;
   }
 
   saveSeatArrangement() {
@@ -133,14 +142,14 @@ export class TrainingSeatArrangementComponent implements OnInit {
       dbObj.push({
         id: dragonBoat.id,
         leftStudentList: dragonBoat.leftSeatList.map((studentAttendance) => {
-          return studentAttendance.student_id;
+          return (studentAttendance?.student_id) ? studentAttendance.student_id : undefined;
         }),
         rightStudentList: dragonBoat.rightSeatList.map((studentAttendance) => {
-          return studentAttendance.student_id;
+          return (studentAttendance?.student_id) ? studentAttendance.student_id : undefined;
         }),
         steersperson: dragonBoat.steersperson.map((studentAttendance: any) => {
-          if (studentAttendance.student_id) {
-            return studentAttendance.student_id;
+          if (studentAttendance?.student_id) {
+            return studentAttendance?.student_id;
           } else {
             return studentAttendance;
           }
@@ -161,9 +170,40 @@ export class TrainingSeatArrangementComponent implements OnInit {
     if (student) {
       this.attendedRightStudentList = this.attendedRightStudentList.filter((student: any) => student.student_id !== studentId)
     } else {
+      //not in right list
       student = this.attendedLeftStudentList.find((student: any) => student.student_id == studentId);
       this.attendedLeftStudentList = this.attendedLeftStudentList.filter((student: any) => student.student_id !== studentId);
     }
     return student;
+  }
+
+  appendEmptySeat(dragonBoatId: any, side: string) {
+    let dragonBoat: IDragonBoat = this.dragonBoats.find((dragonBoat: any) => {
+      return dragonBoat.id === dragonBoatId
+    })
+    console.log(`dragonBoat: `, dragonBoat);
+    const emptyStudent: IStudent = {
+      _id: "",
+      student_id: "",
+      created_at: "",
+      date_of_birth: undefined,
+      email: "",
+      gender: "",
+      itsc: "",
+      nickname: "",
+      paddle_side: "",
+      updated_at: "",
+      weight: 0
+    }
+    if (side === 'left') {
+      dragonBoat.leftSeatList.push(emptyStudent);
+    } else {
+      dragonBoat.rightSeatList.push(emptyStudent);
+    }
+  }
+
+  sumFunction(prev: number, curr: number) {
+    curr = (curr) ? curr : 0;
+    return prev + curr;
   }
 }
