@@ -65,12 +65,12 @@
         <span>
           Dragon Boat(s)
           <button type="button" class="btn" (click)="addDragonBoat()">
-            <fa-icon class="faIcon" [icon]="faPlus"></fa-icon>
+            <i class="fa-solid fa-plus"></i>
           </button>
         </span>
           <span>
           <button type="button" class="btn" (click)="saveSeatArrangement()">
-            <fa-icon class="faIcon" [icon]="faSave"></fa-icon>
+            <i class="fa-solid fa-lg fa-floppy-disk"></i>
           </button>
         </span>
         </div>
@@ -164,9 +164,8 @@
 <ng-template #studentTemplate let-student>
   <ng-container *ngIf="student && student?._id != ''; else empty">
       <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
-        <fa-icon [icon]="(student.gender === 'male')? faMale: faFemale"
-                 [ngClass]="(student.gender === 'male')? 'male': 'female'">
-        </fa-icon>
+        <i class="fa-solid fa-lg"
+           [ngClass]="(student.gender === 'male')? 'male fa-person': 'female fa-person-dress'"></i>
         {{student.nickname}}
         <span>({{student.paddle_side}})</span>
         <span *ngIf="student.reason">({{student.reason}})</span>

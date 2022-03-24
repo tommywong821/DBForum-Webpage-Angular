@@ -2,12 +2,12 @@
   <mat-card-header>
     <mat-card-title>
       Reminder:
-      <button mat-button>
-        <mat-icon (click)="enableEdit()" *ngIf="isAdmin" class="title-icon">edit</mat-icon>
+      <button class="btn" (click)="enableEdit()" *ngIf="isAdmin && !isLoading">
+        <i class="fa-solid fa-pencil"></i>
       </button>
     </mat-card-title>
-    <button (click)="submitReminder()" *ngIf="!isReadOnly && isAdmin" class="right-btn" mat-button>
-      <mat-icon>done</mat-icon>
+    <button (click)="submitReminder()" *ngIf="!isReadOnly && isAdmin" class="btn right-btn">
+      <i class="fa-solid fa-check"></i>
     </button>
   </mat-card-header>
 

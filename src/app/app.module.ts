@@ -16,7 +16,6 @@ import {AuthModule} from "@auth0/auth0-angular";
 import {environment} from "../environments/environment";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatIconModule} from "@angular/material/icon";
 import {HeaderComponent} from './layout/shared/header/header.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
@@ -58,7 +57,6 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatFormFieldModule,
     MatDatepickerModule,
     ReactiveFormsModule,
-    MatIconModule,
     MatButtonModule,
     MatMomentDateModule,
     //auth0

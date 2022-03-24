@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {AttendedStudentDataService} from "../../../../../services/data-services/attended-student-data.service";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {faFemale, faMale, faPlus, faSave} from "@fortawesome/free-solid-svg-icons";
 import {IDragonBoat} from "../../../../../model/forum/IDragonBoat";
 import {DateUtil} from "../../../../../services/date-util.service";
 import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
@@ -15,11 +14,6 @@ import {IStudent} from "../../../../../model/forum/IStudent";
   styleUrls: ['./training-seat-arrangement.component.scss']
 })
 export class TrainingSeatArrangementComponent implements OnInit {
-  faMale = faMale;
-  faFemale = faFemale;
-  faPlus = faPlus;
-  faSave = faSave;
-
   private trainingId: string | null;
   public attendedLeftStudentList: any;
   public attendedRightStudentList: any;

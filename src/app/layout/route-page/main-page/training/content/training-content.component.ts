@@ -8,7 +8,6 @@ import {TrainingFormDialogComponent} from "../form-dialog/training-form-dialog.c
 import {combineLatest} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserItsc, selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {selectIsLoaded, selectTrainingDataList} from "../../../../../ngrx/training-data/training-data.selector";
 import {updateTrainingDataList} from "../../../../../ngrx/training-data/training-data.action";
 
@@ -29,7 +28,6 @@ export class TrainingContentComponent implements OnInit {
   isAdmin: boolean;
   itsc: string;
   isLoading: boolean;
-  faTime = faTimes;
 
   trainingList: Array<ITraining>;
 

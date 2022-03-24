@@ -6,7 +6,7 @@
       aria-label="Toggle sidenav"
       mat-icon-button
       type="button">
-      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      <i class="fa-solid fa-bars"></i>
     </button>
     <span>HKUST Dragon Boat</span>
     <span class="spacer"></span>
@@ -18,16 +18,18 @@
           aria-label="profile btn"
           mat-button
           type="button">
-          <mat-icon aria-hidden="false">person</mat-icon>
-          <span> Profile</span>
+          <span class="header-text">
+            <i class="fa-solid fa-user"></i> Profile
+          </span>
         </button>
         <button
           (click)="logout()"
           aria-label="logout btn"
           mat-button
           type="button">
-          <mat-icon aria-hidden="false">logout</mat-icon>
-          <span> Log Out</span>
+          <span class="header-text">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+          </span>
         </button>
       </ng-container>
     </ng-container>

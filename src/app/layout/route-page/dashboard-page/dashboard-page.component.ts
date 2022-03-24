@@ -1,6 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ForumDashboardBackendService} from "../../../services/aws-lambda/forum-dashboard-backend.service";
-import {faCalendarAlt, faDownload, faRedoAlt} from "@fortawesome/free-solid-svg-icons";
 import {saveAs} from "file-saver";
 import {NgbCalendar, NgbDate, NgbDateParserFormatter} from "@ng-bootstrap/ng-bootstrap";
 import {DateUtil} from "../../../services/date-util.service";
@@ -11,15 +10,11 @@ import {DateUtil} from "../../../services/date-util.service";
   styleUrls: ['./dashboard-page.component.scss']
 })
 export class DashboardPageComponent implements OnInit {
-  faDownload = faDownload;
-  faCalendarDayAlt = faCalendarAlt;
-
   trainingStatisticList: any;
   totalTraining: number;
   isLoading: boolean;
 
   //data date range
-  faRedoAlt = faRedoAlt;
   hoveredDate: NgbDate | null = null;
   fromDate: NgbDate | null;
   isFromDateSelected: boolean;
