@@ -72,12 +72,22 @@ export class ProfileDialogComponent implements OnInit {
     this.isLoading = true;
     this.profileForm.value.updated_at = this.dateUtil.formatToHKTime(new Date());
     console.log(`after: `, this.profileForm.value);
-    this.restful.updateStudentProfile(this.profileForm.value.itsc, this.profileForm.value).subscribe({
-      complete: () => {
-        sessionStorage.setItem(environment.studentProfileKey, JSON.stringify(this.profileForm.value));
-        this.isLoading = false;
-        this.dialogRef.close();
-      }
-    });
+    if (this.inputDialogData.isUpdateCoach) {
+      console.log(`isUpdateCoach`);
+      this.restful.updateCoach(this.profileForm.value, this.inputDialogData.studentDetail.uuid).subscribe({
+        complete: () => {
+          this.isLoading = false;
+          this.dialogRef.close({data: this.profileForm.value});
+        }
+      })
+    } else {
+      this.restful.updateStudentProfile(this.profileForm.value.itsc, this.profileForm.value).subscribe({
+        complete: () => {
+          sessionStorage.setItem(environment.studentProfileKey, JSON.stringify(this.profileForm.value));
+          this.isLoading = false;
+          this.dialogRef.close();
+        }
+      });
+    }
   }
 }

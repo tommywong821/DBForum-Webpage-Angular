@@ -145,7 +145,23 @@
       <div class="card">
         <h5 class="card-header">Coach</h5>
         <div class="card-body">
-
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <ul class="list-group">
+                  <li *ngFor="let coach of coachList;">
+                    {{coach.nickname}}
+                    <button class="btn" (click)="editCoach(coach)">
+                      <i class="fa-solid fa-pencil"></i>
+                    </button>
+                    <button class="btn">
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -118,4 +118,11 @@ export class ForumMainPageBackendService {
   getCoachList() {
     return this.http.get(this.apiUrl + "/coach");
   }
+
+  updateCoach(coachInfo: any, coachUuid: any) {
+    const body = {
+      coachInfo: coachInfo
+    }
+    return this.http.put(this.apiUrl + "/coach/" + coachUuid, body)
+  }
 }

@@ -9,6 +9,9 @@ import {IDropdownSettings} from "ng-multiselect-dropdown";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
+import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
+import {ProfileDialogComponent} from "../../shared/header/profile-dialog/profile-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-management-page',
@@ -48,10 +51,14 @@ export class ManagementPageComponent implements OnInit {
   removeStudentAccountList: Array<IStudentAccount>;
   removeRoleForm: FormGroup;
 
+  coachList: any
+
   constructor(private managementData: ManagementDataService,
+              private restful: ForumMainPageBackendService,
               private auth0Restful: Auth0ManagementService,
               private formBuilder: FormBuilder,
-              private store: Store<any>) {
+              private store: Store<any>,
+              private profileDialog: MatDialog) {
     console.log(`[${this.constructor.name}] constructor`);
     this.managementData$ = [this.auth0Restful.getStudentAccountList(), this.auth0Restful.getUserRolesList()];
 
@@ -119,10 +126,11 @@ export class ManagementPageComponent implements OnInit {
     this.isAssignFormLoading = true;
     this.isRemoveFormLoading = true;
     this.isDeleteFormLoading = true;
-    forkJoin(this.managementData$).subscribe({
+    forkJoin([...this.managementData$, this.restful.getCoachList()]).subscribe({
       next: (result) => {
         this.managementData.studentAccountList = result[0];
         this.managementData.userRoleList = result[1];
+        this.coachList = result[2];
       },
       complete: () => {
         this.assignStudentAccountList = this.managementData.studentAccountList;
@@ -260,5 +268,24 @@ export class ManagementPageComponent implements OnInit {
         this.fetchDataFromAuth0();
       }
     })
+  }
+
+  editCoach(coach: any) {
+    console.log(`coach: `, coach)
+    const profileDialogRef = this.profileDialog.open(ProfileDialogComponent, {
+      data: {
+        studentDetail: coach,
+        isUpdateCoach: true
+      },
+      disableClose: true
+    });
+
+    profileDialogRef.afterClosed().subscribe((updatedCoach) => {
+      console.log(`updatedCoach: `, updatedCoach.data)
+      if (updatedCoach.data) {
+        this.coachList = this.coachList.filter((coachInList: any) => coachInList.uuid !== coach.uuid);
+        this.coachList.push(updatedCoach.data);
+      }
+    });
   }
 }
