@@ -114,4 +114,8 @@ export class ForumMainPageBackendService {
     const params = new HttpParams().set('trainingId', trainingId);
     return this.http.get(this.apiUrl + "/training/seat", {params: params});
   }
+
+  getCoachList() {
+    return this.http.get(this.apiUrl + "/coach");
+  }
 }

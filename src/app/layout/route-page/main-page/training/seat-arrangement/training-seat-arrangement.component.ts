@@ -17,6 +17,7 @@ export class TrainingSeatArrangementComponent implements OnInit {
   private trainingId: string | null;
   public attendedLeftStudentList: any;
   public attendedRightStudentList: any;
+  public coachList: any;
 
   public dragonBoats: any;
   public dragonBoatsConnected: any;
@@ -29,7 +30,7 @@ export class TrainingSeatArrangementComponent implements OnInit {
               private restful: ForumMainPageBackendService) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingId = '';
-    this.dragonBoatsConnected = ['leftStudentList', 'rightStudentList'];
+    this.dragonBoatsConnected = ['leftStudentList', 'rightStudentList', 'coachList'];
     this.dragonBoats = [];
     this.isLoading = true;
   }
@@ -40,25 +41,32 @@ export class TrainingSeatArrangementComponent implements OnInit {
     this.attendedRightStudentList = this.attendedStudentDataService.attendedStudent.rightStudent;
     console.log(`this.attendedLeftStudentList: `, this.attendedLeftStudentList);
     console.log(`this.attendedRightStudentList: `, this.attendedRightStudentList);
-    this.route.paramMap.pipe(
-      switchMap((paramMap) => {
-        this.trainingId = paramMap.get('trainingId');
-        return this.restful.getTrainingSearArr(paramMap.get('trainingId'))
-      })
-    ).subscribe({
-      next: (seatArrList: any) => {
-        seatArrList.forEach((seatArr: IDragonBoat) => {
-          //fetch from db and map with attended student
-          console.log(`seatArr: `, seatArr);
-          seatArr.right_seat = seatArr.right_seat.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
-          seatArr.left_seat = seatArr.left_seat.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
-          seatArr.steersperson = seatArr.steersperson.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
-          //push into drag and drop ui
-          this.addDragonBoat(seatArr.left_seat, seatArr.right_seat, seatArr.steersperson);
-        })
-        this.isLoading = false;
+    this.restful.getCoachList().subscribe({
+      next: coachList => {
+        console.log(`coachList: `, coachList)
+        this.coachList = coachList;
+      },
+      complete: () => {
+        this.route.paramMap.pipe(
+          switchMap((paramMap) => {
+            this.trainingId = paramMap.get('trainingId');
+            return this.restful.getTrainingSearArr(paramMap.get('trainingId'))
+          })
+        ).subscribe({
+          next: (seatArrList: any) => {
+            seatArrList.forEach((seatArr: IDragonBoat) => {
+              //fetch from db and map with attended student
+              seatArr.right_seat = seatArr.right_seat.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
+              seatArr.left_seat = seatArr.left_seat.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
+              seatArr.steersperson = seatArr.steersperson.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
+              //push into drag and drop ui
+              this.addDragonBoat(seatArr.left_seat, seatArr.right_seat, seatArr.steersperson);
+            })
+            this.isLoading = false;
+          }
+        });
       }
-    });
+    })
   }
 
   drop(event: CdkDragDrop<string[]>): void {
@@ -136,14 +144,36 @@ export class TrainingSeatArrangementComponent implements OnInit {
       dbObj.push({
         id: dragonBoat.id,
         leftStudentList: dragonBoat.leftSeatList.map((studentAttendance) => {
-          return (studentAttendance?.student_id) ? studentAttendance.student_id : undefined;
+          console.log(`studentAttendance: `, studentAttendance);
+          if (studentAttendance?.student_id) {
+            //student
+            return studentAttendance?.student_id;
+          } else if (studentAttendance?.uuid) {
+            //coach
+            return studentAttendance?.uuid;
+          } else {
+            //empty seat
+            return undefined;
+          }
         }),
         rightStudentList: dragonBoat.rightSeatList.map((studentAttendance) => {
-          return (studentAttendance?.student_id) ? studentAttendance.student_id : undefined;
+          console.log(`studentAttendance: `, studentAttendance);
+          if (studentAttendance?.student_id) {
+            //student
+            return studentAttendance?.student_id;
+          } else if (studentAttendance?.uuid) {
+            //coach
+            return studentAttendance?.uuid;
+          } else {
+            //empty seat
+            return undefined;
+          }
         }),
         steersperson: dragonBoat.steersperson.map((studentAttendance: any) => {
           if (studentAttendance?.student_id) {
             return studentAttendance?.student_id;
+          } else if (studentAttendance?.uuid) {
+            return studentAttendance?.uuid;
           } else {
             return studentAttendance;
           }
@@ -162,11 +192,18 @@ export class TrainingSeatArrangementComponent implements OnInit {
   mapNFilterPlanStudent(studentId: string) {
     let student = this.attendedRightStudentList.find((student: any) => student.student_id == studentId)
     if (student) {
+      //check in right list
       this.attendedRightStudentList = this.attendedRightStudentList.filter((student: any) => student.student_id !== studentId)
     } else {
-      //not in right list
+      //check in left list
       student = this.attendedLeftStudentList.find((student: any) => student.student_id == studentId);
       this.attendedLeftStudentList = this.attendedLeftStudentList.filter((student: any) => student.student_id !== studentId);
+    }
+
+    if (!student && this.coachList) {
+      //search in coach list
+      student = this.coachList.find((coach: any) => coach.uuid == studentId);
+      this.coachList = this.coachList.filter((coach: any) => coach.uuid !== studentId);
     }
     return student;
   }
