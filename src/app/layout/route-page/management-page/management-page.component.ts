@@ -52,6 +52,7 @@ export class ManagementPageComponent implements OnInit {
   removeRoleForm: FormGroup;
 
   coachList: any
+  isAWSLoading: boolean;
 
   constructor(private managementData: ManagementDataService,
               private restful: ForumMainPageBackendService,
@@ -108,6 +109,7 @@ export class ManagementPageComponent implements OnInit {
     this.isCreatingAccount = false;
     this.inputFilePlaceholder = "Choose Student Account CSV";
     this.isAdmin = false;
+    this.isAWSLoading = true;
   }
 
   ngOnInit(): void {
@@ -138,6 +140,7 @@ export class ManagementPageComponent implements OnInit {
         this.isAssignFormLoading = false;
         this.isRemoveFormLoading = false;
         this.isDeleteFormLoading = false;
+        this.isAWSLoading = false;
       }
     });
   }
