@@ -45,6 +45,7 @@ export class ProfileDialogComponent implements OnInit {
   }
 
   initProfileFormFromInputData(studentInfo: IStudent) {
+    console.log(`initProfileFormFromInputData`)
     this.profileForm.setValue({
       itsc: studentInfo.itsc,
       nickname: studentInfo.nickname,
@@ -57,8 +58,9 @@ export class ProfileDialogComponent implements OnInit {
   }
 
   initProfileFormFromNull() {
+    console.log(`initProfileFormFromNull`)
     this.profileForm.setValue({
-      itsc: this.inputDialogData.itsc,
+      itsc: (this.inputDialogData.itsc) ? this.inputDialogData.itsc : '',
       nickname: '',
       date_of_birth: '',
       gender: '',
@@ -74,10 +76,12 @@ export class ProfileDialogComponent implements OnInit {
     console.log(`after: `, this.profileForm.value);
     if (this.inputDialogData.isUpdateCoach) {
       console.log(`isUpdateCoach`);
-      this.restful.updateCoach(this.profileForm.value, this.inputDialogData.studentDetail.uuid).subscribe({
+      const uuid = (this.inputDialogData.studentDetail?.uuid) ? this.inputDialogData.studentDetail.uuid : '-1'
+      this.restful.updateCoach(this.profileForm.value, uuid).subscribe({
         next: response => {
           if (response) {
             this.isLoading = false;
+            this.profileForm.value.uuid = response;
             this.dialogRef.close({data: this.profileForm.value});
           } else {
             alert('updateCoach fail');

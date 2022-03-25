@@ -301,4 +301,20 @@ export class ManagementPageComponent implements OnInit {
       }
     })
   }
+
+  addCoach() {
+    const profileDialogRef = this.profileDialog.open(ProfileDialogComponent, {
+      data: {
+        isUpdateCoach: true
+      },
+      disableClose: true
+    });
+
+    profileDialogRef.afterClosed().subscribe((updatedCoach) => {
+      console.log(`updatedCoach: `, updatedCoach.data)
+      if (updatedCoach.data) {
+        this.coachList.push(updatedCoach.data);
+      }
+    });
+  }
 }
