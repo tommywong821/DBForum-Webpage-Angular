@@ -123,6 +123,10 @@ export class ForumMainPageBackendService {
     const body = {
       coachInfo: coachInfo
     }
-    return this.http.put(this.apiUrl + "/coach/" + coachUuid, body)
+    return this.http.put(this.apiUrl + "/coach/" + coachUuid, body);
+  }
+
+  removeCoach(coachUuid: any) {
+    return this.http.delete(this.apiUrl + "/coach/" + coachUuid);
   }
 }

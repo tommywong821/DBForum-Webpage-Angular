@@ -288,4 +288,17 @@ export class ManagementPageComponent implements OnInit {
       }
     });
   }
+
+  removeCoach(coach: any) {
+    console.log(`coach: `, coach);
+    this.restful.removeCoach(coach.uuid).subscribe({
+      next: response => {
+        if (response) {
+          this.coachList = this.coachList.filter((coachInList: any) => coachInList.uuid !== coach.uuid);
+        } else {
+          alert(`removeCoach fail`);
+        }
+      }
+    })
+  }
 }
