@@ -31,7 +31,6 @@ import {storeDevToolsImport} from "../environments/store-dev-tools-import";
 import {AppReducer} from "./ngrx/app.state";
 import {TrainingDataEffect} from "./ngrx/training-data/training-data.effect";
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {TestComponent} from './layout/route-page/test/test.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
@@ -40,8 +39,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     HeaderComponent,
     ProfileDialogComponent,
     NavigationComponent,
-    SidenavComponent,
-    TestComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,

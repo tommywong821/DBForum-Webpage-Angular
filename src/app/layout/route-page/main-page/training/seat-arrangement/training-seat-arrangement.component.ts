@@ -5,7 +5,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag
 import {IDragonBoat} from "../../../../../model/forum/IDragonBoat";
 import {DateUtil} from "../../../../../services/date-util.service";
 import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
-import {switchMap} from "rxjs";
+import {combineLatest, switchMap, tap} from "rxjs";
 import {IStudent} from "../../../../../model/forum/IStudent";
 
 @Component({
@@ -14,7 +14,7 @@ import {IStudent} from "../../../../../model/forum/IStudent";
   styleUrls: ['./training-seat-arrangement.component.scss']
 })
 export class TrainingSeatArrangementComponent implements OnInit {
-  private trainingId: string | null;
+  private trainingId: any;
   public attendedLeftStudentList: any;
   public attendedRightStudentList: any;
   public coachList: any;
@@ -37,36 +37,30 @@ export class TrainingSeatArrangementComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.attendedLeftStudentList = this.attendedStudentDataService.attendedStudent.leftStudent;
-    this.attendedRightStudentList = this.attendedStudentDataService.attendedStudent.rightStudent;
-    console.log(`this.attendedLeftStudentList: `, this.attendedLeftStudentList);
-    console.log(`this.attendedRightStudentList: `, this.attendedRightStudentList);
-    this.restful.getCoachList().subscribe({
-      next: coachList => {
-        console.log(`coachList: `, coachList)
+    this.route.paramMap.pipe(
+      switchMap((paramMap) => {
+        this.trainingId = paramMap.get('trainingId');
+        return combineLatest([this.restful.getCoachList(), this.restful.getTrainingDetail(this.trainingId)])
+      }),
+      tap(([coachList, trainingDetail]) => {
         this.coachList = coachList;
-      },
-      complete: () => {
-        this.route.paramMap.pipe(
-          switchMap((paramMap) => {
-            this.trainingId = paramMap.get('trainingId');
-            return this.restful.getTrainingSearArr(paramMap.get('trainingId'))
-          })
-        ).subscribe({
-          next: (seatArrList: any) => {
-            seatArrList.forEach((seatArr: IDragonBoat) => {
-              //fetch from db and map with attended student
-              seatArr.right_seat = seatArr.right_seat.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
-              seatArr.left_seat = seatArr.left_seat.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
-              seatArr.steersperson = seatArr.steersperson.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
-              //push into drag and drop ui
-              this.addDragonBoat(seatArr.left_seat, seatArr.right_seat, seatArr.steersperson);
-            })
-            this.isLoading = false;
-          }
-        });
+        this.attendedLeftStudentList = trainingDetail.attend.leftStudent;
+        this.attendedRightStudentList = trainingDetail.attend.rightStudent;
+      }),
+      switchMap(() => this.restful.getTrainingSearArr(this.trainingId))
+    ).subscribe({
+      next: (seatArrList: any) => {
+        seatArrList.forEach((seatArr: IDragonBoat) => {
+          //fetch from db and map with attended student
+          seatArr.right_seat = seatArr.right_seat.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
+          seatArr.left_seat = seatArr.left_seat.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
+          seatArr.steersperson = seatArr.steersperson.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
+          //push into drag and drop ui
+          this.addDragonBoat(seatArr.left_seat, seatArr.right_seat, seatArr.steersperson);
+        })
+        this.isLoading = false
       }
-    })
+    });
   }
 
   drop(event: CdkDragDrop<string[]>): void {
