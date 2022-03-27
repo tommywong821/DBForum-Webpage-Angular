@@ -8,7 +8,7 @@
           </div>
           <div class="col-1">
             <button class="btn" (click)="downloadStatistics()" *ngIf="trainingStatisticList">
-              <fa-icon [icon]="faDownload"></fa-icon>
+              <i class="fa-solid fa-download"></i>
             </button>
           </div>
         </div>
@@ -55,7 +55,7 @@
                        [value]="formatter.format(fromDate)"
                        (input)="fromDate = validateInput(fromDate, dpFromDate.value)">
                 <button class="btn btn-outline-secondary" (click)="datepicker.toggle()" type="button">
-                  <fa-icon [icon]="faCalendarDayAlt"></fa-icon>
+                  <i class="fa-solid fa-calendar-day"></i>
                 </button>
               </div>
             </div>
@@ -67,13 +67,13 @@
                        [value]="formatter.format(toDate)"
                        (input)="toDate = validateInput(toDate, dpToDate.value)">
                 <button class="btn btn-outline-secondary" (click)="datepicker.toggle()" type="button">
-                  <fa-icon [icon]="faCalendarDayAlt"></fa-icon>
+                  <i class="fa-solid fa-calendar-day"></i>
                 </button>
               </div>
             </div>
             <div class="col-12">
               <button class="btn" (click)="updateTrainingStatistics()" type="button">
-                <fa-icon [icon]="faRedoAlt"></fa-icon>
+                <i class="fa-solid fa-arrow-rotate-right"></i>
               </button>
             </div>
           </form>

@@ -17,8 +17,7 @@ const routes: Routes = [
     loadChildren: () => import('./layout/route-page/management-page/management-page.module').then(m => m.ManagementPageModule),
     canActivate: [AuthGuard]
   },
-
-  {path: '**', redirectTo: 'mainpage', pathMatch: 'full'}
+  {path: '**', redirectTo: 'mainpage', pathMatch: 'full'},
 ];
 
 @NgModule({

@@ -2,17 +2,15 @@ import {NgModule} from "@angular/core";
 import {MainPageComponent} from "./main-page.component";
 import {CommonModule} from "@angular/common";
 import {MainPageRoutingModule} from "./main-page-routing.module";
-import {TrainingListComponent} from "./training-list/training-list.component";
-import {TrainingSummaryComponent} from "./training-summary/training-summary.component";
+import {TrainingListComponent} from "./training/list/training-list.component";
+import {TrainingSummaryComponent} from "./training/summary/training-summary.component";
 import {GeneralReminderComponent} from "./general-reminder/general-reminder.component";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import {TrainingFormDialogComponent} from "./training-form-dialog/training-form-dialog.component";
-import {TrainingDetailDialogComponent} from "./training-detail-dialog/training-detail-dialog.component";
-import {TrainingContentComponent} from "./training-content/training-content.component";
-import {MatIconModule} from "@angular/material/icon";
+import {TrainingFormDialogComponent} from "./training/form-dialog/training-form-dialog.component";
+import {TrainingDetailDialogComponent} from "./training/detail-dialog/training-detail-dialog.component";
+import {TrainingContentComponent} from "./training/content/training-content.component";
 import {MatCardModule} from "@angular/material/card";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatDatepickerModule} from "@angular/material/datepicker";
@@ -25,6 +23,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MatButtonModule} from "@angular/material/button";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import {TrainingSeatArrangementComponent} from './training/seat-arrangement/training-seat-arrangement.component';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
@@ -35,13 +35,13 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     TrainingDetailDialogComponent,
     TrainingContentComponent,
     GeneralReminderComponent,
-    LoadingComponent
+    LoadingComponent,
+    TrainingSeatArrangementComponent
   ],
   imports: [
     CommonModule,
     MainPageRoutingModule,
     MatPaginatorModule,
-    MatIconModule,
     MatCardModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
@@ -52,12 +52,12 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     MatDialogModule,
     NgxMatDatetimePickerModule,
     MatCheckboxModule,
-    FontAwesomeModule,
     MatMomentDateModule,
     MatButtonModule,
     FlexLayoutModule,
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
+    DragDropModule,
   ]
 })
 export class MainPageModule {

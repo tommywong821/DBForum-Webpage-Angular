@@ -45,6 +45,7 @@ export class ProfileDialogComponent implements OnInit {
   }
 
   initProfileFormFromInputData(studentInfo: IStudent) {
+    console.log(`initProfileFormFromInputData`)
     this.profileForm.setValue({
       itsc: studentInfo.itsc,
       nickname: studentInfo.nickname,
@@ -57,8 +58,9 @@ export class ProfileDialogComponent implements OnInit {
   }
 
   initProfileFormFromNull() {
+    console.log(`initProfileFormFromNull`)
     this.profileForm.setValue({
-      itsc: this.inputDialogData.itsc,
+      itsc: (this.inputDialogData.itsc) ? this.inputDialogData.itsc : '',
       nickname: '',
       date_of_birth: '',
       gender: '',
@@ -72,12 +74,32 @@ export class ProfileDialogComponent implements OnInit {
     this.isLoading = true;
     this.profileForm.value.updated_at = this.dateUtil.formatToHKTime(new Date());
     console.log(`after: `, this.profileForm.value);
-    this.restful.updateStudentProfile(this.profileForm.value.itsc, this.profileForm.value).subscribe({
-      complete: () => {
-        sessionStorage.setItem(environment.studentProfileKey, JSON.stringify(this.profileForm.value));
-        this.isLoading = false;
-        this.dialogRef.close();
-      }
-    });
+    if (this.inputDialogData.isUpdateCoach) {
+      console.log(`isUpdateCoach`);
+      const uuid = (this.inputDialogData.studentDetail?.uuid) ? this.inputDialogData.studentDetail.uuid : '-1'
+      this.restful.updateCoach(this.profileForm.value, uuid).subscribe({
+        next: response => {
+          if (response) {
+            this.isLoading = false;
+            this.profileForm.value.uuid = response;
+            this.dialogRef.close({data: this.profileForm.value});
+          } else {
+            alert('updateCoach fail');
+          }
+        }
+      })
+    } else {
+      this.restful.updateStudentProfile(this.profileForm.value.itsc, this.profileForm.value).subscribe({
+        next: response => {
+          if (response) {
+            sessionStorage.setItem(environment.studentProfileKey, JSON.stringify(this.profileForm.value));
+            this.isLoading = false;
+            this.dialogRef.close();
+          } else {
+            alert(`updateStudentProfile fail`);
+          }
+        }
+      });
+    }
   }
 }

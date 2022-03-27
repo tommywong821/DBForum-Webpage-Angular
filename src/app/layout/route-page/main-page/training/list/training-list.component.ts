@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {ForumMainPageBackendService} from "../../../../services/aws-lambda/forum-main-page-backend.service";
+import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
 import {MatDialog} from "@angular/material/dialog";
-import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
+import {TrainingFormDialogComponent} from "../form-dialog/training-form-dialog.component";
 import {select, Store} from "@ngrx/store";
-import {selectCurrentUserRole} from "../../../../ngrx/auth0/auth0.selectors";
-import {updateTrainingDataList} from "../../../../ngrx/training-data/training-data.action";
+import {selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
+import {updateTrainingDataList} from "../../../../../ngrx/training-data/training-data.action";
 
 @Component({
-  selector: 'app-training-list',
+  selector: 'app-list',
   templateUrl: './training-list.component.html',
   styleUrls: ['./training-list.component.scss']
 })

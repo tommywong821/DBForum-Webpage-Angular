@@ -29,13 +29,13 @@
           <ngx-mat-datetime-picker #deadlinePicker></ngx-mat-datetime-picker>
         </mat-form-field>
 
-        <button (click)="removeTraining(index)" *ngIf="!isEditTraining" mat-button>
-          <mat-icon>remove</mat-icon>
+        <button (click)="removeTraining(index)" *ngIf="!isEditTraining" class="btn">
+          <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
     </div>
-    <button (click)="appendTraining()" *ngIf="!isEditTraining" mat-button>
-      <mat-icon>add</mat-icon>
+    <button (click)="appendTraining()" *ngIf="!isEditTraining" class="btn">
+      <i class="fa-solid fa-plus"></i>
     </button>
   </form>
 </mat-dialog-content>

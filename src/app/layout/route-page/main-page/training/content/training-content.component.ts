@@ -1,16 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ITraining} from "../../../../model/forum/ITraining";
-import {ForumMainPageBackendService} from "../../../../services/aws-lambda/forum-main-page-backend.service";
-import {DateUtil} from "../../../../services/date-util.service";
-import {IAttendance} from "../../../../model/forum/IAttendance";
+import {ITraining} from "../../../../../model/forum/ITraining";
+import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
+import {DateUtil} from "../../../../../services/date-util.service";
+import {IAttendance} from "../../../../../model/forum/IAttendance";
 import {MatDialog} from "@angular/material/dialog";
-import {TrainingFormDialogComponent} from "../training-form-dialog/training-form-dialog.component";
+import {TrainingFormDialogComponent} from "../form-dialog/training-form-dialog.component";
 import {combineLatest} from "rxjs";
 import {select, Store} from "@ngrx/store";
-import {selectCurrentUserItsc, selectCurrentUserRole} from "../../../../ngrx/auth0/auth0.selectors";
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
-import {selectIsLoaded, selectTrainingDataList} from "../../../../ngrx/training-data/training-data.selector";
-import {updateTrainingDataList} from "../../../../ngrx/training-data/training-data.action";
+import {selectCurrentUserItsc, selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
+import {selectIsLoaded, selectTrainingDataList} from "../../../../../ngrx/training-data/training-data.selector";
+import {updateTrainingDataList} from "../../../../../ngrx/training-data/training-data.action";
 
 @Component({
   selector: 'app-training-content',
@@ -29,7 +28,6 @@ export class TrainingContentComponent implements OnInit {
   isAdmin: boolean;
   itsc: string;
   isLoading: boolean;
-  faTime = faTimes;
 
   trainingList: Array<ITraining>;
 

@@ -18,8 +18,8 @@
       </form>
     </mat-card-title>
     <button (click)="showTrainingSummary()"
-            class="right-btn" mat-button>
-      <mat-icon aria-label="refresh icon">refresh</mat-icon>
+            class="right-btn btn">
+      <i class="fa-solid fa-arrow-rotate-right"></i>
     </button>
   </mat-card-header>
 
@@ -56,7 +56,8 @@
           <tr (click)="getTrainingDetail(row)" *matRowDef="let row; columns: displayColumns;" mat-row></tr>
         </table>
 
-        <mat-paginator [pageIndex]="currentPage" [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true" (page)="handlePageEvent($event)">
+        <mat-paginator [pageIndex]="currentPage" [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true"
+                       (page)="handlePageEvent($event)">
         </mat-paginator>
       </div>
     </mat-card-content>

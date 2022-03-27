@@ -1,17 +1,17 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
-import {ForumMainPageBackendService} from "../../../../services/aws-lambda/forum-main-page-backend.service";
-import {DateUtil} from "../../../../services/date-util.service";
-import {ITraining} from "../../../../model/forum/ITraining";
+import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
+import {DateUtil} from "../../../../../services/date-util.service";
+import {ITraining} from "../../../../../model/forum/ITraining";
 import {select, Store} from "@ngrx/store";
-import {selectTrainingDataList} from "../../../../ngrx/training-data/training-data.selector";
-import {updateTrainingDataList} from "../../../../ngrx/training-data/training-data.action";
-import {TrainingSummaryDataService} from "../../../../services/data-services/training-summary-data.service";
+import {selectTrainingDataList} from "../../../../../ngrx/training-data/training-data.selector";
+import {updateTrainingDataList} from "../../../../../ngrx/training-data/training-data.action";
+import {TrainingSummaryDataService} from "../../../../../services/data-services/training-summary-data.service";
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-training-form-dialog',
+  selector: 'app-form-dialog',
   templateUrl: './training-form-dialog.component.html',
   styleUrls: ['./training-form-dialog.component.scss']
 })
@@ -91,7 +91,7 @@ export class TrainingFormDialogComponent implements OnInit {
     this.trainings.push(this.createEmptyTraining());
   }
 
-  removeTraining(index: number): void{
+  removeTraining(index: number): void {
     this.trainings = this.trainingForm.get('trainings') as FormArray;
     this.trainings.removeAt(index);
   }

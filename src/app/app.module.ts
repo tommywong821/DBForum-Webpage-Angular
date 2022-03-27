@@ -16,7 +16,6 @@ import {AuthModule} from "@auth0/auth0-angular";
 import {environment} from "../environments/environment";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatIconModule} from "@angular/material/icon";
 import {HeaderComponent} from './layout/shared/header/header.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatListModule} from "@angular/material/list";
@@ -32,6 +31,7 @@ import {storeDevToolsImport} from "../environments/store-dev-tools-import";
 import {AppReducer} from "./ngrx/app.state";
 import {TrainingDataEffect} from "./ngrx/training-data/training-data.effect";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     HeaderComponent,
     ProfileDialogComponent,
     NavigationComponent,
-    SidenavComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +55,6 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     MatFormFieldModule,
     MatDatepickerModule,
     ReactiveFormsModule,
-    MatIconModule,
     MatButtonModule,
     MatMomentDateModule,
     //auth0
@@ -68,6 +67,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     EffectsModule.forRoot([Auth0Effect, TrainingDataEffect]),
     ...storeDevToolsImport,
     MatInputModule,
+    DragDropModule,
   ],
   providers: [
     {

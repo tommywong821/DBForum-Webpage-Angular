@@ -1,14 +1,14 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ForumMainPageBackendService} from "../../../../services/aws-lambda/forum-main-page-backend.service";
+import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
 import {MatDialog} from "@angular/material/dialog";
-import {TrainingDetailDialogComponent} from "../training-detail-dialog/training-detail-dialog.component";
-import {DateUtil} from "../../../../services/date-util.service";
-import {TrainingSummaryDataService} from "../../../../services/data-services/training-summary-data.service";
+import {TrainingDetailDialogComponent} from "../detail-dialog/training-detail-dialog.component";
+import {DateUtil} from "../../../../../services/date-util.service";
+import {TrainingSummaryDataService} from "../../../../../services/data-services/training-summary-data.service";
 import {Subscription} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {select, Store} from "@ngrx/store";
-import {selectCurrentUserRole} from "../../../../ngrx/auth0/auth0.selectors";
+import {selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
@@ -107,16 +107,16 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
     fromDate = (fromDate) ? this.dateUtil.formatToHKTime(fromDate) : this.dateUtil.formatToHKTime(this.trainingSummaryDataService.fromDate);
     toDate = (toDate) ? this.dateUtil.formatToHKTime(toDate) : this.dateUtil.formatToHKTime(this.trainingSummaryDataService.toDate);
     this.restful.getTrainingSummary(this.currentPage, this.pageSize, fromDate, toDate).subscribe({
-      next: (result) => {
-        console.log(`refreshTrainingSummary: `, result);
-        // this.displayDataList = result
-        this.dataSource.data = result.trainingSummary;
-        //control paginator
-        setTimeout(() => {
-          this.paginator.length = result.totalTrainingSummary.sum;
-          this.paginator.pageIndex = this.currentPage;
-        })
-      },
+        next: (result) => {
+          console.log(`refreshTrainingSummary: `, result);
+          // this.displayDataList = result
+          this.dataSource.data = result.trainingSummary;
+          //control paginator
+          setTimeout(() => {
+            this.paginator.length = result.totalTrainingSummary.sum;
+            this.paginator.pageIndex = this.currentPage;
+          })
+        },
         complete: () => {
           this.isLoading = false
         }
@@ -135,7 +135,7 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
     });
   }
 
-  handlePageEvent(event: PageEvent){
+  handlePageEvent(event: PageEvent) {
     console.log(`event: `, event);
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
