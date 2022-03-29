@@ -154,7 +154,7 @@
                       </div>
                     </div>
                     <div class="row justify-content-md-center">
-                      <div class="col-6">
+                      <div class="col-12 col-lg-6">
                         <div cdkDropList id="dragonBoat_{{dragonBoat.id}}_steersperson"
                              [cdkDropListData]="dragonBoat.steersperson"
                              [cdkDropListConnectedTo]="dragonBoatsConnected" class="list"
@@ -182,7 +182,8 @@
 </div>
 
 <ng-template #studentTemplate let-student>
-  <ng-container *ngIf="student; else empty">
+  <div class="seat-content">
+    <ng-container *ngIf="student; else empty">
       <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
         <i class="fa-solid fa-lg"
            [ngClass]="(student.gender === 'male')? 'male fa-person': 'female fa-person-dress'"></i>
@@ -190,9 +191,10 @@
         <span *ngIf="!student.is_coach">({{student.paddle_side}})</span>
         <span *ngIf="student.reason">({{student.reason}})</span>
       </span>
-  </ng-container>
+    </ng-container>
 
-  <ng-template #empty>
-    Empty Seat
-  </ng-template>
+    <ng-template #empty>
+      Empty Seat
+    </ng-template>
+  </div>
 </ng-template>
