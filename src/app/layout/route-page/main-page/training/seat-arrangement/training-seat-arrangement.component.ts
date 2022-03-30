@@ -7,6 +7,8 @@ import {DateUtil} from "../../../../../services/date-util.service";
 import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
 import {combineLatest, switchMap, tap} from "rxjs";
 import {IStudent} from "../../../../../model/forum/IStudent";
+import {select, Store} from "@ngrx/store";
+import {selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
 
 @Component({
   selector: 'app-seat-arrangement',
@@ -23,21 +25,30 @@ export class TrainingSeatArrangementComponent implements OnInit {
   public dragonBoatsConnected: any;
 
   public isLoading: boolean;
+  public isAdmin: boolean;
 
   constructor(private route: ActivatedRoute,
               private attendedStudentDataService: AttendedStudentDataService,
               private dateUtil: DateUtil,
-              private restful: ForumMainPageBackendService) {
+              private restful: ForumMainPageBackendService,
+              private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingId = '';
     this.dragonBoatsConnected = ['leftStudentList', 'rightStudentList', 'coachList'];
     this.dragonBoats = [];
     this.isLoading = true;
+    this.isAdmin = false;
   }
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    this.route.paramMap.pipe(
+    this.store.pipe(select(selectCurrentUserRole)).pipe(
+      switchMap((userLoginRole) => {
+        if (userLoginRole) {
+          this.isAdmin = userLoginRole.includes('Admin');
+        }
+        return this.route.paramMap;
+      }),
       switchMap((paramMap) => {
         this.trainingId = paramMap.get('trainingId');
         return combineLatest([this.restful.getCoachList(), this.restful.getTrainingDetail(this.trainingId)])
@@ -230,5 +241,20 @@ export class TrainingSeatArrangementComponent implements OnInit {
   sumFunction(prev: number, curr: number) {
     curr = (curr) ? curr : 0;
     return prev + curr;
+  }
+
+  removeStudentFromBoat(index: any, side: any, dragonBoatId: any) {
+    console.log(`removeStudentFromBoat index: `, index)
+    console.log(`removeStudentFromBoat side: `, side)
+    console.log(`removeStudentFromBoat dragonBoatId: `, dragonBoatId)
+    let dragonBoat: IDragonBoat = this.dragonBoats.find((dragonBoat: any) => {
+      return dragonBoat.id === dragonBoatId
+    })
+    console.log(`dragonBoat: `, dragonBoat);
+    if (side === 'left') {
+      dragonBoat.leftSeatList.splice(index, 1);
+    } else {
+      dragonBoat.rightSeatList.splice(index, 1);
+    }
   }
 }
