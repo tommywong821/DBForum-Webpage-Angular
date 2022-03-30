@@ -128,7 +128,7 @@
                                *ngFor="let student of dragonBoat.leftSeatList; index as indexOfElement" cdkDrag
                                [cdkDragDisabled]="!isAdmin">
                             <ng-container [ngTemplateOutlet]="studentTemplate"
-                                          [ngTemplateOutletContext]="{$implicit: student, index: (indexOfElement+1)}">
+                                          [ngTemplateOutletContext]="{$implicit: student, index: (indexOfElement+1), side: 'left', dragonBoatId: dragonBoat.id}">
                             </ng-container>
                           </div>
                         </div>
@@ -153,7 +153,7 @@
                                *ngFor="let student of dragonBoat.rightSeatList; index as indexOfElement" cdkDrag
                                [cdkDragDisabled]="!isAdmin">
                             <ng-container [ngTemplateOutlet]="studentTemplate"
-                                          [ngTemplateOutletContext]="{$implicit: student, index: (indexOfElement+1)}">
+                                          [ngTemplateOutletContext]="{$implicit: student, index: (indexOfElement+1), side: 'right', dragonBoatId: dragonBoat.id}">
                             </ng-container>
                           </div>
                         </div>
@@ -188,22 +188,30 @@
   </ng-template>
 </div>
 
-<ng-template #studentTemplate let-student let-index="index">
-  <div class="seat-content">
-    <ng-container *ngIf="student; else empty">
-      <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
+<ng-template #studentTemplate let-student let-index="index" let-side="side" let-dragonBoatId="dragonBoatId">
+  <div class="col-12 d-flex justify-content-center">
+    <ng-container *ngIf="student?.nickname; else empty">
+      <span class="btn">
+        <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
         <span *ngIf="index">{{index}}: </span>
         <i class="fa-solid fa-lg"
            [ngClass]="(student.gender === 'male')? 'male fa-person': 'female fa-person-dress'"></i>
-        {{student.nickname}}
-        <span *ngIf="!student.is_coach">({{student.paddle_side}})</span>
+          <span>{{student.nickname}}</span>
+          <span *ngIf="!student.is_coach">({{student.paddle_side}})</span>
         <span *ngIf="student.reason">({{student.reason}})</span>
+      </span>
       </span>
     </ng-container>
 
     <ng-template #empty>
-      <span *ngIf="index">{{index}}: </span>
-      Empty Seat
+      <span *ngIf="index" style="padding-top: 8px">
+        {{index}}: Empty Seat
+      </span>
+      <span *ngIf="isAdmin">
+        <button class="btn" (click)="removeStudentFromBoat(index-1, side, dragonBoatId)">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </span>
     </ng-template>
   </div>
 </ng-template>

@@ -45,7 +45,7 @@ export class TrainingSeatArrangementComponent implements OnInit {
     this.store.pipe(select(selectCurrentUserRole)).pipe(
       switchMap((userLoginRole) => {
         if (userLoginRole) {
-          this.isAdmin = userLoginRole.includes('Admin1');
+          this.isAdmin = userLoginRole.includes('Admin');
         }
         return this.route.paramMap;
       }),
@@ -241,5 +241,20 @@ export class TrainingSeatArrangementComponent implements OnInit {
   sumFunction(prev: number, curr: number) {
     curr = (curr) ? curr : 0;
     return prev + curr;
+  }
+
+  removeStudentFromBoat(index: any, side: any, dragonBoatId: any) {
+    console.log(`removeStudentFromBoat index: `, index)
+    console.log(`removeStudentFromBoat side: `, side)
+    console.log(`removeStudentFromBoat dragonBoatId: `, dragonBoatId)
+    let dragonBoat: IDragonBoat = this.dragonBoats.find((dragonBoat: any) => {
+      return dragonBoat.id === dragonBoatId
+    })
+    console.log(`dragonBoat: `, dragonBoat);
+    if (side === 'left') {
+      dragonBoat.leftSeatList.splice(index, 1);
+    } else {
+      dragonBoat.rightSeatList.splice(index, 1);
+    }
   }
 }
