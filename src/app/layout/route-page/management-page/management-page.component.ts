@@ -170,6 +170,7 @@ export class ManagementPageComponent implements OnInit {
     this.isCreatingAccount = true;
     if (this.managementData.studentAccountCsv === "") {
       alert('Empty CSV is uploaded. Please try again');
+      this.reset();
     } else {
       //call auth0 management api
       this.auth0Restful.createLoginUser(this.managementData.studentAccountCsv).subscribe({
