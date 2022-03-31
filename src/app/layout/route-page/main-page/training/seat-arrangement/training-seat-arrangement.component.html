@@ -193,13 +193,13 @@
     <ng-container *ngIf="student?.nickname; else empty">
       <span class="btn">
         <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
-        <span *ngIf="index">{{index}}: </span>
-        <i class="fa-solid fa-lg"
-           [ngClass]="(student.gender === 'male')? 'male fa-person': 'female fa-person-dress'"></i>
-          <span>{{student.nickname}}</span>
-          <span *ngIf="!student.is_coach">({{student.paddle_side}})</span>
-        <span *ngIf="student.reason">({{student.reason}})</span>
-      </span>
+          <span *ngIf="index">{{index}}: </span>
+          <i class="fa-solid fa-lg"
+             [ngClass]="(student.gender === 'male')? 'male fa-person': 'female fa-person-dress'"></i>
+            <span>{{student.nickname}}</span>
+            <span *ngIf="!student.is_coach">({{student.paddle_side}})</span>
+          <span *ngIf="student.reason">({{student.reason}})</span>
+        </span>
       </span>
     </ng-container>
 

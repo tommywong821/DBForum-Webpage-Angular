@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {IStudent} from "../../../../model/forum/IStudent";
 import {DateUtil} from "../../../../services/date-util.service";
 import {environment} from "../../../../../environments/environment";
+import {ForumDashboardBackendService} from "../../../../services/aws-lambda/forum-dashboard-backend.service";
 
 @Component({
   selector: 'app-profile-dialog',
@@ -16,7 +17,8 @@ export class ProfileDialogComponent implements OnInit {
   isLoading: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public inputDialogData: any,
-              private restful: ForumMainPageBackendService,
+              private mainpageRestful: ForumMainPageBackendService,
+              private dashboardRestful: ForumDashboardBackendService,
               private formBuilder: FormBuilder,
               private dateUtil: DateUtil,
               private dialogRef: MatDialogRef<ProfileDialogComponent>) {
@@ -77,7 +79,7 @@ export class ProfileDialogComponent implements OnInit {
     if (this.inputDialogData.isUpdateCoach) {
       console.log(`isUpdateCoach`);
       const uuid = (this.inputDialogData.studentDetail?.uuid) ? this.inputDialogData.studentDetail.uuid : '-1'
-      this.restful.updateCoach(this.profileForm.value, uuid).subscribe({
+      this.dashboardRestful.updateCoach(this.profileForm.value, uuid).subscribe({
         next: response => {
           if (response) {
             this.isLoading = false;
@@ -89,7 +91,7 @@ export class ProfileDialogComponent implements OnInit {
         }
       })
     } else {
-      this.restful.updateStudentProfile(this.profileForm.value.itsc, this.profileForm.value).subscribe({
+      this.mainpageRestful.updateStudentProfile(this.profileForm.value.itsc, this.profileForm.value).subscribe({
         next: response => {
           if (response) {
             sessionStorage.setItem(environment.studentProfileKey, JSON.stringify(this.profileForm.value));
