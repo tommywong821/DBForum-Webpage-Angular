@@ -6,7 +6,7 @@
   </mat-dialog-actions>
 
   <div class="row row-cols-auto">
-    <div class="col">
+    <div class="col" *ngIf="isActiveTeamMember || isAdmin">
       <app-training-content [needUpdateUi]="needUpdateUi"
                             [editTrainingContent]="dialogInputData.trainingData"
                             [isInputFromTrainingDetail]="true"></app-training-content>

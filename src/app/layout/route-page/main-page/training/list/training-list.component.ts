@@ -5,6 +5,7 @@ import {TrainingFormDialogComponent} from "../form-dialog/training-form-dialog.c
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
 import {updateTrainingDataList} from "../../../../../ngrx/training-data/training-data.action";
+import {environment} from "../../../../../../environments/environment";
 
 @Component({
   selector: 'app-list',
@@ -14,6 +15,7 @@ import {updateTrainingDataList} from "../../../../../ngrx/training-data/training
 export class TrainingListComponent implements OnInit {
   isRefreshing: boolean;
   isAdmin: boolean;
+  isActiveTeamMember: boolean;
 
   constructor(private restful: ForumMainPageBackendService,
               private trainingFormDialog: MatDialog,
@@ -21,6 +23,7 @@ export class TrainingListComponent implements OnInit {
     console.log(`[${this.constructor.name}] constructor`);
     this.isRefreshing = false;
     this.isAdmin = false;
+    this.isActiveTeamMember = false;
   }
 
   ngOnInit(): void {
@@ -31,6 +34,12 @@ export class TrainingListComponent implements OnInit {
         this.isAdmin = userLoginRole?.includes('Admin');
       }
     })
+    //check from local session storage
+    const studentProfileString: any = sessionStorage.getItem(environment.studentProfileKey);
+    if (studentProfileString) {
+      const studentProfileObj: any = JSON.parse(studentProfileString);
+      this.isActiveTeamMember = studentProfileObj.is_active_team_member
+    }
   }
 
   getTrainingList() {

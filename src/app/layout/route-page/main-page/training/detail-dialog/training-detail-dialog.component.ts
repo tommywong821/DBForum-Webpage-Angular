@@ -10,6 +10,7 @@ import {SelectionModel} from "@angular/cdk/collections";
 import {ITraining} from "../../../../../model/forum/ITraining";
 import {Router} from "@angular/router";
 import {AttendedStudentDataService} from "../../../../../services/data-services/attended-student-data.service";
+import {environment} from "../../../../../../environments/environment";
 
 @Component({
   selector: 'app-detail-dialog',
@@ -31,6 +32,7 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
   isLoading: boolean;
   needUpdateUi: boolean;
   isAdmin: boolean;
+  isActiveTeamMember: boolean;
 
   selection = new SelectionModel<any>(true, []);
   noShowStudentIdList: string[] = [];
@@ -53,6 +55,7 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
     this.monitoringTrainingUpdate = new Subscription();
     this.trainingData = this.dialogInputData.trainingData;
     this.isAdmin = false;
+    this.isActiveTeamMember = false;
   }
 
   ngOnInit(): void {
@@ -64,6 +67,15 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
         this.initTrainingDetail();
       }
     });
+    this.initLoginUserInfo();
+  }
+
+  ngOnDestroy() {
+    this.monitoringTrainingUpdate.unsubscribe();
+  }
+
+  initLoginUserInfo() {
+    //check from auth0
     this.store.pipe(select(selectCurrentUserRole)).subscribe({
       next: userLoginRole => {
         this.isAdmin = userLoginRole.includes('Admin');
@@ -73,21 +85,23 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
         }
       }
     })
-  }
-
-  ngOnDestroy() {
-    this.monitoringTrainingUpdate.unsubscribe();
+    //check from local session storage
+    const studentProfileString: any = sessionStorage.getItem(environment.studentProfileKey);
+    if (studentProfileString) {
+      const studentProfileObj: any = JSON.parse(studentProfileString);
+      this.isActiveTeamMember = studentProfileObj.is_active_team_member
+    }
   }
 
   initTrainingDetail() {
     this.isLoading = true;
     this.restful.getTrainingDetail(this.trainingData.uuid).subscribe({
-        next: (result) => {
-          console.log(`getTrainingDetail result: `, result);
-          this.attendStudentDataService.attendedStudent = result.attend;
-          this.attendLeftStudent = result.attend.leftStudent;
-          this.attendRightStudent = result.attend.rightStudent;
-          this.noReplyStudent = result.absent.noReplyStudent;
+      next: (result) => {
+        console.log(`getTrainingDetail result: `, result);
+        this.attendStudentDataService.attendedStudent = result.attend;
+        this.attendLeftStudent = result.attend.leftStudent;
+        this.attendRightStudent = result.attend.rightStudent;
+        this.noReplyStudent = result.absent.noReplyStudent;
           this.absentStudent = result.absent.absentStudent;
         },
         complete: () => {
