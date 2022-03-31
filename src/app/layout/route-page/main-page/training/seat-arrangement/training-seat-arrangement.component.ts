@@ -5,7 +5,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag
 import {IDragonBoat} from "../../../../../model/forum/IDragonBoat";
 import {DateUtil} from "../../../../../services/date-util.service";
 import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
-import {combineLatest, switchMap, tap} from "rxjs";
+import {filter, forkJoin, switchMap, tap} from "rxjs";
 import {IStudent} from "../../../../../model/forum/IStudent";
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
@@ -45,15 +45,17 @@ export class TrainingSeatArrangementComponent implements OnInit {
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.store.pipe(select(selectCurrentUserRole)).pipe(
+      filter((userLoginRole) => userLoginRole),
       switchMap((userLoginRole) => {
         if (userLoginRole) {
+          console.log(`updating userLoginRole: `, userLoginRole)
           this.isAdmin = userLoginRole.includes('Admin');
         }
         return this.route.paramMap;
       }),
       switchMap((paramMap) => {
         this.trainingId = paramMap.get('trainingId');
-        return combineLatest([this.dashboardRestful.getCoachList(), this.mainpageRestful.getTrainingDetail(this.trainingId)])
+        return forkJoin([this.dashboardRestful.getCoachList(), this.mainpageRestful.getTrainingDetail(this.trainingId)])
       }),
       tap(([coachList, trainingDetail]) => {
         this.coachList = coachList;
