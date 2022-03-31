@@ -5,10 +5,11 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag
 import {IDragonBoat} from "../../../../../model/forum/IDragonBoat";
 import {DateUtil} from "../../../../../services/date-util.service";
 import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
-import {combineLatest, switchMap, tap} from "rxjs";
+import {filter, forkJoin, switchMap, tap} from "rxjs";
 import {IStudent} from "../../../../../model/forum/IStudent";
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
+import {ForumDashboardBackendService} from "../../../../../services/aws-lambda/forum-dashboard-backend.service";
 
 @Component({
   selector: 'app-seat-arrangement',
@@ -30,7 +31,8 @@ export class TrainingSeatArrangementComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private attendedStudentDataService: AttendedStudentDataService,
               private dateUtil: DateUtil,
-              private restful: ForumMainPageBackendService,
+              private dashboardRestful: ForumDashboardBackendService,
+              private mainpageRestful: ForumMainPageBackendService,
               private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingId = '';
@@ -43,22 +45,24 @@ export class TrainingSeatArrangementComponent implements OnInit {
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
     this.store.pipe(select(selectCurrentUserRole)).pipe(
+      filter((userLoginRole) => userLoginRole),
       switchMap((userLoginRole) => {
         if (userLoginRole) {
+          console.log(`updating userLoginRole: `, userLoginRole)
           this.isAdmin = userLoginRole.includes('Admin');
         }
         return this.route.paramMap;
       }),
       switchMap((paramMap) => {
         this.trainingId = paramMap.get('trainingId');
-        return combineLatest([this.restful.getCoachList(), this.restful.getTrainingDetail(this.trainingId)])
+        return forkJoin([this.dashboardRestful.getCoachList(), this.mainpageRestful.getTrainingDetail(this.trainingId)])
       }),
       tap(([coachList, trainingDetail]) => {
         this.coachList = coachList;
         this.attendedLeftStudentList = trainingDetail.attend.leftStudent;
         this.attendedRightStudentList = trainingDetail.attend.rightStudent;
       }),
-      switchMap(() => this.restful.getTrainingSearArr(this.trainingId))
+      switchMap(() => this.mainpageRestful.getTrainingSearArr(this.trainingId))
     ).subscribe({
       next: (seatArrList: any) => {
         seatArrList.forEach((seatArr: IDragonBoat) => {
@@ -187,7 +191,7 @@ export class TrainingSeatArrangementComponent implements OnInit {
       })
     });
     console.log(`after this.dbObj: `, dbObj)
-    this.restful.updateTrainingSearArr(this.trainingId, dbObj).subscribe({
+    this.mainpageRestful.updateTrainingSearArr(this.trainingId, dbObj).subscribe({
       next: value => {
         console.log(`next`)
       }

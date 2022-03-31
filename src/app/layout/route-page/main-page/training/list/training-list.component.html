@@ -11,7 +11,7 @@
     </button>
   </mat-card-header>
 
-  <mat-card-content class="scrollable-content">
+  <mat-card-content class="scrollable-content" *ngIf="isActiveTeamMember || isAdmin">
     <app-training-content [isEditAble]="true" [isRefreshing]="isRefreshing"></app-training-content>
   </mat-card-content>
 </mat-card>

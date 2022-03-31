@@ -12,6 +12,7 @@ import {selectCurrentUserRole} from "../../../ngrx/auth0/auth0.selectors";
 import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
 import {ProfileDialogComponent} from "../../shared/header/profile-dialog/profile-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {ForumDashboardBackendService} from "../../../services/aws-lambda/forum-dashboard-backend.service";
 
 @Component({
   selector: 'app-management-page',
@@ -25,8 +26,9 @@ export class ManagementPageComponent implements OnInit {
   sampleCsv = [{
     "email": 'abcdefg@connect.ust.hk',
     "itsc": "abcdefg",
-    "sid": "123456"
-  }, {"email": "hijkl@connect.ust.hk", "itsc": "hijkl", "sid": "654321"}];
+    "sid": "123456",
+    "grad year": "2022"
+  }, {"email": "hijkl@connect.ust.hk", "itsc": "hijkl", "sid": "654321", "grad year": "2024"}];
 
   inputFilePlaceholder = '';
 
@@ -55,7 +57,8 @@ export class ManagementPageComponent implements OnInit {
   isAWSLoading: boolean;
 
   constructor(private managementData: ManagementDataService,
-              private restful: ForumMainPageBackendService,
+              private backendRestful: ForumMainPageBackendService,
+              private dashboardRestful: ForumDashboardBackendService,
               private auth0Restful: Auth0ManagementService,
               private formBuilder: FormBuilder,
               private store: Store<any>,
@@ -128,7 +131,7 @@ export class ManagementPageComponent implements OnInit {
     this.isAssignFormLoading = true;
     this.isRemoveFormLoading = true;
     this.isDeleteFormLoading = true;
-    forkJoin([...this.managementData$, this.restful.getCoachList()]).subscribe({
+    forkJoin([...this.managementData$, this.dashboardRestful.getCoachList()]).subscribe({
       next: (result) => {
         this.managementData.studentAccountList = result[0];
         this.managementData.userRoleList = result[1];
@@ -167,6 +170,7 @@ export class ManagementPageComponent implements OnInit {
     this.isCreatingAccount = true;
     if (this.managementData.studentAccountCsv === "") {
       alert('Empty CSV is uploaded. Please try again');
+      this.reset();
     } else {
       //call auth0 management api
       this.auth0Restful.createLoginUser(this.managementData.studentAccountCsv).subscribe({
@@ -294,7 +298,7 @@ export class ManagementPageComponent implements OnInit {
 
   removeCoach(coach: any) {
     console.log(`coach: `, coach);
-    this.restful.removeCoach(coach.uuid).subscribe({
+    this.dashboardRestful.removeCoach(coach.uuid).subscribe({
       next: response => {
         if (response) {
           this.coachList = this.coachList.filter((coachInList: any) => coachInList.uuid !== coach.uuid);

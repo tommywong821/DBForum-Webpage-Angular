@@ -114,19 +114,4 @@ export class ForumMainPageBackendService {
     const params = new HttpParams().set('trainingId', trainingId);
     return this.http.get(this.apiUrl + "/training/seat", {params: params});
   }
-
-  getCoachList() {
-    return this.http.get(this.apiUrl + "/coach");
-  }
-
-  updateCoach(coachInfo: any, coachUuid: any) {
-    const body = {
-      coachInfo: coachInfo
-    }
-    return this.http.put(this.apiUrl + "/coach/" + coachUuid, body);
-  }
-
-  removeCoach(coachUuid: any) {
-    return this.http.delete(this.apiUrl + "/coach/" + coachUuid);
-  }
 }
