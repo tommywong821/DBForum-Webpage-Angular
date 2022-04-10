@@ -38,6 +38,9 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     LoadingComponent,
     TrainingSeatArrangementComponent
   ],
+  exports: [
+    LoadingComponent
+  ],
   imports: [
     CommonModule,
     MainPageRoutingModule,
