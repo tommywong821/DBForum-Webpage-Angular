@@ -7,8 +7,8 @@ import {selectCurrentUserItsc} from "../../ngrx/auth0/auth0.selectors";
 @Injectable({
   providedIn: 'root'
 })
-export class ForumDashboardBackendService {
-  private apiUrl: string = environment.forumApiUrl + '/dashboard';
+export class ForumBackendDashboardService {
+  private apiUrl: string = environment.backendApiUrl + '/dashboard';
   private itsc: any;
 
   constructor(private http: HttpClient,

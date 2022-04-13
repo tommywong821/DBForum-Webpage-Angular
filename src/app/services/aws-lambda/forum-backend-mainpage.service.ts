@@ -11,8 +11,8 @@ import {selectCurrentUserItsc} from "../../ngrx/auth0/auth0.selectors";
 @Injectable({
   providedIn: 'root'
 })
-export class ForumMainPageBackendService {
-  private apiUrl: string = environment.forumApiUrl + '/mainpage';
+export class ForumBackendMainpageService {
+  private apiUrl: string = environment.backendApiUrl + '/mainpage';
   private itsc: any;
 
   constructor(private http: HttpClient,

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
+import {ForumBackendMainpageService} from "../../../../../services/aws-lambda/forum-backend-mainpage.service";
 import {MatDialog} from "@angular/material/dialog";
 import {TrainingFormDialogComponent} from "../form-dialog/training-form-dialog.component";
 import {select, Store} from "@ngrx/store";
@@ -17,7 +17,7 @@ export class TrainingListComponent implements OnInit {
   isAdmin: boolean;
   isActiveTeamMember: boolean;
 
-  constructor(private restful: ForumMainPageBackendService,
+  constructor(private restful: ForumBackendMainpageService,
               private trainingFormDialog: MatDialog,
               private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);

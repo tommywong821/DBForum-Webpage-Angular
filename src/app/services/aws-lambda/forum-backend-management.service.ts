@@ -7,8 +7,8 @@ import {IUserRole} from "../../model/auth0-management/IUserRole";
 @Injectable({
   providedIn: 'root'
 })
-export class Auth0ManagementService {
-  private apiUrl: string = environment.auth0ManagementApiUrl;
+export class ForumBackendManagementService {
+  private apiUrl: string = environment.backendApiUrl + '/management';
 
   constructor(private http: HttpClient) {
   }

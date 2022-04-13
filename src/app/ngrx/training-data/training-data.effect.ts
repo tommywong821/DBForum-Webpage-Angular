@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {Store} from "@ngrx/store";
 import {selectIsLoaded} from "./training-data.selector";
 import {combineLatest, filter, map, of, switchMap, withLatestFrom} from "rxjs";
-import {ForumMainPageBackendService} from "../../services/aws-lambda/forum-main-page-backend.service";
+import {ForumBackendMainpageService} from "../../services/aws-lambda/forum-backend-mainpage.service";
 
 import * as trainingDataAction from './training-data.action';
 import {ITraining} from "../../model/forum/ITraining";
@@ -12,7 +12,7 @@ import {ITraining} from "../../model/forum/ITraining";
 export class TrainingDataEffect {
   constructor(private action$: Actions,
               private store: Store<any>,
-              private restful: ForumMainPageBackendService) {
+              private restful: ForumBackendMainpageService) {
   }
 
   getTrainingDataList$ = createEffect(() =>

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ProfileDialogComponent} from "../../../shared/header/profile-dialog/profile-dialog.component";
-import {ForumDashboardBackendService} from "../../../../services/aws-lambda/forum-dashboard-backend.service";
+import {ForumBackendDashboardService} from "../../../../services/aws-lambda/forum-backend-dashboard.service";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
@@ -13,7 +13,7 @@ export class CoachComponent implements OnInit {
   coachList: any
   isAWSLoading: boolean;
 
-  constructor(private dashboardRestful: ForumDashboardBackendService,
+  constructor(private dashboardRestful: ForumBackendDashboardService,
               private profileDialog: MatDialog) {
     this.isAWSLoading = true;
   }

@@ -5,7 +5,7 @@ import {forkJoin, Observable} from "rxjs";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {IUserRole} from "../../../../model/auth0-management/IUserRole";
 import {IDropdownSettings} from "ng-multiselect-dropdown";
-import {Auth0ManagementService} from "../../../../services/aws-lambda/auth0-management.service";
+import {ForumBackendManagementService} from "../../../../services/aws-lambda/forum-backend-management.service";
 import {ManagementDataService} from "../../../../services/data-services/management-data.service";
 
 @Component({
@@ -45,7 +45,7 @@ export class StudentRoleComponent implements OnInit {
   removeStudentAccountList: Array<IStudentAccount>;
   removeRoleForm: FormGroup;
 
-  constructor(private auth0Restful: Auth0ManagementService,
+  constructor(private auth0Restful: ForumBackendManagementService,
               private formBuilder: FormBuilder,
               private managementData: ManagementDataService) {
     this.managementData$ = [this.auth0Restful.getStudentAccountList(), this.auth0Restful.getUserRolesList()];

@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ForumDashboardBackendService} from "../../../services/aws-lambda/forum-dashboard-backend.service";
+import {ForumBackendDashboardService} from "../../../services/aws-lambda/forum-backend-dashboard.service";
 import {saveAs} from "file-saver";
 import {NgbCalendar, NgbDate, NgbDateParserFormatter} from "@ng-bootstrap/ng-bootstrap";
 import {DateUtil} from "../../../services/date-util.service";
@@ -22,7 +22,7 @@ export class DashboardPageComponent implements OnInit {
   isToDateSelected: boolean;
   @ViewChild('datepicker') datePicker: ElementRef | any;
 
-  constructor(private restful: ForumDashboardBackendService,
+  constructor(private restful: ForumBackendDashboardService,
               private calendar: NgbCalendar,
               public formatter: NgbDateParserFormatter,
               private dateUtil: DateUtil) {

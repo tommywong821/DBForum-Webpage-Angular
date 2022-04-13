@@ -4,12 +4,12 @@ import {AttendedStudentDataService} from "../../../../../services/data-services/
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {IDragonBoat} from "../../../../../model/forum/IDragonBoat";
 import {DateUtil} from "../../../../../services/date-util.service";
-import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
+import {ForumBackendMainpageService} from "../../../../../services/aws-lambda/forum-backend-mainpage.service";
 import {filter, forkJoin, switchMap, tap} from "rxjs";
 import {IStudent} from "../../../../../model/forum/IStudent";
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
-import {ForumDashboardBackendService} from "../../../../../services/aws-lambda/forum-dashboard-backend.service";
+import {ForumBackendDashboardService} from "../../../../../services/aws-lambda/forum-backend-dashboard.service";
 
 @Component({
   selector: 'app-seat-arrangement',
@@ -31,8 +31,8 @@ export class TrainingSeatArrangementComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private attendedStudentDataService: AttendedStudentDataService,
               private dateUtil: DateUtil,
-              private dashboardRestful: ForumDashboardBackendService,
-              private mainpageRestful: ForumMainPageBackendService,
+              private dashboardRestful: ForumBackendDashboardService,
+              private mainpageRestful: ForumBackendMainpageService,
               private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingId = '';

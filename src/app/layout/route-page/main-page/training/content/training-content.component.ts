@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ITraining} from "../../../../../model/forum/ITraining";
-import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
+import {ForumBackendMainpageService} from "../../../../../services/aws-lambda/forum-backend-mainpage.service";
 import {DateUtil} from "../../../../../services/date-util.service";
 import {IAttendance} from "../../../../../model/forum/IAttendance";
 import {MatDialog} from "@angular/material/dialog";
@@ -31,7 +31,7 @@ export class TrainingContentComponent implements OnInit {
 
   trainingList: Array<ITraining>;
 
-  constructor(private restful: ForumMainPageBackendService,
+  constructor(private restful: ForumBackendMainpageService,
               public dateUtil: DateUtil,
               private trainingFormDialog: MatDialog,
               private store: Store<any>) {
