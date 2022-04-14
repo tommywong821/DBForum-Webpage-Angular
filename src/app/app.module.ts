@@ -1,4 +1,4 @@
-import {ErrorHandler, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -32,7 +32,7 @@ import {AppReducer} from "./ngrx/app.state";
 import {TrainingDataEffect} from "./ngrx/training-data/training-data.effect";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import {GlobalErrorHandler} from "./interceptor/GlobalErrorHandler";
+import {ServiceWorkerModule} from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -69,6 +69,12 @@ import {GlobalErrorHandler} from "./interceptor/GlobalErrorHandler";
     ...storeDevToolsImport,
     MatInputModule,
     DragDropModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     {
@@ -80,8 +86,7 @@ import {GlobalErrorHandler} from "./interceptor/GlobalErrorHandler";
       provide: HTTP_INTERCEPTORS,
       useClass: ApiErrorInterceptor,
       multi: true
-    },
-    {provide: ErrorHandler, useClass: GlobalErrorHandler}
+    }
   ],
   bootstrap: [AppComponent]
 })
