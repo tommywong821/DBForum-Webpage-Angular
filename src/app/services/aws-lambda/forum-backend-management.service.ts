@@ -58,4 +58,12 @@ export class ForumBackendManagementService {
     const params = new HttpParams().set('isActive', isActive);
     return this.http.get<Array<IStudent>>(this.apiUrl + '/student', {params: params})
   }
+
+  updateStudentStatus(studentList: Array<IStudent>, isActive: boolean) {
+    const body = {
+      isActive: isActive,
+      studentList: studentList
+    };
+    return this.http.put(this.apiUrl + "/student/status", body);
+  }
 }
