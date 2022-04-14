@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ErrorHandler, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -32,6 +32,7 @@ import {AppReducer} from "./ngrx/app.state";
 import {TrainingDataEffect} from "./ngrx/training-data/training-data.effect";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {GlobalErrorHandler} from "./interceptor/GlobalErrorHandler";
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
       provide: HTTP_INTERCEPTORS,
       useClass: ApiErrorInterceptor,
       multi: true
-    }
+    },
+    {provide: ErrorHandler, useClass: GlobalErrorHandler}
   ],
   bootstrap: [AppComponent]
 })
