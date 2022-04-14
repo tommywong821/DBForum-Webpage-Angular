@@ -1,0 +1,32 @@
+<div class="card">
+  <h5 class="card-header">
+    Student Account Activation
+  </h5>
+  <div class="card-body">
+    <div class="row">
+      <div class="card-body">
+        <h5 class="card-title">Update By Student ITSC</h5>
+        <ng-multiselect-dropdown
+          [settings]="actionDropDownSetting"
+          [data]="actionList"
+          formControlName="users"
+          (onSelect)="onActionSelect($event)"
+        ></ng-multiselect-dropdown>
+      </div>
+    </div>
+    <div class="row">
+      <div class="card-body">
+        <h5 class="card-title">Update By Student Enroll Year</h5>
+        <ng-multiselect-dropdown
+          [settings]="actionDropDownSetting"
+          [data]="actionList"
+          formControlName="users"
+        ></ng-multiselect-dropdown>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>
