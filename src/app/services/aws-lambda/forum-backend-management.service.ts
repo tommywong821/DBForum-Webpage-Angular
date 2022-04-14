@@ -3,6 +3,7 @@ import {environment} from "../../../environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {IStudentAccount} from "../../model/auth0-management/IStudentAccount";
 import {IUserRole} from "../../model/auth0-management/IUserRole";
+import {IStudent} from "../../model/forum/IStudent";
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,6 @@ export class ForumBackendManagementService {
 
   getStudent(isActive: boolean) {
     const params = new HttpParams().set('isActive', isActive);
-    return this.http.get(this.apiUrl + '/student', {params: params})
+    return this.http.get<Array<IStudent>>(this.apiUrl + '/student', {params: params})
   }
 }

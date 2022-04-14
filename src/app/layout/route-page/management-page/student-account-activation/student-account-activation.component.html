@@ -6,22 +6,26 @@
     <div class="row">
       <div class="card-body">
         <h5 class="card-title">Update By Student ITSC</h5>
-        <ng-multiselect-dropdown
-          [settings]="actionDropDownSetting"
-          [data]="actionList"
-          formControlName="users"
-          (onSelect)="onActionSelect($event)"
-        ></ng-multiselect-dropdown>
-      </div>
-    </div>
-    <div class="row">
-      <div class="card-body">
-        <h5 class="card-title">Update By Student Enroll Year</h5>
-        <ng-multiselect-dropdown
-          [settings]="actionDropDownSetting"
-          [data]="actionList"
-          formControlName="users"
-        ></ng-multiselect-dropdown>
+        <div class="row">
+          <div class="col-3">
+            <ng-multiselect-dropdown
+              [settings]="actionDropDownSetting"
+              [data]="actionList"
+              formControlName="users"
+              (onSelect)="onActionSelect($event)"
+              (onDeSelect)="onActionDeSelect()"
+            ></ng-multiselect-dropdown>
+          </div>
+          <div class="col-9">
+            <ng-container *ngIf="!isLoading else loading">
+              <ng-multiselect-dropdown [settings]="studentListDropDownSetting"
+                                       [data]="studentListByStatus"
+                                       formControlName="users"
+                                       (onSelect)="onStudentSelect($event)"
+              ></ng-multiselect-dropdown>
+            </ng-container>
+          </div>
+        </div>
       </div>
     </div>
   </div>
