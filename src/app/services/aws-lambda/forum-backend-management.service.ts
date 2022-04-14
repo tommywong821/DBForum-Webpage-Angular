@@ -52,4 +52,9 @@ export class ForumBackendManagementService {
     }
     return this.http.delete(this.apiUrl + '/user', {body: body});
   }
+
+  getStudent(isActive: boolean) {
+    const params = new HttpParams().set('isActive', isActive);
+    return this.http.get(this.apiUrl + '/student', {params: params})
+  }
 }

@@ -45,10 +45,10 @@ export class StudentRoleComponent implements OnInit {
   removeStudentAccountList: Array<IStudentAccount>;
   removeRoleForm: FormGroup;
 
-  constructor(private auth0Restful: ForumBackendManagementService,
+  constructor(private managementRestful: ForumBackendManagementService,
               private formBuilder: FormBuilder,
               private managementData: ManagementDataService) {
-    this.managementData$ = [this.auth0Restful.getStudentAccountList(), this.auth0Restful.getUserRolesList()];
+    this.managementData$ = [this.managementRestful.getStudentAccountList(), this.managementRestful.getUserRolesList()];
 
     //delete student account
     this.deleteStudentForm = formBuilder.group({
@@ -140,7 +140,7 @@ export class StudentRoleComponent implements OnInit {
       this.reset();
     } else {
       //call auth0 management api
-      this.auth0Restful.createLoginUser(this.managementData.studentAccountCsv).subscribe({
+      this.managementRestful.createLoginUser(this.managementData.studentAccountCsv).subscribe({
         complete: () => {
           alert('Student Account is created!');
           this.reset();
@@ -153,7 +153,7 @@ export class StudentRoleComponent implements OnInit {
   getStudentInRole(event: any) {
     console.log(`event: `, event);
     this.isRemoveFormLoading = true;
-    this.auth0Restful.getUserInRole(event.id).subscribe({
+    this.managementRestful.getUserInRole(event.id).subscribe({
       next: (result) => {
         this.removeStudentAccountList = result
       },
@@ -179,7 +179,7 @@ export class StudentRoleComponent implements OnInit {
     const studentAccountId = this.deleteStudentForm.value.users.map((student: any) => {
       return student.user_id;
     });
-    this.auth0Restful.deleteUserAccount(studentAccountId).subscribe({
+    this.managementRestful.deleteUserAccount(studentAccountId).subscribe({
       complete: () => {
         this.deleteStudentForm.reset();
         alert('Student(s) is remove from forum');
@@ -199,7 +199,7 @@ export class StudentRoleComponent implements OnInit {
     console.log(`roleId: `, roleId);
     const userIdList = this.assignRoleForm.value.users.map((user: IStudentAccount) => user.user_id);
     console.log(`userList: `, userIdList);
-    this.auth0Restful.assignRoleToUsers(roleId, userIdList).subscribe({
+    this.managementRestful.assignRoleToUsers(roleId, userIdList).subscribe({
       complete: () => {
         this.assignRoleForm.reset();
         alert('Role is assigned to user(s)');
@@ -217,7 +217,7 @@ export class StudentRoleComponent implements OnInit {
     }
     const roleId = this.removeRoleForm.value.role[0].id;
     const userIdList = this.removeRoleForm.value.users.map((user: IStudentAccount) => user.user_id);
-    this.auth0Restful.removeRoleFromUser(roleId, userIdList).subscribe({
+    this.managementRestful.removeRoleFromUser(roleId, userIdList).subscribe({
       complete: () => {
         this.removeRoleForm.reset();
         alert('Role is remove from user(s)');
