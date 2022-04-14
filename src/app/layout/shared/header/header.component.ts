@@ -3,7 +3,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ProfileDialogComponent} from "./profile-dialog/profile-dialog.component";
 import {SidenavService} from "../../../services/sidenav.service";
 import {combineLatest, Observable} from "rxjs";
-import {ForumMainPageBackendService} from "../../../services/aws-lambda/forum-main-page-backend.service";
+import {ForumBackendMainpageService} from "../../../services/aws-lambda/forum-backend-mainpage.service";
 import {IStudent} from "../../../model/forum/IStudent";
 import {select, Store} from "@ngrx/store";
 import {logout} from 'src/app/ngrx/auth0/auth0.action';
@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private profileDialog: MatDialog,
               private sidenavService: SidenavService,
-              private restful: ForumMainPageBackendService,
+              private restful: ForumBackendMainpageService,
               private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.showBtn = true;

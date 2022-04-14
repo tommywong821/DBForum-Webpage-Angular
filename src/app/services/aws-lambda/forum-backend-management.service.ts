@@ -3,12 +3,13 @@ import {environment} from "../../../environments/environment";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {IStudentAccount} from "../../model/auth0-management/IStudentAccount";
 import {IUserRole} from "../../model/auth0-management/IUserRole";
+import {IStudent} from "../../model/forum/IStudent";
 
 @Injectable({
   providedIn: 'root'
 })
-export class Auth0ManagementService {
-  private apiUrl: string = environment.auth0ManagementApiUrl;
+export class ForumBackendManagementService {
+  private apiUrl: string = environment.backendApiUrl + '/management';
 
   constructor(private http: HttpClient) {
   }
@@ -51,5 +52,18 @@ export class Auth0ManagementService {
       userIdList: userIdList
     }
     return this.http.delete(this.apiUrl + '/user', {body: body});
+  }
+
+  getStudent(isActive: boolean) {
+    const params = new HttpParams().set('isActive', isActive);
+    return this.http.get<Array<IStudent>>(this.apiUrl + '/student', {params: params})
+  }
+
+  updateStudentStatus(studentList: Array<IStudent>, isActive: boolean) {
+    const body = {
+      isActive: isActive,
+      studentList: studentList
+    };
+    return this.http.put(this.apiUrl + "/student/status", body);
   }
 }

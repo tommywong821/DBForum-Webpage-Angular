@@ -1,0 +1,39 @@
+<div class="card">
+  <h5 class="card-header">
+    Student Account Activation
+  </h5>
+  <div class="card-body">
+    <div class="row">
+      <div class="card-body">
+        <h5 class="card-title">Update By Student ITSC</h5>
+        <form (ngSubmit)="onSubmitChangeStudentStatusForm()" [formGroup]="changeStudentStatusForm">
+          <div class="row">
+            <div class="col-2">
+              <ng-multiselect-dropdown
+                [settings]="actionDropDownSetting"
+                [data]="actionList"
+                (onSelect)="onActionSelect($event)"
+                (onDeSelect)="onActionDeSelect()"
+              ></ng-multiselect-dropdown>
+            </div>
+            <div class="col">
+              <ng-container *ngIf="!isLoading else loading">
+                <ng-multiselect-dropdown [settings]="studentListDropDownSetting"
+                                         [data]="studentListByStatus"
+                                         formControlName="studentList"
+                ></ng-multiselect-dropdown>
+              </ng-container>
+            </div>
+            <div class="col">
+              <button class="btn btn-outline-secondary" type="submit">Update</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>

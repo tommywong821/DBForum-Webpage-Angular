@@ -1,11 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ForumMainPageBackendService} from "../../../../services/aws-lambda/forum-main-page-backend.service";
+import {ForumBackendMainpageService} from "../../../../services/aws-lambda/forum-backend-mainpage.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {IStudent} from "../../../../model/forum/IStudent";
 import {DateUtil} from "../../../../services/date-util.service";
 import {environment} from "../../../../../environments/environment";
-import {ForumDashboardBackendService} from "../../../../services/aws-lambda/forum-dashboard-backend.service";
+import {ForumBackendDashboardService} from "../../../../services/aws-lambda/forum-backend-dashboard.service";
 
 @Component({
   selector: 'app-profile-dialog',
@@ -17,8 +17,8 @@ export class ProfileDialogComponent implements OnInit {
   isLoading: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public inputDialogData: any,
-              private mainpageRestful: ForumMainPageBackendService,
-              private dashboardRestful: ForumDashboardBackendService,
+              private mainpageRestful: ForumBackendMainpageService,
+              private dashboardRestful: ForumBackendDashboardService,
               private formBuilder: FormBuilder,
               private dateUtil: DateUtil,
               private dialogRef: MatDialogRef<ProfileDialogComponent>) {

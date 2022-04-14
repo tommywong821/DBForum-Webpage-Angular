@@ -1,6 +1,6 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ForumMainPageBackendService} from "../../../../../services/aws-lambda/forum-main-page-backend.service";
+import {ForumBackendMainpageService} from "../../../../../services/aws-lambda/forum-backend-mainpage.service";
 import {IStudent} from "../../../../../model/forum/IStudent";
 import {TrainingSummaryDataService} from "../../../../../services/data-services/training-summary-data.service";
 import {Subscription} from "rxjs";
@@ -43,7 +43,7 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
   trainingData: any;
 
   constructor(@Inject(MAT_DIALOG_DATA) public dialogInputData: any,
-              private restful: ForumMainPageBackendService,
+              private restful: ForumBackendMainpageService,
               private trainingDataService: TrainingSummaryDataService,
               private store: Store<any>,
               private dialogRef: MatDialogRef<TrainingDetailDialogComponent>,
