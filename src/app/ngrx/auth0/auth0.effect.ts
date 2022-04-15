@@ -3,11 +3,13 @@ import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {Auth0Service} from "../../services/auth0.service";
 import * as auth0Action from './auth0.action';
 import {combineLatest, of, switchMap, tap} from "rxjs";
+import {Store} from "@ngrx/store";
 
 @Injectable()
 export class Auth0Effect{
   constructor(private actions$: Actions,
-              private auth0Service: Auth0Service) {
+              private auth0Service: Auth0Service,
+              private store: Store<any>) {
   }
 
   login$ = createEffect(() =>
@@ -32,7 +34,7 @@ export class Auth0Effect{
           return of(auth0Action.loginComplete({ isLoggedIn, profile, accessToken }));
         }
 
-        return of(auth0Action.login());
+        return of(auth0Action.logoutComplete());
       })
     )
   );

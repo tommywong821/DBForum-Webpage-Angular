@@ -33,6 +33,7 @@ import {TrainingDataEffect} from "./ngrx/training-data/training-data.effect";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ServiceWorkerModule} from '@angular/service-worker';
+import {Auth0Service} from "./services/auth0.service";
 
 @NgModule({
   declarations: [
@@ -86,7 +87,8 @@ import {ServiceWorkerModule} from '@angular/service-worker';
       provide: HTTP_INTERCEPTORS,
       useClass: ApiErrorInterceptor,
       multi: true
-    }
+    },
+    Auth0Service
   ],
   bootstrap: [AppComponent]
 })

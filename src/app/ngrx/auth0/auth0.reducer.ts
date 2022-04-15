@@ -17,9 +17,9 @@ const auth0ReducerInternal = createReducer(
       ...state,
       userProfile: profile,
       isLoggedIn: isLoggedIn,
-      accessToken: accessToken.__raw,
-      loginUserItsc: profile['http://demozero.net/itsc'],
-      loginUserRole: profile['http://demozero.net/roles'],
+      accessToken: accessToken?.__raw,
+      loginUserItsc: (profile) ? profile['http://demozero.net/itsc'] : '',
+      loginUserRole: (profile) ? profile['http://demozero.net/roles'] : '',
     };
   }),
 
