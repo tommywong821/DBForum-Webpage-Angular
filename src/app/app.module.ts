@@ -32,7 +32,6 @@ import {AppReducer} from "./ngrx/app.state";
 import {TrainingDataEffect} from "./ngrx/training-data/training-data.effect";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import {ServiceWorkerModule} from '@angular/service-worker';
 import {Auth0Service} from "./services/auth0.service";
 
 @NgModule({
@@ -70,12 +69,6 @@ import {Auth0Service} from "./services/auth0.service";
     ...storeDevToolsImport,
     MatInputModule,
     DragDropModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
   ],
   providers: [
     {
