@@ -121,6 +121,7 @@ export class TrainingContentComponent implements OnInit {
         if (this.needUpdateUi) {
           this.removeWebViewTraining(training.uuid);
         }
+        alert(`Attendance replied`);
       }
     });
   }
