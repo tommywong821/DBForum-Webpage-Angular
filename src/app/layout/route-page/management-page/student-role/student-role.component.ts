@@ -177,8 +177,12 @@ export class StudentRoleComponent implements OnInit {
       return;
     }
     const studentAccountId = this.deleteStudentForm.value.users.map((student: any) => {
-      return student.user_id;
+      return {
+        auth0_id: student.user_id,
+        itsc: student.username
+      };
     });
+    console.log(`studentAccountId: `, studentAccountId);
     this.managementRestful.deleteUserAccount(studentAccountId).subscribe({
       complete: () => {
         this.deleteStudentForm.reset();
