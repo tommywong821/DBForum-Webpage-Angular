@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ForumBackendMainpageService} from "../../../../services/aws-lambda/forum-backend-mainpage.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {IStudent} from "../../../../model/forum/IStudent";
 import {DateUtil} from "../../../../services/date-util.service";
 import {environment} from "../../../../../environments/environment";
@@ -13,13 +13,13 @@ import {ForumBackendDashboardService} from "../../../../services/aws-lambda/foru
   styleUrls: ['./profile-dialog.component.scss']
 })
 export class ProfileDialogComponent implements OnInit {
-  profileForm: FormGroup;
+  profileForm: UntypedFormGroup;
   isLoading: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public inputDialogData: any,
               private mainpageRestful: ForumBackendMainpageService,
               private dashboardRestful: ForumBackendDashboardService,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private dateUtil: DateUtil,
               private dialogRef: MatDialogRef<ProfileDialogComponent>) {
     console.log(`[${this.constructor.name}] constructor`);

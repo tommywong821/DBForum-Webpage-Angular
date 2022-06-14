@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {ForumBackendMainpageService} from "../../../../services/aws-lambda/forum-backend-mainpage.service";
 import {IReminder} from "../../../../model/forum/IReminder";
 import {DateUtil} from "../../../../services/date-util.service";
@@ -16,13 +16,13 @@ import {combineLatest} from "rxjs";
 export class GeneralReminderComponent implements OnInit {
 
   isReadOnly: boolean;
-  reminderForm: FormGroup;
+  reminderForm: UntypedFormGroup;
   isLoading: boolean;
   reminderId: string;
   isAdmin: boolean;
   userItsc: any;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private restful: ForumBackendMainpageService,
               private dateUtil: DateUtil,
               private store: Store<any>) {
