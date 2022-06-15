@@ -50,7 +50,8 @@
             </th>
             <td *matCellDef="let student" mat-cell>
               <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
-                {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
+                {{(student.nickname) ? student.nickname : student.itsc}}
+                <span *ngIf="student.reason">({{student.reason}})</span>
               </span>
             </td>
           </ng-container>
@@ -78,7 +79,8 @@
             </th>
             <td *matCellDef="let student" mat-cell>
           <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
-            {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
+            {{(student.nickname) ? student.nickname : student.itsc}}
+            <span *ngIf="student.reason">({{student.reason}})</span>
           </span>
             </td>
           </ng-container>
@@ -108,7 +110,8 @@
             </th>
             <td *matCellDef="let student" mat-cell>
             <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
-              {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
+              {{(student.nickname) ? student.nickname : student.itsc}}
+              <span *ngIf="student.reason">({{student.reason}})</span>
             </span>
             </td>
           </ng-container>
@@ -125,7 +128,8 @@
             </th>
             <td *matCellDef="let student" mat-cell>
             <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
-              {{student.nickname}}<span *ngIf="student.reason">({{student.reason}})</span>
+              {{(student.nickname) ? student.nickname : student.itsc}}
+              <span *ngIf="student.reason">({{student.reason}})</span>
             </span>
             </td>
           </ng-container>

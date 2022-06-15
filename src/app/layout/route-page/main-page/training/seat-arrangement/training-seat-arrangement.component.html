@@ -196,7 +196,7 @@
           <span *ngIf="index">{{index}}: </span>
           <i class="fa-solid fa-lg"
              [ngClass]="(student.gender === 'male')? 'male fa-person': 'female fa-person-dress'"></i>
-            <span>{{student.nickname}}</span>
+            <span>{{(student.nickname) ? student.nickname : student.itsc}}</span>
             <span *ngIf="!student.is_coach">({{student.paddle_side}})</span>
           <span *ngIf="student.reason">({{student.reason}})</span>
         </span>
