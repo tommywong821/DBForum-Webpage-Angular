@@ -16,7 +16,7 @@
 
         <mat-form-field appearance="fill">
           <mat-label>Choose Date & Time</mat-label>
-          <input (dateChange)="autoFillDeadline($event, index)" [ngxMatDatetimePicker]="dateTimePicker"
+          <input (dateChange)="autoFillDateTime($event, index)" [ngxMatDatetimePicker]="dateTimePicker"
                  formControlName="date" matInput readonly>
           <mat-datepicker-toggle [for]="$any(dateTimePicker)" matSuffix></mat-datepicker-toggle>
           <ngx-mat-datetime-picker #dateTimePicker></ngx-mat-datetime-picker>
