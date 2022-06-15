@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {saveAs} from "file-saver";
 import {IStudentAccount} from "../../../../model/auth0-management/IStudentAccount";
 import {forkJoin, Observable} from "rxjs";
-import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {IUserRole} from "../../../../model/auth0-management/IUserRole";
 import {IDropdownSettings} from "ng-multiselect-dropdown";
 import {ForumBackendManagementService} from "../../../../services/aws-lambda/forum-backend-management.service";
@@ -30,7 +30,7 @@ export class StudentRoleComponent implements OnInit {
   managementData$: Array<Observable<any>>;
 
   //delete student account part
-  deleteStudentForm: UntypedFormGroup;
+  deleteStudentForm: FormGroup;
   isDeleteFormLoading: boolean;
 
   //assign role to student account part
@@ -38,15 +38,15 @@ export class StudentRoleComponent implements OnInit {
   userRoleList: Array<IUserRole>;
   studentACDropDownSetting: IDropdownSettings;
   assignRoleDropDownSetting: IDropdownSettings;
-  assignRoleForm: UntypedFormGroup;
+  assignRoleForm: FormGroup;
 
   //remove role from student account part
   removeRoleDropDownSetting: IDropdownSettings;
   removeStudentAccountList: Array<IStudentAccount>;
-  removeRoleForm: UntypedFormGroup;
+  removeRoleForm: FormGroup;
 
   constructor(private managementRestful: ForumBackendManagementService,
-              private formBuilder: UntypedFormBuilder,
+              private formBuilder: FormBuilder,
               private managementData: ManagementDataService) {
     this.managementData$ = [this.managementRestful.getStudentAccountList(), this.managementRestful.getUserRolesList()];
 

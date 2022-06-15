@@ -129,5 +129,6 @@
         }
       }
     }
-  }
+  },
+  "defaultProject": "ustdboat-forum"
 }

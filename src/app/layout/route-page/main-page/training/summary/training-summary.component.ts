@@ -9,7 +9,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
-import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-training-summary',
@@ -35,14 +35,14 @@ export class TrainingSummaryComponent implements OnInit, OnDestroy, AfterViewIni
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   //history date
-  historyDateForm: UntypedFormGroup;
+  historyDateForm: FormGroup;
 
   constructor(private restful: ForumBackendMainpageService,
               private trainingDialog: MatDialog,
               public dateUtil: DateUtil,
               private trainingSummaryDataService: TrainingSummaryDataService,
               private store: Store<any>,
-              private formBuilder: UntypedFormBuilder) {
+              private formBuilder: FormBuilder) {
     console.log(`[${this.constructor.name}] constructor`);
     this.monitoringTrainingUpdate = new Subscription();
     this.isLoading = true;

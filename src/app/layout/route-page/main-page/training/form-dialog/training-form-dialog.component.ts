@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import {ForumBackendMainpageService} from "../../../../../services/aws-lambda/forum-backend-mainpage.service";
 import {DateUtil} from "../../../../../services/date-util.service";
 import {ITraining} from "../../../../../model/forum/ITraining";
@@ -16,14 +16,14 @@ import * as moment from 'moment';
   styleUrls: ['./training-form-dialog.component.scss']
 })
 export class TrainingFormDialogComponent implements OnInit {
-  trainingForm: UntypedFormGroup;
-  trainings: UntypedFormArray;
+  trainingForm: FormGroup;
+  trainings: FormArray;
   isEditTraining: boolean;
 
   trainingList: Array<ITraining>;
 
   constructor(private dialogRef: MatDialogRef<TrainingFormDialogComponent>,
-              private formBuilder: UntypedFormBuilder,
+              private formBuilder: FormBuilder,
               private restful: ForumBackendMainpageService,
               private dateUtil: DateUtil,
               @Inject(MAT_DIALOG_DATA) private importData: { training: ITraining, isEditTraining: boolean, isInputFromTrainingDetail: boolean },
@@ -40,7 +40,7 @@ export class TrainingFormDialogComponent implements OnInit {
   }
 
   get trainingFormGroup() {
-    return this.trainingForm.get('trainings') as UntypedFormArray
+    return this.trainingForm.get('trainings') as FormArray
   }
 
   ngOnInit(): void {
@@ -77,7 +77,7 @@ export class TrainingFormDialogComponent implements OnInit {
     }));
   }
 
-  createEmptyTraining(): UntypedFormGroup {
+  createEmptyTraining(): FormGroup {
     return this.formBuilder.group({
       place: '',
       type: '',
@@ -87,12 +87,12 @@ export class TrainingFormDialogComponent implements OnInit {
   }
 
   appendTraining(): void {
-    this.trainings = this.trainingForm.get('trainings') as UntypedFormArray;
+    this.trainings = this.trainingForm.get('trainings') as FormArray;
     this.trainings.push(this.createEmptyTraining());
   }
 
   removeTraining(index: number): void {
-    this.trainings = this.trainingForm.get('trainings') as UntypedFormArray;
+    this.trainings = this.trainingForm.get('trainings') as FormArray;
     this.trainings.removeAt(index);
   }
 
@@ -152,7 +152,7 @@ export class TrainingFormDialogComponent implements OnInit {
 
   autoFillDeadline(event: any, index: number) {
     console.log(`autoFillDeadline event: `, event);
-    this.trainings = this.trainingForm.get('trainings') as UntypedFormArray;
+    this.trainings = this.trainingForm.get('trainings') as FormArray;
     let deadlineDateTime = new Date(event.value);
     deadlineDateTime.setDate(deadlineDateTime.getDate() - 1);
     deadlineDateTime.setHours(17, 0, 0);
