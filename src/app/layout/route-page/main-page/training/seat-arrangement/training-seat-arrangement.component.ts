@@ -82,7 +82,7 @@ export class TrainingSeatArrangementComponent implements OnInit {
           seatArr.left_seat = seatArr.left_seat.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
           seatArr.steersperson = seatArr.steersperson.map((studentId: string) => this.mapNFilterPlanStudent(studentId))
           //push into drag and drop ui
-          this.addDragonBoat(seatArr.left_seat, seatArr.right_seat, seatArr.steersperson);
+          this.addDragonBoat(seatArr.left_seat, seatArr.right_seat, seatArr.steersperson, seatArr.dragon_boat_name);
         })
         this.isLoading = false
       }
@@ -100,7 +100,7 @@ export class TrainingSeatArrangementComponent implements OnInit {
     }
   }
 
-  addDragonBoat(leftSeatList?: any, rightSeatList?: any, steersperson?: any) {
+  addDragonBoat(leftSeatList?: any, rightSeatList?: any, steersperson?: any, dragonBoatName?: any) {
     const dragonBoatId = uuidV4();
     console.log(`dragonBoatId: `, dragonBoatId);
     //create drag and drop boat
@@ -119,8 +119,7 @@ export class TrainingSeatArrangementComponent implements OnInit {
     console.log(`this.dragonBoatsConnected: `, this.dragonBoatsConnected);
     //create dragon boat form
     this.dragonBoatFormArray = this.dragonBoatForm.get('dragonBoatFormArray') as FormArray;
-    this.dragonBoatFormArray.push(this.createDragonBoatWithId(dragonBoatId))
-
+    this.dragonBoatFormArray.push(this.createDragonBoatWithId(dragonBoatId, dragonBoatName))
   }
 
   calculateSideWeight(dragonId: any, position: any) {
@@ -211,11 +210,11 @@ export class TrainingSeatArrangementComponent implements OnInit {
       })
     });
     console.log(`after this.dbObj: `, dbObj)
-    // this.mainpageRestful.updateTrainingSearArr(this.trainingId, dbObj).subscribe({
-    //   next: value => {
-    //     console.log(`next`)
-    //   }
-    // })
+    this.mainpageRestful.updateTrainingSearArr(this.trainingId, dbObj).subscribe({
+      next: value => {
+        alert('Seat Arrangement is saved')
+      }
+    })
   }
 
   mapNFilterPlanStudent(studentId: string) {
@@ -282,10 +281,10 @@ export class TrainingSeatArrangementComponent implements OnInit {
     }
   }
 
-  createDragonBoatWithId(id: any): FormGroup {
+  createDragonBoatWithId(id: any, dragonBoatName?: any): FormGroup {
     return this.formBuilder.group({
       dragonBoatId: id,
-      dragonBoatName: ''
+      dragonBoatName: (dragonBoatName) ? dragonBoatName : ''
     });
   }
 

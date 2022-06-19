@@ -1,6 +1,7 @@
 import {IStudent} from "./IStudent";
 
 export interface IDragonBoat {
+  dragon_boat_name: any;
   id: number;
   leftSeatList: Array<IStudent>;
   left_seat: Array<string>;
