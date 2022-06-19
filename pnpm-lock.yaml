@@ -18,9 +18,9 @@ specifiers:
   '@angular/platform-browser': ~13.3.6
   '@angular/platform-browser-dynamic': ~13.3.6
   '@angular/router': ~13.3.6
-  '@auth0/auth0-angular': ^1.9.0
+  '@auth0/auth0-angular': ^1.10.0
   '@fortawesome/fontawesome-free': ^6.1.1
-  '@ng-bootstrap/ng-bootstrap': ^12.0.2
+  '@ng-bootstrap/ng-bootstrap': ^12.1.2
   '@ngrx/effects': ^13.2.0
   '@ngrx/store': ^13.2.0
   '@ngrx/store-devtools': ^13.2.0
@@ -66,9 +66,9 @@ dependencies:
   '@angular/platform-browser': 13.3.6_2rajfh3xclvchnp3g3xxhham7i
   '@angular/platform-browser-dynamic': 13.3.6_lz2qkkmlzon6tbij4zn3nov5xm
   '@angular/router': 13.3.6_lkdiwl2hsftwbeq74hg6pnn7ky
-  '@auth0/auth0-angular': 1.9.0_rcxcyr4wduz43m5adf3o4ucj6q
+  '@auth0/auth0-angular': 1.10.0_rcxcyr4wduz43m5adf3o4ucj6q
   '@fortawesome/fontawesome-free': 6.1.1
-  '@ng-bootstrap/ng-bootstrap': 12.1.1_b4bethphmczumscfogw6fzktwe
+  '@ng-bootstrap/ng-bootstrap': 12.1.2_b4bethphmczumscfogw6fzktwe
   '@ngrx/effects': 13.2.0_nyb7nc6aelzdq3fqyjf2iwcnei
   '@ngrx/store': 13.2.0_kaqqqoljsgotrtkwss2cbk43qe
   '@ngrx/store-devtools': 13.2.0_6qkcwnyyexqdc26zqjjeh6re6e
@@ -544,26 +544,26 @@ packages:
     resolution: { integrity: sha512-H71nDOOL8Y7kWRLqf6Sums+01Q5msqBW2KhDUTemh1tvY04eSkSXrK0uj/4mmY0Xr16/3zyZmsrxN7CKuRbNRg== }
     dev: true
 
-  /@auth0/auth0-angular/1.9.0_rcxcyr4wduz43m5adf3o4ucj6q:
-    resolution: { integrity: sha512-KcNeNBvk6amj0an4XTzc88yaxPy1EfNwUXSij5uDyCzNh59cR/ZbWnuk7OIj38m7Q/jSoxHHFcgnBjL2AUs2BA== }
+  /@auth0/auth0-angular/1.10.0_rcxcyr4wduz43m5adf3o4ucj6q:
+    resolution: { integrity: sha512-ypM7PIHkWBB+DY5CqLD38VIQpjkbSfmncJxmQurqsHcpsJNIXoL3LGvv6hX+Wo9tp8kxKHHjV7RZ07JOplV90w== }
     peerDependencies:
-      '@angular/common': '>=9 <=13'
-      '@angular/core': '>=9 <=13'
-      '@angular/router': '>=9 <=13'
+      '@angular/common': '>=9 <=14'
+      '@angular/core': '>=9 <=14'
+      '@angular/router': '>=9 <=14'
     dependencies:
       '@angular/common': 13.3.6_kaqqqoljsgotrtkwss2cbk43qe
       '@angular/core': 13.3.6_rxjs@7.4.0+zone.js@0.11.5
       '@angular/router': 13.3.6_lkdiwl2hsftwbeq74hg6pnn7ky
-      '@auth0/auth0-spa-js': 1.21.0
+      '@auth0/auth0-spa-js': 1.22.1
       tslib: 2.4.0
     dev: false
 
-  /@auth0/auth0-spa-js/1.21.0:
-    resolution: { integrity: sha512-a+8+onJdOIUSEEjdIzP/BGd731DZjBn2Q0tH+v7H+bN9ldeuBOifnjPbFwQAriL+94SwkaqhoFx3L6uGDk3+vg== }
+  /@auth0/auth0-spa-js/1.22.1:
+    resolution: { integrity: sha512-l0FCmiN3XubpgCtB3U0ds4h+5WQNTnIF4eLT/fudHEtcyrT65QF/03LybGVdLyuvqdIF/D6OQsfjwYw0Ms605Q== }
     dependencies:
       abortcontroller-polyfill: 1.7.3
       browser-tabs-lock: 1.2.15
-      core-js: 3.20.3
+      core-js: 3.23.1
       es-cookie: 1.3.2
       fast-text-encoding: 1.0.3
       promise-polyfill: 8.2.3
@@ -1835,8 +1835,8 @@ packages:
       '@jridgewell/resolve-uri': 3.0.7
       '@jridgewell/sourcemap-codec': 1.4.13
 
-  /@ng-bootstrap/ng-bootstrap/12.1.1_b4bethphmczumscfogw6fzktwe:
-    resolution: { integrity: sha512-g0/b+qecgsCDspsctKcr5ihjJgtEAePs3m9l7OfioSSBGkjBiOr1ghbixNMwJx4drSVmVWGHSGZyLjDGmd1Wdg== }
+  /@ng-bootstrap/ng-bootstrap/12.1.2_b4bethphmczumscfogw6fzktwe:
+    resolution: { integrity: sha512-p27c+mYVdHiJMYrj5hwClVJxLdiZxafAqlbw1sdJh2xJ1rGOe+H/kCf5YDRbhlHqRN+34Gr0RQqIUeD1I2V8hg== }
     peerDependencies:
       '@angular/common': ^13.0.0
       '@angular/core': ^13.0.0
@@ -3037,6 +3037,12 @@ packages:
   /core-js/3.20.3:
     resolution: { integrity: sha512-vVl8j8ph6tRS3B8qir40H7yw7voy17xL0piAjlbBUsH7WIfzoedL/ZOr1OV9FyZQLWXsayOJyV4tnRyXR85/ag== }
     requiresBuild: true
+    dev: true
+
+  /core-js/3.23.1:
+    resolution: { integrity: sha512-wfMYHWi1WQjpgZNC9kAlN4ut04TM9fUTdi7CqIoTVM7yaiOUQTklOzfb+oWH3r9edQcT3F887swuVmxrV+CC8w== }
+    requiresBuild: true
+    dev: false
 
   /core-util-is/1.0.3:
     resolution: { integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ== }
