@@ -17,7 +17,7 @@ import * as moment from 'moment';
 })
 export class TrainingFormDialogComponent implements OnInit {
   trainingForm: FormGroup;
-  trainings: FormArray;
+  trainingFormArray: FormArray;
   isEditTraining: boolean;
 
   trainingList: Array<ITraining>;
@@ -31,9 +31,9 @@ export class TrainingFormDialogComponent implements OnInit {
               private trainingDataService: TrainingSummaryDataService) {
     console.log(`[${this.constructor.name}] constructor`);
     dialogRef.disableClose = true;
-    this.trainings = this.formBuilder.array([this.createEmptyTraining()]);
+    this.trainingFormArray = this.formBuilder.array([this.createEmptyTraining()]);
     this.trainingForm = this.formBuilder.group({
-      trainings: this.trainings
+      trainings: this.trainingFormArray
     });
     this.isEditTraining = false;
     this.trainingList = [];
@@ -87,13 +87,13 @@ export class TrainingFormDialogComponent implements OnInit {
   }
 
   appendTraining(): void {
-    this.trainings = this.trainingForm.get('trainings') as FormArray;
-    this.trainings.push(this.createEmptyTraining());
+    this.trainingFormArray = this.trainingForm.get('trainings') as FormArray;
+    this.trainingFormArray.push(this.createEmptyTraining());
   }
 
   removeTraining(index: number): void {
-    this.trainings = this.trainingForm.get('trainings') as FormArray;
-    this.trainings.removeAt(index);
+    this.trainingFormArray = this.trainingForm.get('trainings') as FormArray;
+    this.trainingFormArray.removeAt(index);
   }
 
   insertNewTrainingToDB(): void {
@@ -152,16 +152,16 @@ export class TrainingFormDialogComponent implements OnInit {
 
   autoFillDateTime(event: any, index: number) {
     console.log(`autoFillDeadline event: `, event);
-    this.trainings = this.trainingForm.get('trainings') as FormArray;
+    this.trainingFormArray = this.trainingForm.get('trainings') as FormArray;
     let dateTime = new Date(event.value);
     //remove seconds in date&time
     dateTime.setHours(dateTime.getHours(), dateTime.getMinutes(), 0);
-    this.trainings.at(index).get('date')?.setValue(dateTime);
+    this.trainingFormArray.at(index).get('date')?.setValue(dateTime);
     //auto set deadline time
     let deadlineDateTime = new Date(event.value);
     deadlineDateTime.setDate(deadlineDateTime.getDate() - 1);
     deadlineDateTime.setHours(17, 0, 0);
-    this.trainings.at(index).get('deadline')?.setValue(deadlineDateTime);
+    this.trainingFormArray.at(index).get('deadline')?.setValue(deadlineDateTime);
   }
 
   convertStringDateToDate(training: any): any {

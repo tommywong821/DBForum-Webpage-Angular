@@ -10,6 +10,8 @@ import {IStudent} from "../../../../../model/forum/IStudent";
 import {select, Store} from "@ngrx/store";
 import {selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
 import {ForumBackendDashboardService} from "../../../../../services/aws-lambda/forum-backend-dashboard.service";
+import {v4 as uuidV4} from 'uuid';
+import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-seat-arrangement',
@@ -23,6 +25,8 @@ export class TrainingSeatArrangementComponent implements OnInit {
   public coachList: any;
 
   public dragonBoats: any;
+  dragonBoatForm: FormGroup;
+  dragonBoatFormArray: FormArray;
   public dragonBoatsConnected: any;
 
   public isLoading: boolean;
@@ -33,11 +37,18 @@ export class TrainingSeatArrangementComponent implements OnInit {
               private dateUtil: DateUtil,
               private dashboardRestful: ForumBackendDashboardService,
               private mainpageRestful: ForumBackendMainpageService,
+              private formBuilder: FormBuilder,
               private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingId = '';
+
     this.dragonBoatsConnected = ['leftStudentList', 'rightStudentList', 'coachList'];
     this.dragonBoats = [];
+    this.dragonBoatFormArray = this.formBuilder.array([])
+    this.dragonBoatForm = this.formBuilder.group({
+      dragonBoatFormArray: this.dragonBoatFormArray
+    });
+
     this.isLoading = true;
     this.isAdmin = false;
   }
@@ -90,8 +101,9 @@ export class TrainingSeatArrangementComponent implements OnInit {
   }
 
   addDragonBoat(leftSeatList?: any, rightSeatList?: any, steersperson?: any) {
-    console.log(this.dragonBoats.length);
-    const dragonBoatId = this.dragonBoats.length + 1;
+    const dragonBoatId = uuidV4();
+    console.log(`dragonBoatId: `, dragonBoatId);
+    //create drag and drop boat
     this.dragonBoats.push(
       {
         id: dragonBoatId,
@@ -105,6 +117,10 @@ export class TrainingSeatArrangementComponent implements OnInit {
     this.dragonBoatsConnected.push(`dragonBoat_${dragonBoatId}_steersperson`);
     console.log(`this.dragonBoats: `, this.dragonBoats);
     console.log(`this.dragonBoatsConnected: `, this.dragonBoatsConnected);
+    //create dragon boat form
+    this.dragonBoatFormArray = this.dragonBoatForm.get('dragonBoatFormArray') as FormArray;
+    this.dragonBoatFormArray.push(this.createDragonBoatWithId(dragonBoatId))
+
   }
 
   calculateSideWeight(dragonId: any, position: any) {
@@ -148,6 +164,7 @@ export class TrainingSeatArrangementComponent implements OnInit {
       rightStudentList: (string | undefined)[];
       steersperson: (string | undefined)[];
       updated_at: any;
+      dragonBoatName: any;
     }[] = [];
     this.dragonBoats.forEach((dragonBoat: IDragonBoat) => {
       dbObj.push({
@@ -188,14 +205,17 @@ export class TrainingSeatArrangementComponent implements OnInit {
           }
         }),
         updated_at: this.dateUtil.formatToHKTime(new Date()),
+        dragonBoatName: this.dragonBoatFormArray.value.filter((dragonBoatFormObj: { dragonBoatId: any; id: any; dragonBoatName: any; }) => {
+          return dragonBoatFormObj.dragonBoatId === dragonBoat.id;
+        })[0].dragonBoatName,
       })
     });
     console.log(`after this.dbObj: `, dbObj)
-    this.mainpageRestful.updateTrainingSearArr(this.trainingId, dbObj).subscribe({
-      next: value => {
-        console.log(`next`)
-      }
-    })
+    // this.mainpageRestful.updateTrainingSearArr(this.trainingId, dbObj).subscribe({
+    //   next: value => {
+    //     console.log(`next`)
+    //   }
+    // })
   }
 
   mapNFilterPlanStudent(studentId: string) {
@@ -260,5 +280,17 @@ export class TrainingSeatArrangementComponent implements OnInit {
     } else {
       dragonBoat.rightSeatList.splice(index, 1);
     }
+  }
+
+  createDragonBoatWithId(id: any): FormGroup {
+    return this.formBuilder.group({
+      dragonBoatId: id,
+      dragonBoatName: ''
+    });
+  }
+
+  get dragonBoatGroup() {
+    console.log(this.dragonBoatForm.get('dragonBoatFormArray'))
+    return this.dragonBoatForm.get('dragonBoatFormArray') as FormArray
   }
 }
