@@ -292,4 +292,9 @@ export class TrainingSeatArrangementComponent implements OnInit {
     console.log(this.dragonBoatForm.get('dragonBoatFormArray'))
     return this.dragonBoatForm.get('dragonBoatFormArray') as FormArray
   }
+
+  removeSeatArrangement(index: any) {
+    this.dragonBoatFormArray.removeAt(index);
+    this.dragonBoats.splice(index, 1)
+  }
 }
