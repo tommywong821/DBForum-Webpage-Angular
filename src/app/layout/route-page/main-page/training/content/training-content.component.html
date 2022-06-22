@@ -5,7 +5,6 @@
   </ng-container>
 
   <ng-template #content>
-    <!--    <ng-container *ngIf="trainingList.length > 0; else noTraining">-->
     <span *ngFor="let training of trainingList">
         <mat-card [ngClass]="(trainingList.length > 1)? 'training-card': 'single-training-card'">
           <div>

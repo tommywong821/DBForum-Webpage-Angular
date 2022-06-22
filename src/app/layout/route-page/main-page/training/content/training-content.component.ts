@@ -83,6 +83,11 @@ export class TrainingContentComponent implements OnInit {
     console.log(`training: `, training);
     console.log(`absentReason: `, absentReason);
     console.log(`itsc: `, this.itsc);
+    if (status === 'absent' && !absentReason) {
+      alert("You must fill in Absent reason!")
+      return;
+    }
+
     // check student response time with training time:
     //    create new Attendance:
     //    set Attendance:
