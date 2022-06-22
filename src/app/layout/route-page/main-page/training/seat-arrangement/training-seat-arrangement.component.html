@@ -105,9 +105,9 @@
                       <div class="row">
                         <div class="col-auto">
                           <input type="text" class="form-control" formControlName="dragonBoatName"
-                                 placeholder="Boat Name">
+                                 placeholder="Boat Name" [readOnly]=!isAdmin>
                         </div>
-                        <span class="col-auto ms-auto">
+                        <span class="col-auto ms-auto" *ngIf="isAdmin">
                           {{calculateTotalPeople(dragonBoats[index].id)}}
                           people({{calculateTotalWeight(dragonBoats[index].id)}}kg)
                           <button type="button" class="btn" (click)="removeSeatArrangement(index)" *ngIf="isAdmin">
@@ -122,14 +122,14 @@
                           <div class="col-6">
                             <h6>
                               Left
-                              <span>
-                          {{calculateSidePeople(dragonBoats[index].id, "left")}} people
-                          ({{calculateSideWeight(dragonBoats[index].id, "left")}}kg)
-                        </span>
-                              <button type="button" class="btn btn-outline-secondary"
-                                      (click)="appendEmptySeat(dragonBoats[index].id, 'left')">
-                                Append Empty Seat
-                              </button>
+                              <span *ngIf="isAdmin">
+                                {{calculateSidePeople(dragonBoats[index].id, "left")}}
+                                people({{calculateSideWeight(dragonBoats[index].id, "left")}}kg)
+                                <button type="button" class="btn btn-outline-secondary"
+                                        (click)="appendEmptySeat(dragonBoats[index].id, 'left')">
+                                  Append Empty Seat
+                                </button>
+                              </span>
                             </h6>
                             <div cdkDropList id="dragonBoat_{{dragonBoats[index].id}}_left"
                                  [cdkDropListData]="dragonBoats[index].leftSeatList"
@@ -148,14 +148,14 @@
                           <div class="col-6">
                             <h6>
                               Right
-                              <span>
-                          {{calculateSidePeople(dragonBoats[index].id, "right")}} people
-                          ({{calculateSideWeight(dragonBoats[index].id, "right")}}kg)
-                        </span>
-                              <button type="button" class="btn btn-outline-secondary"
-                                      (click)="appendEmptySeat(dragonBoats[index].id, 'right')">
-                                Append Empty Seat
-                              </button>
+                              <span *ngIf="isAdmin">
+                                {{calculateSidePeople(dragonBoats[index].id, "right")}}
+                                people({{calculateSideWeight(dragonBoats[index].id, "right")}}kg)
+                                <button type="button" class="btn btn-outline-secondary"
+                                        (click)="appendEmptySeat(dragonBoats[index].id, 'right')">
+                                  Append Empty Seat
+                                </button>
+                              </span>
                             </h6>
                             <div cdkDropList id="dragonBoat_{{dragonBoats[index].id}}_right"
                                  [cdkDropListData]="dragonBoats[index].rightSeatList"
