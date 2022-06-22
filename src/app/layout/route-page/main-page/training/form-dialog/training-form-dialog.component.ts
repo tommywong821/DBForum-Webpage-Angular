@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ForumBackendMainpageService} from "../../../../../services/aws-lambda/forum-backend-mainpage.service";
 import {DateUtil} from "../../../../../services/date-util.service";
 import {ITraining} from "../../../../../model/forum/ITraining";
@@ -10,15 +10,30 @@ import {updateTrainingDataList} from "../../../../../ngrx/training-data/training
 import {TrainingSummaryDataService} from "../../../../../services/data-services/training-summary-data.service";
 import * as moment from 'moment';
 
+interface TrainingPlace {
+  value: string;
+  viewValue: string;
+}
+
+interface TrainingType {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-form-dialog',
   templateUrl: './training-form-dialog.component.html',
   styleUrls: ['./training-form-dialog.component.scss']
 })
 export class TrainingFormDialogComponent implements OnInit {
+  formValidator = new FormControl('', [Validators.required]);
   trainingForm: FormGroup;
   trainingFormArray: FormArray;
   isEditTraining: boolean;
+
+  trainingPlace: TrainingPlace[];
+  selectedTrainingPlace: string;
+  trainingType: TrainingType[];
 
   trainingList: Array<ITraining>;
 
@@ -37,6 +52,16 @@ export class TrainingFormDialogComponent implements OnInit {
     });
     this.isEditTraining = false;
     this.trainingList = [];
+    this.trainingPlace = [
+      {value: "TKO Waterfront", viewValue: "TKO Waterfront"},
+      {value: "UST Sport ground", viewValue: "UST Sport ground"}
+    ];
+    this.selectedTrainingPlace = '';
+    this.trainingType = [
+      {value: "Water Training", viewValue: "Water Training"},
+      {value: "Land Training", viewValue: "Land Training"},
+      {value: "Competition", viewValue: "Competition"}
+    ];
   }
 
   get trainingFormGroup() {

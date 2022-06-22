@@ -25,6 +25,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {TrainingSeatArrangementComponent} from './training/seat-arrangement/training-seat-arrangement.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {MatSelectModule} from "@angular/material/select";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
@@ -61,6 +63,8 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
     DragDropModule,
+    MatSelectModule,
+    MatAutocompleteModule,
   ]
 })
 export class MainPageModule {

@@ -6,25 +6,35 @@
       <div [formGroupName]="index">
         <mat-form-field appearance="fill">
           <mat-label>Training Place</mat-label>
-          <input formControlName="place" matInput>
+          <input formControlName="place" matInput [matAutocomplete]="autoPlace">
+          <mat-autocomplete #autoPlace="matAutocomplete">
+            <mat-option *ngFor="let trainingPlace of trainingPlace" [value]="trainingPlace.value">
+              {{trainingPlace.viewValue}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Training Type</mat-label>
-          <input formControlName="type" matInput>
+          <input formControlName="type" matInput [matAutocomplete]="autoType">
+          <mat-autocomplete #autoType="matAutocomplete">
+            <mat-option *ngFor="let trainingType of trainingType" [value]="trainingType.value">
+              {{trainingType.viewValue}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Choose Date & Time</mat-label>
           <input (dateChange)="autoFillDateTime($event, index)" [ngxMatDatetimePicker]="dateTimePicker"
-                 formControlName="date" matInput readonly>
+                 formControlName="date" matInput readonly required>
           <mat-datepicker-toggle [for]="$any(dateTimePicker)" matSuffix></mat-datepicker-toggle>
           <ngx-mat-datetime-picker #dateTimePicker></ngx-mat-datetime-picker>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Choose Reply Deadline</mat-label>
-          <input [ngxMatDatetimePicker]="deadlinePicker" formControlName="deadline" matInput readonly>
+          <input [ngxMatDatetimePicker]="deadlinePicker" formControlName="deadline" matInput readonly required>
           <mat-datepicker-toggle [for]="$any(deadlinePicker)" matSuffix></mat-datepicker-toggle>
           <ngx-mat-datetime-picker #deadlinePicker></ngx-mat-datetime-picker>
         </mat-form-field>
