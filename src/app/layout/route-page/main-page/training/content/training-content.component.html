@@ -19,8 +19,9 @@
           </div>
           <mat-card-content>
             <p style="margin-bottom: 5px">
-              Date&Time: <br>{{dateUtil.displayFormat(training.date)}}<br>
+              Training Date&Time: <br>{{dateUtil.displayFormat(training.date)}}<br>
               Place: {{training.place}}<br>
+              <b style="color: red">Reply Deadline: <br>{{dateUtil.displayFormat(training.deadline)}}<br></b>
             </p>
 
             <input #reason

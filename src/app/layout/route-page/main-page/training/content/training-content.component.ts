@@ -83,6 +83,8 @@ export class TrainingContentComponent implements OnInit {
     console.log(`training: `, training);
     console.log(`absentReason: `, absentReason);
     console.log(`itsc: `, this.itsc);
+    console.log(`isInputFromTrainingDetail: `, this.isInputFromTrainingDetail);
+    //check absent reason is null or not
     if (status === 'absent' && !absentReason) {
       alert("You must fill in Absent reason!")
       return;
@@ -103,6 +105,12 @@ export class TrainingContentComponent implements OnInit {
 
     //check late or not
     let currentDateTime: any = this.dateUtil.formatToHKTime(new Date());
+
+    //check update time is due or not
+    if (this.isInputFromTrainingDetail && (new Date(currentDateTime) > new Date(training.deadline))) {
+      alert("You are not allow to update your attendance after the deadline! Please contact captain for your update.")
+      return;
+    }
 
     let attendance: IAttendance = {
       uuid: '',
