@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
-import {selectIsLoggedIn} from "../../../ngrx/auth0/auth0.selectors";
+import {selectCurrentUserRole, selectIsLoggedIn} from "../../../ngrx/auth0/auth0.selectors";
 import {selectTrainingDataList} from "../../../ngrx/training-data/training-data.selector";
 import {getTrainingDataList} from "../../../ngrx/training-data/training-data.action";
 import {combineLatest} from "rxjs";
@@ -13,9 +13,11 @@ import {combineLatest} from "rxjs";
 export class MainPageComponent implements OnInit {
 
   loggedIn: boolean;
+  isAdmin: boolean;
 
   constructor(private store: Store<any>) {
     this.loggedIn = false;
+    this.isAdmin = false;
     console.log(`[${this.constructor.name}] constructor`);
   }
 
@@ -23,12 +25,16 @@ export class MainPageComponent implements OnInit {
     console.log(`[${this.constructor.name}] ngOnInit`);
     combineLatest([
       this.store.pipe(select(selectIsLoggedIn)),
+      this.store.pipe(select(selectCurrentUserRole)),
       this.store.pipe(select(selectTrainingDataList))
     ]).subscribe({
-      next: ([isLoggedIn]) => {
+      next: ([isLoggedIn, userLoginRole]) => {
         if (isLoggedIn) {
           this.loggedIn = isLoggedIn;
           this.store.dispatch(getTrainingDataList());
+        }
+        if (userLoginRole) {
+          this.isAdmin = userLoginRole?.includes('Admin');
         }
       }
     });

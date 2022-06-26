@@ -6,8 +6,10 @@
     <div class="col-12">
       <app-training-summary></app-training-summary>
     </div>
-    <div class="col-12">
-      <app-general-reminder></app-general-reminder>
-    </div>
+    <ng-container *ngIf="isAdmin">
+      <div class="col-12">
+        <app-general-reminder></app-general-reminder>
+      </div>
+    </ng-container>
   </div>
 </ng-container>
