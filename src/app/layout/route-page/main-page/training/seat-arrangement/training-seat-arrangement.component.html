@@ -205,7 +205,7 @@
 
 <ng-template #studentTemplate let-student let-index="index" let-side="side" let-dragonBoatId="dragonBoatId">
   <div class="col-12 d-flex justify-content-center">
-    <ng-container *ngIf="student?.nickname; else empty">
+    <ng-container *ngIf="student?.nickname || student?.itsc; else empty">
       <span class="btn">
         <span [ngClass]="(true === student.is_late_reply)? 'red-out': 'normal'">
           <span *ngIf="index">{{index}}: </span>
