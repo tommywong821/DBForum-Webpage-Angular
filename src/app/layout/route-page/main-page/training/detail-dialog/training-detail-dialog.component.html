@@ -6,19 +6,19 @@
   </mat-dialog-actions>
 
   <div class="row row-cols-auto">
-    <div class="col" *ngIf="isActiveTeamMember || isAdmin">
+    <div class="col">
       <app-training-content [needUpdateUi]="needUpdateUi"
                             [editTrainingContent]="dialogInputData.trainingData"
                             [isInputFromTrainingDetail]="true"></app-training-content>
     </div>
+    <div class="col" *ngIf="!isLoading">
+      <button mat-flat-button color="primary" (click)="routeToTrainingSeatArr(dialogInputData.trainingData.uuid)">
+        Seat Arrangement
+      </button>
+    </div>
     <ng-container *ngIf="isAdmin">
       <div class="col" style="padding-top: 12px">
         <div class="container">
-          <div class="row" *ngIf="!isLoading">
-            <button mat-flat-button color="primary" (click)="routeToTrainingSeatArr(dialogInputData.trainingData.uuid)">
-              Seat Arrangement
-            </button>
-          </div>
           <div class="row mt-5">
             <button mat-flat-button color="warn" (click)="removeTrainingFromDB(dialogInputData.trainingData)">
               Remove Training
