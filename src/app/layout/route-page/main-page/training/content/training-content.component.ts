@@ -120,10 +120,10 @@ export class TrainingContentComponent implements OnInit {
       status: status,
       reason: absentReason,
       itsc: this.itsc,
-      is_late_reply: (new Date(currentDateTime) > new Date(training.deadline)),
+      //format two date into same hkt format then compare
+      is_late_reply: (new Date(currentDateTime) > new Date(training.deadline.slice(0, -1))),
       updated_at: currentDateTime
     }
-
     console.log(`attendance to db: `, attendance);
     //    update Attendance table
     this.restful.createAttendance(attendance).subscribe({
