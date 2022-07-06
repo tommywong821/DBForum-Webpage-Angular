@@ -58,6 +58,7 @@ export class TrainingContentComponent implements OnInit {
       this.store.pipe(select(selectIsLoaded))
     ]).subscribe({
       next: ([userLoginRole, userItsc, trainingDataList, isLoaded]) => {
+        console.log(`trainingDataList: `, trainingDataList)
         this.isAdmin = userLoginRole?.includes('Admin');
         this.itsc = userItsc;
         this.trainingList = (this.editTrainingContent) ? [this.editTrainingContent] : trainingDataList;

@@ -62,7 +62,7 @@ export class HeaderComponent implements OnInit {
             this.restful.getStudentDetail(itsc).subscribe({
               next: (result) => {
                 console.log(`getStudentDetail: `, result);
-                if (result) {
+                if (result.paddle_side) {
                   sessionStorage.setItem(environment.studentProfileKey, JSON.stringify(result));
                   this.studentDetail = result;
                 } else {

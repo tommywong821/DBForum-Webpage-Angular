@@ -28,7 +28,6 @@ export class TrainingListComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(`[${this.constructor.name}] ngOnInit`);
-    // this.getTrainingList();
     this.store.pipe(select(selectCurrentUserRole)).subscribe({
       next: (userLoginRole) => {
         this.isAdmin = userLoginRole?.includes('Admin');
