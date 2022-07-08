@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ForumBackendMainpageService} from "../../../../services/aws-lambda/forum-backend-mainpage.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {IStudent} from "../../../../model/forum/IStudent";
 import {DateUtil} from "../../../../services/date-util.service";
 import {environment} from "../../../../../environments/environment";
@@ -48,31 +48,35 @@ export class ProfileDialogComponent implements OnInit {
 
   initProfileFormFromInputData(studentInfo: IStudent) {
     console.log(`initProfileFormFromInputData`)
-    this.profileForm.setValue({
+    this.profileForm = this.formBuilder.group({
       itsc: studentInfo.itsc,
-      nickname: studentInfo.nickname,
-      date_of_birth: studentInfo.date_of_birth,
-      gender: studentInfo.gender,
-      weight: studentInfo.weight,
+      nickname: new FormControl(studentInfo.nickname, Validators.required),
+      date_of_birth: new FormControl(studentInfo.date_of_birth, Validators.required),
+      gender: new FormControl(studentInfo.gender, Validators.required),
+      weight: new FormControl(studentInfo.weight, Validators.required),
       updated_at: studentInfo.updated_at,
-      paddle_side: studentInfo.paddle_side,
-    });
+      paddle_side: new FormControl(studentInfo.paddle_side, Validators.required),
+    })
   }
 
   initProfileFormFromNull() {
     console.log(`initProfileFormFromNull`)
     this.profileForm.setValue({
       itsc: (this.inputDialogData.itsc) ? this.inputDialogData.itsc : '',
-      nickname: '',
-      date_of_birth: '',
-      gender: '',
-      weight: '',
-      updated_at: '',
-      paddle_side: '',
+      nickname: new FormControl('', Validators.required),
+      date_of_birth: new FormControl('', Validators.required),
+      gender: new FormControl('', Validators.required),
+      weight: new FormControl('', Validators.required),
+      updated_at: new FormControl('', Validators.required),
+      paddle_side: new FormControl('', Validators.required),
     });
   }
 
   updateProfile() {
+    if (this.profileForm.invalid) {
+      alert("You must fill in all information")
+      return
+    }
     this.isLoading = true;
     this.profileForm.value.updated_at = this.dateUtil.formatToHKTime(new Date());
     console.log(`after: `, this.profileForm.value);
