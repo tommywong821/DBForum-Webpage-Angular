@@ -108,7 +108,7 @@ export class TrainingContentComponent implements OnInit {
     let currentDateTime: any = this.dateUtil.formatToHKTime(new Date());
 
     //check update time is due or not
-    if (this.isInputFromTrainingDetail && (new Date(currentDateTime) > new Date(training.deadline))) {
+    if (this.isInputFromTrainingDetail && (new Date(currentDateTime) > new Date(training.deadline.slice(0, -1)))) {
       alert("You are not allow to update your attendance after the deadline! Please contact captain for your update.")
       return;
     }
