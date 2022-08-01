@@ -11,7 +11,7 @@ import {select, Store} from "@ngrx/store";
 import {selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
 import {ForumBackendDashboardService} from "../../../../../services/aws-lambda/forum-backend-dashboard.service";
 import {v4 as uuidV4} from 'uuid';
-import {FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-seat-arrangement',
@@ -25,8 +25,8 @@ export class TrainingSeatArrangementComponent implements OnInit {
   public coachList: any;
 
   public dragonBoats: any;
-  dragonBoatForm: FormGroup;
-  dragonBoatFormArray: FormArray;
+  dragonBoatForm: UntypedFormGroup;
+  dragonBoatFormArray: UntypedFormArray;
   public dragonBoatsConnected: any;
 
   public isLoading: boolean;
@@ -37,7 +37,7 @@ export class TrainingSeatArrangementComponent implements OnInit {
               private dateUtil: DateUtil,
               private dashboardRestful: ForumBackendDashboardService,
               private mainpageRestful: ForumBackendMainpageService,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private store: Store<any>) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingId = '';
@@ -118,7 +118,7 @@ export class TrainingSeatArrangementComponent implements OnInit {
     console.log(`this.dragonBoats: `, this.dragonBoats);
     console.log(`this.dragonBoatsConnected: `, this.dragonBoatsConnected);
     //create dragon boat form
-    this.dragonBoatFormArray = this.dragonBoatForm.get('dragonBoatFormArray') as FormArray;
+    this.dragonBoatFormArray = this.dragonBoatForm.get('dragonBoatFormArray') as UntypedFormArray;
     this.dragonBoatFormArray.push(this.createDragonBoatWithId(dragonBoatId, dragonBoatName))
   }
 
@@ -281,7 +281,7 @@ export class TrainingSeatArrangementComponent implements OnInit {
     }
   }
 
-  createDragonBoatWithId(id: any, dragonBoatName?: any): FormGroup {
+  createDragonBoatWithId(id: any, dragonBoatName?: any): UntypedFormGroup {
     return this.formBuilder.group({
       dragonBoatId: id,
       dragonBoatName: (dragonBoatName) ? dragonBoatName : ''
@@ -290,7 +290,7 @@ export class TrainingSeatArrangementComponent implements OnInit {
 
   get dragonBoatGroup() {
     console.log(this.dragonBoatForm.get('dragonBoatFormArray'))
-    return this.dragonBoatForm.get('dragonBoatFormArray') as FormArray
+    return this.dragonBoatForm.get('dragonBoatFormArray') as UntypedFormArray
   }
 
   removeSeatArrangement(index: any) {
