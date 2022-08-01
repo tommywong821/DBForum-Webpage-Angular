@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 import {ForumBackendMainpageService} from "../../../../../services/aws-lambda/forum-backend-mainpage.service";
 import {DateUtil} from "../../../../../services/date-util.service";
 import {ITraining} from "../../../../../model/forum/ITraining";
@@ -26,9 +26,9 @@ interface TrainingType {
   styleUrls: ['./training-form-dialog.component.scss']
 })
 export class TrainingFormDialogComponent implements OnInit {
-  formValidator = new FormControl('', [Validators.required]);
-  trainingForm: FormGroup;
-  trainingFormArray: FormArray;
+  formValidator = new UntypedFormControl('', [Validators.required]);
+  trainingForm: UntypedFormGroup;
+  trainingFormArray: UntypedFormArray;
   isEditTraining: boolean;
 
   trainingPlace: TrainingPlace[];
@@ -38,7 +38,7 @@ export class TrainingFormDialogComponent implements OnInit {
   trainingList: Array<ITraining>;
 
   constructor(private dialogRef: MatDialogRef<TrainingFormDialogComponent>,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private restful: ForumBackendMainpageService,
               private dateUtil: DateUtil,
               @Inject(MAT_DIALOG_DATA) private importData: { training: ITraining, isEditTraining: boolean, isInputFromTrainingDetail: boolean },
@@ -65,7 +65,7 @@ export class TrainingFormDialogComponent implements OnInit {
   }
 
   get trainingFormGroup() {
-    return this.trainingForm.get('trainings') as FormArray
+    return this.trainingForm.get('trainings') as UntypedFormArray
   }
 
   ngOnInit(): void {
@@ -102,7 +102,7 @@ export class TrainingFormDialogComponent implements OnInit {
     }));
   }
 
-  createEmptyTraining(): FormGroup {
+  createEmptyTraining(): UntypedFormGroup {
     return this.formBuilder.group({
       place: '',
       type: '',
@@ -112,12 +112,12 @@ export class TrainingFormDialogComponent implements OnInit {
   }
 
   appendTraining(): void {
-    this.trainingFormArray = this.trainingForm.get('trainings') as FormArray;
+    this.trainingFormArray = this.trainingForm.get('trainings') as UntypedFormArray;
     this.trainingFormArray.push(this.createEmptyTraining());
   }
 
   removeTraining(index: number): void {
-    this.trainingFormArray = this.trainingForm.get('trainings') as FormArray;
+    this.trainingFormArray = this.trainingForm.get('trainings') as UntypedFormArray;
     this.trainingFormArray.removeAt(index);
   }
 
@@ -177,7 +177,7 @@ export class TrainingFormDialogComponent implements OnInit {
 
   autoFillDateTime(event: any, index: number) {
     console.log(`autoFillDeadline event: `, event);
-    this.trainingFormArray = this.trainingForm.get('trainings') as FormArray;
+    this.trainingFormArray = this.trainingForm.get('trainings') as UntypedFormArray;
     let dateTime = new Date(event.value);
     //remove seconds in date&time
     dateTime.setHours(dateTime.getHours(), dateTime.getMinutes(), 0);

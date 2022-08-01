@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ForumBackendMainpageService} from "../../../../services/aws-lambda/forum-backend-mainpage.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
 import {IStudent} from "../../../../model/forum/IStudent";
 import {DateUtil} from "../../../../services/date-util.service";
 import {environment} from "../../../../../environments/environment";
@@ -13,13 +13,13 @@ import {ForumBackendDashboardService} from "../../../../services/aws-lambda/foru
   styleUrls: ['./profile-dialog.component.scss']
 })
 export class ProfileDialogComponent implements OnInit {
-  profileForm: FormGroup;
+  profileForm: UntypedFormGroup;
   isLoading: boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA) public inputDialogData: any,
               private mainpageRestful: ForumBackendMainpageService,
               private dashboardRestful: ForumBackendDashboardService,
-              private formBuilder: FormBuilder,
+              private formBuilder: UntypedFormBuilder,
               private dateUtil: DateUtil,
               private dialogRef: MatDialogRef<ProfileDialogComponent>) {
     console.log(`[${this.constructor.name}] constructor`);
@@ -50,12 +50,12 @@ export class ProfileDialogComponent implements OnInit {
     console.log(`initProfileFormFromInputData`)
     this.profileForm = this.formBuilder.group({
       itsc: studentInfo.itsc,
-      nickname: new FormControl(studentInfo.nickname, Validators.required),
-      date_of_birth: new FormControl(studentInfo.date_of_birth, Validators.required),
-      gender: new FormControl(studentInfo.gender, Validators.required),
-      weight: new FormControl(studentInfo.weight, Validators.required),
+      nickname: new UntypedFormControl(studentInfo.nickname, Validators.required),
+      date_of_birth: new UntypedFormControl(studentInfo.date_of_birth, Validators.required),
+      gender: new UntypedFormControl(studentInfo.gender, Validators.required),
+      weight: new UntypedFormControl(studentInfo.weight, Validators.required),
       updated_at: studentInfo.updated_at,
-      paddle_side: new FormControl(studentInfo.paddle_side, Validators.required),
+      paddle_side: new UntypedFormControl(studentInfo.paddle_side, Validators.required),
     })
   }
 
@@ -63,12 +63,12 @@ export class ProfileDialogComponent implements OnInit {
     console.log(`initProfileFormFromNull`)
     this.profileForm.setValue({
       itsc: (this.inputDialogData.itsc) ? this.inputDialogData.itsc : '',
-      nickname: new FormControl('', Validators.required),
-      date_of_birth: new FormControl('', Validators.required),
-      gender: new FormControl('', Validators.required),
-      weight: new FormControl('', Validators.required),
-      updated_at: new FormControl('', Validators.required),
-      paddle_side: new FormControl('', Validators.required),
+      nickname: new UntypedFormControl('', Validators.required),
+      date_of_birth: new UntypedFormControl('', Validators.required),
+      gender: new UntypedFormControl('', Validators.required),
+      weight: new UntypedFormControl('', Validators.required),
+      updated_at: new UntypedFormControl('', Validators.required),
+      paddle_side: new UntypedFormControl('', Validators.required),
     });
   }
 

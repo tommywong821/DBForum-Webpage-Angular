@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {IDropdownSettings} from "ng-multiselect-dropdown";
 import {ForumBackendManagementService} from "../../../../services/aws-lambda/forum-backend-management.service";
 import {IStudent} from "../../../../model/forum/IStudent";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-student-account-activation',
@@ -27,11 +27,11 @@ export class StudentAccountActivationComponent implements OnInit {
 
   isLoading: boolean;
 
-  changeStudentStatusForm: FormGroup;
+  changeStudentStatusForm: UntypedFormGroup;
   updateStudentStatus: boolean;
 
   constructor(private managementRestful: ForumBackendManagementService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: UntypedFormBuilder) {
     this.actionDropDownSetting = {
       singleSelection: true,
       idField: 'action_id',
