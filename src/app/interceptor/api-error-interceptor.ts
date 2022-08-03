@@ -17,10 +17,10 @@ export class ApiErrorInterceptor implements HttpInterceptor {
 
           if (error.error instanceof ErrorEvent) {
             // client-side error
-            errorMessage = `Error:'${error.error.message}'`;
+            errorMessage = `Error:'${error.error}'`;
           } else {
             // server-side error
-            errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+            errorMessage = `${error.error}`;
           }
           window.alert(errorMessage);
           return throwError(errorMessage);

@@ -107,11 +107,7 @@ export class TrainingContentComponent implements OnInit {
     //check late or not
     let currentDateTime: any = this.dateUtil.formatToHKTime(new Date());
 
-    //check update time is due or not
-    if (this.isInputFromTrainingDetail && (new Date(currentDateTime) > new Date(training.deadline.slice(0, -1)))) {
-      alert("You are not allow to update your attendance after the deadline! Please contact captain for your update.")
-      return;
-    }
+    //check update time is due or not -> move to backend to prevent user change mobile time
 
     let attendance: IAttendance = {
       uuid: '',
@@ -121,7 +117,7 @@ export class TrainingContentComponent implements OnInit {
       reason: absentReason,
       itsc: this.itsc,
       //format two date into same hkt format then compare
-      is_late_reply: (new Date(currentDateTime) > new Date(training.deadline.slice(0, -1))),
+      is_late_reply: null,
       updated_at: currentDateTime
     }
     console.log(`attendance to db: `, attendance);

@@ -8,7 +8,7 @@ export interface IAttendance {
   status: string;
   reason: string;
   itsc: string;
-  is_late_reply: boolean;
+  is_late_reply: boolean | null;
   updated_at: string;
   weight?: number;
 }
