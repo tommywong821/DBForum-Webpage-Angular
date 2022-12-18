@@ -1,36 +1,43 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {ITraining} from "../../model/forum/ITraining";
-import {environment} from "../../../environments/environment";
-import {IStudent} from "../../model/forum/IStudent";
-import {IReminder} from "../../model/forum/IReminder";
-import {IAttendance} from "../../model/forum/IAttendance";
-import {select, Store} from "@ngrx/store";
-import {selectCurrentUserItsc} from "../../ngrx/auth0/auth0.selectors";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { ITraining } from '../../model/forum/ITraining';
+import { environment } from '../../../environments/environment';
+import { IStudent } from '../../model/forum/IStudent';
+import { IReminder } from '../../model/forum/IReminder';
+import { IAttendance } from '../../model/forum/IAttendance';
+import { select, Store } from '@ngrx/store';
+import { selectCurrentUserItsc } from '../../ngrx/auth0/auth0.selectors';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ForumBackendMainpageService {
   private apiUrl: string = environment.backendApiUrl + '/mainpage';
+  private localApiUrl: string = 'http://localhost:3000';
   private itsc: any;
 
-  constructor(private http: HttpClient,
-              private store: Store<any>) {
+  constructor(private http: HttpClient, private store: Store<any>) {
     this.store.pipe(select(selectCurrentUserItsc)).subscribe({
       next: (userItsc) => {
         this.itsc = userItsc;
-      }
-    })
+      },
+    });
   }
 
   healthCheck() {
-    return this.http.get<any>(this.apiUrl + "/health");
+    return this.http.get<any>(this.apiUrl + '/health');
   }
 
   getTrainingList() {
     const params = new HttpParams().set('itsc', this.itsc);
-    return this.http.get<Array<ITraining>>(this.apiUrl + "/training", {params: params});
+
+    this.http
+      .get<any>(this.apiUrl + '/training', { params: params })
+      .subscribe({});
+
+    return this.http.get<Array<ITraining>>(this.apiUrl + '/training', {
+      params: params,
+    });
   }
 
   createTraining(training: ITraining) {
