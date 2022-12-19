@@ -1,23 +1,28 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ITraining} from "../../../../../model/forum/ITraining";
-import {ForumBackendMainpageService} from "../../../../../services/aws-lambda/forum-backend-mainpage.service";
-import {DateUtil} from "../../../../../services/date-util.service";
-import {IAttendance} from "../../../../../model/forum/IAttendance";
-import {MatDialog} from "@angular/material/dialog";
-import {TrainingFormDialogComponent} from "../form-dialog/training-form-dialog.component";
-import {combineLatest} from "rxjs";
-import {select, Store} from "@ngrx/store";
-import {selectCurrentUserItsc, selectCurrentUserRole} from "../../../../../ngrx/auth0/auth0.selectors";
-import {selectIsLoaded, selectTrainingDataList} from "../../../../../ngrx/training-data/training-data.selector";
-import {updateTrainingDataList} from "../../../../../ngrx/training-data/training-data.action";
+import { Component, Input, OnInit } from '@angular/core';
+import { ITraining } from '../../../../../model/forum/ITraining';
+import { ForumBackendMainpageService } from '../../../../../services/aws-lambda/forum-backend-mainpage.service';
+import { DateUtil } from '../../../../../services/date-util.service';
+import { IAttendance } from '../../../../../model/forum/IAttendance';
+import { MatDialog } from '@angular/material/dialog';
+import { TrainingFormDialogComponent } from '../form-dialog/training-form-dialog.component';
+import { combineLatest } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import {
+  selectCurrentUserItsc,
+  selectCurrentUserRole,
+} from '../../../../../ngrx/auth0/auth0.selectors';
+import {
+  selectIsLoaded,
+  selectTrainingDataList,
+} from '../../../../../ngrx/training-data/training-data.selector';
+import { updateTrainingDataList } from '../../../../../ngrx/training-data/training-data.action';
 
 @Component({
   selector: 'app-training-content',
   templateUrl: './training-content.component.html',
-  styleUrls: ['./training-content.component.scss']
+  styleUrls: ['./training-content.component.scss'],
 })
 export class TrainingContentComponent implements OnInit {
-
   @Input() isEditAble: boolean;
   @Input() parentComponent: any;
   @Input() needUpdateUi: boolean;
@@ -31,10 +36,12 @@ export class TrainingContentComponent implements OnInit {
 
   trainingList: Array<ITraining>;
 
-  constructor(private restful: ForumBackendMainpageService,
-              public dateUtil: DateUtil,
-              private trainingFormDialog: MatDialog,
-              private store: Store<any>) {
+  constructor(
+    private restful: ForumBackendMainpageService,
+    public dateUtil: DateUtil,
+    private trainingFormDialog: MatDialog,
+    private store: Store<any>
+  ) {
     console.log(`[${this.constructor.name}] constructor`);
     this.trainingList = new Array<ITraining>();
     this.isEditAble = false;
@@ -55,25 +62,27 @@ export class TrainingContentComponent implements OnInit {
       this.store.pipe(select(selectCurrentUserRole)),
       this.store.pipe(select(selectCurrentUserItsc)),
       this.store.pipe(select(selectTrainingDataList)),
-      this.store.pipe(select(selectIsLoaded))
+      this.store.pipe(select(selectIsLoaded)),
     ]).subscribe({
       next: ([userLoginRole, userItsc, trainingDataList, isLoaded]) => {
-        console.log(`trainingDataList: `, trainingDataList)
+        console.log(`trainingDataList: `, trainingDataList);
         this.isAdmin = userLoginRole?.includes('Admin');
         this.itsc = userItsc;
-        this.trainingList = (this.editTrainingContent) ? [this.editTrainingContent] : trainingDataList;
+        this.trainingList = this.editTrainingContent
+          ? [this.editTrainingContent]
+          : trainingDataList;
         this.isLoading = !isLoaded;
       },
     });
   }
 
   removeTrainingFromDB(training: ITraining) {
-    console.log(`remove uuid: `, training.uuid);
-    this.restful.removeTraining(training.uuid).subscribe({
-      next: result => {
-        console.log(`removeTrainingFromDB result: `, result)
-        this.removeWebViewTraining(training.uuid);
-      }
+    console.log(`remove _id: `, training._id);
+    this.restful.removeTraining(training._id).subscribe({
+      next: (result) => {
+        console.log(`removeTrainingFromDB result: `, result);
+        this.removeWebViewTraining(training._id);
+      },
     });
   }
 
@@ -87,7 +96,7 @@ export class TrainingContentComponent implements OnInit {
     console.log(`isInputFromTrainingDetail: `, this.isInputFromTrainingDetail);
     //check absent reason is null or not
     if (status === 'absent' && !absentReason) {
-      alert("You must fill in Absent reason!")
+      alert('You must fill in Absent reason!');
       return;
     }
 
@@ -118,8 +127,8 @@ export class TrainingContentComponent implements OnInit {
       itsc: this.itsc,
       //format two date into same hkt format then compare
       is_late_reply: null,
-      updated_at: currentDateTime
-    }
+      updated_at: currentDateTime,
+    };
     console.log(`attendance to db: `, attendance);
     //    update Attendance table
     this.restful.createAttendance(attendance).subscribe({
@@ -132,15 +141,17 @@ export class TrainingContentComponent implements OnInit {
           this.removeWebViewTraining(training.uuid);
         }
         alert(`Attendance replied`);
-      }
+      },
     });
   }
 
   removeWebViewTraining(trainingId: string) {
     this.trainingList = this.trainingList.filter(function (obj) {
-      return obj.uuid !== trainingId;
+      return obj._id !== trainingId;
     });
-    this.store.dispatch(updateTrainingDataList({trainingList: this.trainingList}));
+    this.store.dispatch(
+      updateTrainingDataList({ trainingList: this.trainingList })
+    );
   }
 
   editTraining(training: ITraining) {
@@ -149,8 +160,8 @@ export class TrainingContentComponent implements OnInit {
       data: {
         training: training,
         isEditTraining: true,
-        isInputFromTrainingDetail: this.isInputFromTrainingDetail
-      }
+        isInputFromTrainingDetail: this.isInputFromTrainingDetail,
+      },
     });
 
     dialogRef.afterClosed().subscribe((updatedTraining) => {
