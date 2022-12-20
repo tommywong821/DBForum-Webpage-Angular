@@ -1,18 +1,31 @@
-import {Injectable} from "@angular/core";
-import {formatDate} from "@angular/common";
-import * as moment from "moment-timezone";
+import { Injectable } from '@angular/core';
+import { formatDate } from '@angular/common';
+import * as moment from 'moment-timezone';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DateUtil {
   convertTimeZone(date: any, tzString: string) {
-    return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));
+    return new Date(
+      (typeof date === 'string' ? new Date(date) : date).toLocaleString(
+        'en-US',
+        { timeZone: tzString }
+      )
+    );
   }
 
   //input non Hong Kong Time
   formatToHKTime(date: any) {
     const format = 'yyyy/MM/dd HH:mm';
+    const locale = 'en-US';
+    const timeZone = 'Asia/Hong_Kong';
+    return formatDate(this.convertTimeZone(date, timeZone), format, locale);
+  }
+
+  //input non Hong Kong Time mongodb
+  formatToMongoDBHKTime(date: any) {
+    const format = 'yyyy-MM-dd';
     const locale = 'en-US';
     const timeZone = 'Asia/Hong_Kong';
     return formatDate(this.convertTimeZone(date, timeZone), format, locale);
