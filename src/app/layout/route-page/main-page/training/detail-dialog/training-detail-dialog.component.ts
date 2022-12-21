@@ -99,7 +99,7 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
 
   initTrainingDetail() {
     this.isLoading = true;
-    this.restful.getTrainingDetail(this.trainingData.uuid).subscribe({
+    this.restful.getTrainingDetail(this.trainingData._id).subscribe({
       next: (result) => {
         console.log(`getTrainingDetail result: `, result);
         this.attendStudentDataService.attendedStudent = result.attend;
