@@ -121,7 +121,7 @@ export class TrainingContentComponent implements OnInit {
     let attendance: IAttendance = {
       uuid: '',
       student_id: '',
-      training_id: training.uuid,
+      training_id: training._id,
       status: status,
       reason: absentReason,
       itsc: this.itsc,
@@ -138,7 +138,7 @@ export class TrainingContentComponent implements OnInit {
       complete: () => {
         //    refresh UI
         if (this.needUpdateUi) {
-          this.removeWebViewTraining(training.uuid);
+          this.removeWebViewTraining(training._id);
         }
         alert(`Attendance replied`);
       },
