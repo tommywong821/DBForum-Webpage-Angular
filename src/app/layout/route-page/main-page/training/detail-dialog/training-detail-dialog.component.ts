@@ -122,19 +122,19 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
     //add to list
     if (
       $event.checked &&
-      !this.noShowStudentIdList.find((studentId) => studentId == student.uuid)
+      !this.noShowStudentIdList.find((studentId) => studentId == student._id)
     ) {
       this.showUpStudentIdList = this.showUpStudentIdList.filter(
-        (studentId) => studentId != student.uuid
+        (studentId) => studentId != student._id
       );
-      this.noShowStudentIdList.push(student.uuid);
+      this.noShowStudentIdList.push(student._id);
     } else if (
       !$event.checked &&
-      !this.showUpStudentIdList.find((studentId) => studentId == student.uuid)
+      !this.showUpStudentIdList.find((studentId) => studentId == student._id)
     ) {
-      this.showUpStudentIdList.push(student.uuid);
+      this.showUpStudentIdList.push(student._id);
       this.noShowStudentIdList = this.noShowStudentIdList.filter(
-        (studentId) => studentId != student.uuid
+        (studentId) => studentId != student._id
       );
     }
     console.log(`noShowStudentIdList: `, this.noShowStudentIdList);
@@ -151,7 +151,7 @@ export class TrainingDetailDialogComponent implements OnInit, OnDestroy {
     }
     this.restful
       .updateNoShowStudentAttendance(
-        this.trainingData.uuid,
+        this.trainingData._id,
         this.noShowStudentIdList,
         this.showUpStudentIdList
       )
