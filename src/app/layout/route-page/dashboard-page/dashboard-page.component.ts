@@ -1,13 +1,17 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ForumBackendDashboardService} from "../../../services/aws-lambda/forum-backend-dashboard.service";
-import {saveAs} from "file-saver";
-import {NgbCalendar, NgbDate, NgbDateParserFormatter} from "@ng-bootstrap/ng-bootstrap";
-import {DateUtil} from "../../../services/date-util.service";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ForumBackendDashboardService } from '../../../services/aws-lambda/forum-backend-dashboard.service';
+import { saveAs } from 'file-saver';
+import {
+  NgbCalendar,
+  NgbDate,
+  NgbDateParserFormatter,
+} from '@ng-bootstrap/ng-bootstrap';
+import { DateUtil } from '../../../services/date-util.service';
 
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard-page.component.html',
-  styleUrls: ['./dashboard-page.component.scss']
+  styleUrls: ['./dashboard-page.component.scss'],
 })
 export class DashboardPageComponent implements OnInit {
   trainingStatisticList: any;
@@ -22,10 +26,12 @@ export class DashboardPageComponent implements OnInit {
   isToDateSelected: boolean;
   @ViewChild('datepicker') datePicker: ElementRef | any;
 
-  constructor(private restful: ForumBackendDashboardService,
-              private calendar: NgbCalendar,
-              public formatter: NgbDateParserFormatter,
-              private dateUtil: DateUtil) {
+  constructor(
+    private restful: ForumBackendDashboardService,
+    private calendar: NgbCalendar,
+    public formatter: NgbDateParserFormatter,
+    private dateUtil: DateUtil
+  ) {
     console.log(`[${this.constructor.name}] constructor`);
     this.isLoading = false;
     this.totalTraining = 0;
@@ -40,40 +46,58 @@ export class DashboardPageComponent implements OnInit {
   }
 
   public calculatePercentage(input: number) {
-    return (input / this.totalTraining * 100).toFixed(0);
+    return ((input / this.totalTraining) * 100).toFixed(0);
   }
 
   public downloadStatistics() {
-    let toDate = this.dateUtil.formatToHKTime(new Date(this.toDate!.year, this.toDate!.month - 1, this.toDate!.day));
-    let fromDate = this.dateUtil.formatToHKTime(new Date(this.fromDate!.year, this.fromDate!.month - 1, this.fromDate!.day));
+    let toDate = this.dateUtil.formatToMongoDBHKTime(
+      new Date(this.toDate!.year, this.toDate!.month - 1, this.toDate!.day)
+    );
+    let fromDate = this.dateUtil.formatToMongoDBHKTime(
+      new Date(
+        this.fromDate!.year,
+        this.fromDate!.month - 1,
+        this.fromDate!.day
+      )
+    );
     this.restful.getTrainingStatistic(toDate, fromDate).subscribe({
       next: (result) => {
         this.exportDataToCsv(result.trainingStatistics);
-      }
+      },
     });
   }
 
   private exportDataToCsv(data: any) {
-    console.log(`data: `, data)
-    const replacer = (key: string, value: string) => value === null ? '' : value // specify how you want to handle null values here
-    const header = Object.keys((data)[0]);
+    console.log(`data: `, data);
+    const replacer = (key: string, value: string) =>
+      value === null ? '' : value; // specify how you want to handle null values here
+    const header = Object.keys(data[0]);
 
     const csv = [
       header.join(','), // header row first
       // @ts-ignore
-      ...data.map((row) => header.map((fieldName) => JSON.stringify(row[fieldName], replacer)).join(','))
+      ...data.map((row) =>
+        header
+          .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+          .join(',')
+      ),
     ].join('\r\n');
 
-    const blob = new Blob([csv], {type: 'text/csv'});
-    console.log(`blob: `, typeof (blob));
-    saveAs(blob, "TrainingStatistic.csv");
+    const blob = new Blob([csv], { type: 'text/csv' });
+    console.log(`blob: `, typeof blob);
+    saveAs(blob, 'TrainingStatistic.csv');
   }
 
   public onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
       this.isFromDateSelected = true;
-    } else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
+    } else if (
+      this.fromDate &&
+      !this.toDate &&
+      date &&
+      date.after(this.fromDate)
+    ) {
       this.toDate = date;
       this.isToDateSelected = true;
     } else {
@@ -82,12 +106,17 @@ export class DashboardPageComponent implements OnInit {
       this.isToDateSelected = false;
       this.isFromDateSelected = true;
     }
-    this.handleDateChange()
+    this.handleDateChange();
   }
 
   isHovered(date: NgbDate) {
-    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) &&
-      date.before(this.hoveredDate);
+    return (
+      this.fromDate &&
+      !this.toDate &&
+      this.hoveredDate &&
+      date.after(this.fromDate) &&
+      date.before(this.hoveredDate)
+    );
   }
 
   isInside(date: NgbDate) {
@@ -95,13 +124,19 @@ export class DashboardPageComponent implements OnInit {
   }
 
   isRange(date: NgbDate) {
-    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) ||
-      this.isHovered(date);
+    return (
+      date.equals(this.fromDate) ||
+      (this.toDate && date.equals(this.toDate)) ||
+      this.isInside(date) ||
+      this.isHovered(date)
+    );
   }
 
   validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
     const parsed = this.formatter.parse(input);
-    return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
+    return parsed && this.calendar.isValid(NgbDate.from(parsed))
+      ? NgbDate.from(parsed)
+      : currentValue;
   }
 
   public updateTrainingStatistics() {
@@ -109,17 +144,25 @@ export class DashboardPageComponent implements OnInit {
       alert(`Please choose from date and to date to quote data`);
     }
 
-    console.log(`toDate: `, this.toDate)
-    let toDate = this.dateUtil.formatToHKTime(new Date(this.toDate!.year, this.toDate!.month - 1, this.toDate!.day));
-    let fromDate = this.dateUtil.formatToHKTime(new Date(this.fromDate!.year, this.fromDate!.month - 1, this.fromDate!.day));
+    console.log(`toDate: `, this.toDate);
+    let toDate = this.dateUtil.formatToMongoDBHKTime(
+      new Date(this.toDate!.year, this.toDate!.month - 1, this.toDate!.day)
+    );
+    let fromDate = this.dateUtil.formatToMongoDBHKTime(
+      new Date(
+        this.fromDate!.year,
+        this.fromDate!.month - 1,
+        this.fromDate!.day
+      )
+    );
     this.restful.getTrainingStatistic(toDate, fromDate).subscribe({
-      next: result => {
+      next: (result) => {
         this.trainingStatisticList = result.trainingStatistics;
         this.totalTraining = result.totalTraining;
       },
       complete: () => {
         this.isLoading = false;
-      }
+      },
     });
   }
 

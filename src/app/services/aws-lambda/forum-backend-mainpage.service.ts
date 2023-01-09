@@ -13,7 +13,6 @@ import { selectCurrentUserItsc } from '../../ngrx/auth0/auth0.selectors';
 })
 export class ForumBackendMainpageService {
   private apiUrl: string = environment.backendApiUrl + '/mainpage';
-  private localApiUrl: string = 'http://localhost:3000';
   private itsc: any;
 
   constructor(private http: HttpClient, private store: Store<any>) {
@@ -40,85 +39,107 @@ export class ForumBackendMainpageService {
     });
   }
 
-  createTraining(training: ITraining) {
-    const body: any = {
-      type: training.type,
-      date: training.date,
-      place: training.place
-    }
-    return this.http.post(this.apiUrl + "/training", body);
-  }
+  // createTraining(training: ITraining) {
+  //   const body: any = {
+  //     type: training.type,
+  //     date: training.date,
+  //     place: training.place,
+  //   };
+  //   return this.http.post(this.localApiUrl + '/training', body);
+  // }
 
   createTrainingList(trainingList: Array<ITraining>) {
     const body: any = {
-      trainings: trainingList
-    }
-    return this.http.post<Array<ITraining>>(this.apiUrl + "/training", body);
+      trainings: trainingList,
+    };
+    return this.http.post<Array<ITraining>>(this.apiUrl + '/training', body);
   }
 
   removeTraining(trainingId: string) {
-    return this.http.delete(this.apiUrl + "/training/" + trainingId);
+    return this.http.delete(this.apiUrl + '/training/' + trainingId);
   }
 
-  getTrainingSummary(page: number, pageSize: number, fromDate: any, toDate: any) {
+  getTrainingSummary(
+    page: number,
+    pageSize: number,
+    fromDate: any,
+    toDate: any
+  ) {
     const params = new HttpParams()
       .set('page', page)
       .set('pageSize', pageSize)
       .set('fromDate', fromDate)
       .set('toDate', toDate);
-    return this.http.get<any>(this.apiUrl + "/training/summary", {params: params});
+    return this.http.get<any>(this.apiUrl + '/training/summary', {
+      params: params,
+    });
   }
 
   getTrainingDetail(trainingUuid: string) {
     const params = new HttpParams().set('trainingId', trainingUuid);
-    return this.http.get<any>(this.apiUrl + "/training/detail", {params: params});
+    return this.http.get<any>(this.apiUrl + '/training/detail', {
+      params: params,
+    });
   }
 
   getStudentDetail(itsc: string) {
     const params = new HttpParams().set('itsc', itsc);
-    return this.http.get<IStudent>(this.apiUrl + "/student", {params: params});
+    return this.http.get<IStudent>(this.apiUrl + '/student', {
+      params: params,
+    });
   }
 
   createAttendance(attendance: IAttendance) {
     const body: any = {
-      attendance: attendance
-    }
-    return this.http.post(this.apiUrl + "/attendance", body);
+      attendance: attendance,
+    };
+    return this.http.post(this.apiUrl + '/attendance', body);
   }
 
+  // disable in main
   getReminderMessage() {
     return this.http.get<IReminder>(this.apiUrl + '/reminder');
   }
 
+  // disable in main
   updateReminderMessage(reminderId: string, reminderMessage: IReminder) {
-    return this.http.put(this.apiUrl + "/reminder/" + reminderId, reminderMessage);
+    return this.http.put(
+      this.apiUrl + '/reminder/' + reminderId,
+      reminderMessage
+    );
   }
 
   updateStudentProfile(itsc: string, profile: IStudent) {
-    return this.http.put(this.apiUrl + "/student/" + itsc, profile);
+    return this.http.put(this.apiUrl + '/student/' + itsc, profile);
   }
 
   updateTrainingInfo(trainingId: string, training: ITraining) {
-    return this.http.put(this.apiUrl + "/training/" + trainingId, training);
+    return this.http.put(this.apiUrl + '/training/' + trainingId, training);
   }
 
-  updateNoShowStudentAttendance(trainingId: string, noShowStudentIdList: string[], showUpStudentIdList: string[]) {
+  updateNoShowStudentAttendance(
+    trainingId: string,
+    noShowStudentIdList: string[],
+    showUpStudentIdList: string[]
+  ) {
     const body = {
       noShowStudentIdList: noShowStudentIdList,
-      showUpStudentIdList: showUpStudentIdList
+      showUpStudentIdList: showUpStudentIdList,
     };
-    return this.http.put(this.apiUrl + "/attendance/" + trainingId, body);
+    return this.http.put(this.apiUrl + '/attendance/' + trainingId, body);
   }
 
+  // no need
   updateTrainingSearArr(trainingId: any, seatArrList: any) {
     const body = {
-      seatArrList: seatArrList
-    }
-    return this.http.put(this.apiUrl + "/training/seat/" + trainingId, body);
+      seatArrList: seatArrList,
+    };
+    return this.http.put(this.apiUrl + '/training/seat/' + trainingId, body);
   }
 
+  // no need
   getTrainingSearArr(trainingId: any) {
     const params = new HttpParams().set('trainingId', trainingId);
-    return this.http.get(this.apiUrl + "/training/seat", {params: params});
+    return this.http.get(this.apiUrl + '/training/seat', { params: params });
   }
 }
