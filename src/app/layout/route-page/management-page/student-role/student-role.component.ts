@@ -143,6 +143,7 @@ export class StudentRoleComponent implements OnInit {
       reader.readAsText(file);
       reader.onload = (e) => {
         let csv: string = reader.result as string;
+        csv = csv.replace(/ /g, '');
         console.log(`uploaded csv: ${csv}`);
         this.managementData.studentAccountCsv = csv;
       };
