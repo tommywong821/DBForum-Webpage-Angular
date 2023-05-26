@@ -50,10 +50,10 @@ export class DashboardPageComponent implements OnInit {
   }
 
   public downloadStatistics() {
-    let toDate = this.dateUtil.formatToMongoDBHKTime(
+    let toDate = this.dateUtil.formatToHKTimeDateOnly(
       new Date(this.toDate!.year, this.toDate!.month - 1, this.toDate!.day)
     );
-    let fromDate = this.dateUtil.formatToMongoDBHKTime(
+    let fromDate = this.dateUtil.formatToHKTimeDateOnly(
       new Date(
         this.fromDate!.year,
         this.fromDate!.month - 1,
@@ -145,10 +145,10 @@ export class DashboardPageComponent implements OnInit {
     }
 
     console.log(`toDate: `, this.toDate);
-    let toDate = this.dateUtil.formatToMongoDBHKTime(
+    let toDate = this.dateUtil.formatToHKTimeDateOnly(
       new Date(this.toDate!.year, this.toDate!.month - 1, this.toDate!.day)
     );
-    let fromDate = this.dateUtil.formatToMongoDBHKTime(
+    let fromDate = this.dateUtil.formatToHKTimeDateOnly(
       new Date(
         this.fromDate!.year,
         this.fromDate!.month - 1,

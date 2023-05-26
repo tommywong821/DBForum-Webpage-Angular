@@ -16,7 +16,7 @@ export class DateUtil {
   }
 
   //input non Hong Kong Time
-  formatToHKTime(date: any) {
+  formatToHKTimeWithHour(date: any) {
     const format = 'yyyy/MM/dd HH:mm';
     const locale = 'en-US';
     const timeZone = 'Asia/Hong_Kong';
@@ -24,7 +24,7 @@ export class DateUtil {
   }
 
   //input non Hong Kong Time mongodb
-  formatToMongoDBHKTime(date: any) {
+  formatToHKTimeDateOnly(date: any) {
     const format = 'yyyy-MM-dd';
     const locale = 'en-US';
     const timeZone = 'Asia/Hong_Kong';

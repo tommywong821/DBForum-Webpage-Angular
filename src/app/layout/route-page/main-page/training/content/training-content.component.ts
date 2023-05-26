@@ -114,7 +114,7 @@ export class TrainingContentComponent implements OnInit {
     //      username: login info
 
     //check late or not
-    let currentDateTime: any = this.dateUtil.formatToHKTime(new Date());
+    let currentDateTime: any = this.dateUtil.formatToHKTimeWithHour(new Date());
 
     //check update time is due or not -> move to backend to prevent user change mobile time
 

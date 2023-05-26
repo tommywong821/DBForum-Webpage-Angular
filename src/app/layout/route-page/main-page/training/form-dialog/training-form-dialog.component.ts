@@ -144,11 +144,11 @@ export class TrainingFormDialogComponent implements OnInit {
 
   insertNewTrainingToDB(): void {
     this.trainingForm.value.trainings.forEach((training: any) => {
-      training.date = this.dateUtil.formatToMongoDBHKTime(training.date);
-      training.deadline = this.dateUtil.formatToMongoDBHKTime(
+      training.date = this.dateUtil.formatToHKTimeWithHour(training.date);
+      training.deadline = this.dateUtil.formatToHKTimeWithHour(
         training.deadline
       );
-      training.updated_at = this.dateUtil.formatToMongoDBHKTime(
+      training.updated_at = this.dateUtil.formatToHKTimeWithHour(
         new Date().toISOString()
       );
     });

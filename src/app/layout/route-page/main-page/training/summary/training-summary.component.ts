@@ -131,13 +131,13 @@ export class TrainingSummaryComponent
   refreshTrainingSummary(fromDate?: any, toDate?: any) {
     this.isLoading = true;
     fromDate = fromDate
-      ? this.dateUtil.formatToMongoDBHKTime(fromDate)
-      : this.dateUtil.formatToMongoDBHKTime(
+      ? this.dateUtil.formatToHKTimeDateOnly(fromDate)
+      : this.dateUtil.formatToHKTimeDateOnly(
           this.trainingSummaryDataService.fromDate
         );
     toDate = toDate
-      ? this.dateUtil.formatToMongoDBHKTime(toDate)
-      : this.dateUtil.formatToMongoDBHKTime(
+      ? this.dateUtil.formatToHKTimeDateOnly(toDate)
+      : this.dateUtil.formatToHKTimeDateOnly(
           this.trainingSummaryDataService.toDate
         );
     this.restful
